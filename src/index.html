@@ -18,6 +18,8 @@
       <link rel="stylesheet" href="css/slick.min.css">
       <!--responsive css-->
       <link rel="stylesheet" href="css/responsive.css">
+
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
    </head>
    <body>
       <header id="header" class="top-head">
@@ -47,7 +49,7 @@
                         <div class="login-sr">
                            <div class="login-signup">
                               <ul>
-                                 <li><button class="btn btn-primary" onclick="loginClick()" >Connect To Blockchain/Register</button></li>
+                                 <li><button class="btn btn-primary" onclick="loginClick()" >Sign in / Sign up</button></li>
                                  <!-- <li><button class="btn btn-primary" onclick="signUpClick()" >Sign up</button></li> -->
                               </ul>
                            </div>
@@ -56,8 +58,12 @@
                         <div class="nav-b hidden-xs">
                            <div class="nav-box">
                               <ul>
-                                 <li><a href="#">How it works</a></li>
-                                 <li><a href="#">Medicine Categories</a></li>
+                                 <li><a href="#">Home</a></li>
+                                 <li><a href="#">Categories</a></li>
+                                 <li><a href="#">About Us</a></li>
+                                 <li><a href="#">Contact Us</a></li>
+                                 <li><i class="fa fa-shopping-cart" style="font-size:24px;color:#1d99ff"></i></li>
+
                               </ul>
                            </div>
                         </div>
@@ -462,26 +468,41 @@
       </div>
       <!-- Registration Page Ends -->
 
+
+      <div id="btnFun" style="display: none;" >
+         <hr/>
+         <div class="container">
+         <table class="table">
+           
+         <tr>
+            <td colspan="4" align="center">
+              <button type="button" class="featuredBtn active" id= "btn1" onclick="App.displayAddMedicine()">ADD Medicines</button>
+              <button type="button" class="featuredBtn" id= "btn2" onclick="App.displayViewMedicine()">View Medicines</button>
+              <button type="button" class="featuredBtn" id= "btn3" onclick="App.displayEditMedicine()">Edit Medicines</button>
+              <button type="button" class="featuredBtn" id= "btn4" onclick="App.displayDeleteMedicine()">Delete Medicines</button>
+              
+            </td>
+         </tr>
+         <tr>
+            <td colspan="4" align="center"><h2 style="background-color: burlywood;">MANUFACTURER DASHBOARD</h2></td>
+          </tr>  
+      </table>
+      </div>
+      </div>
+
+      
       <!-- Manufacturer Page Begins -->
       <div id="manufacturer" style="display: none;"> 
         <hr/>
+
         <div class="container">
          
           <form onSubmit="App.addMedicine(); return false;">
             
             <table class="table">
-              <tr>
-                <td colspan="2" align="left">
-                  <button class="btn btn-primary btn-lg" onclick="App.displayAddMedicine()">ADD Medicines</button>
-                  <button class="btn btn-primary btn-lg" onclick="App.displayViewMedicine()">View Medicines</button>
-                  <button class="btn btn-primary btn-lg" onclick="App.displayEditMedicine()">Edit Medicines</button>
-                  <button class="btn btn-primary btn-lg" onclick="App.displayDeleteMedicine()">Delete Medicines</button>
-                  
-                </td>
-              </tr>
-              <tr>
-                <td colspan="2" align="center"><h2 style="background-color: burlywood;">ADD Your Medicine</h2></td>
-              </tr>              
+
+              
+                       
               <tr>
                 <td>Manufacturer</td>
                 <td><p id="accountAddress" class="text-center"></p></td>
@@ -546,18 +567,8 @@
         <hr/>
         <div class="container">          
             <table class="table">
-               <tr>
-                  <td colspan="6" align="left">
-                    <button class="btn btn-primary btn-lg" onclick="App.displayAddMedicine()">ADD Medicines</button>
-                    <button class="btn btn-primary btn-lg" onclick="App.displayViewMedicine()">View Medicines</button>
-                    <button class="btn btn-primary btn-lg" onclick="App.displayEditMedicine()">Edit Medicines</button>
-                    <button class="btn btn-primary btn-lg" onclick="App.displayDeleteMedicine()">Delete Medicines</button>
-                    
-                  </td>
-                </tr>
-                <tr>
-                  <td colspan="6" align="center"><h2 style="background-color: burlywood;">View Your Medicine</h2></td>
-                </tr>  
+              
+              
              
                 <tr>
                   <th>No</th>
@@ -585,18 +596,8 @@
          <div class="container">  
             <form onSubmit="App.updateMedicine(); return false;">        
              <table class="table">
-                <tr>
-                   <td colspan="2" align="left">
-                     <button class="btn btn-primary btn-lg" onclick="App.displayAddMedicine()">ADD Medicines</button>
-                     <button class="btn btn-primary btn-lg" onclick="App.displayViewMedicine()">View Medicines</button>
-                     <button class="btn btn-primary btn-lg" onclick="App.displayEditMedicine()">Edit Medicines</button>
-                     <button class="btn btn-primary btn-lg" onclick="App.displayDeleteMedicine()">Delete Medicines</button>
-                     
-                   </td>
-                 </tr>
-                 <tr>
-                   <td colspan="2" align="center"><h2 style="background-color: burlywood;">Edit Your Medicine</h2></td>
-                 </tr>  
+              
+               
               
                  <tr>
                    <td>Select Medicine </td>
@@ -668,19 +669,8 @@
          <div class="container">  
             <form onSubmit="App.deleteMedicine(); return false;">        
              <table class="table">
-                <tr>
-                   <td colspan="2" align="left">
-                     <button class="btn btn-primary btn-lg" onclick="App.displayAddMedicine()">ADD Medicines</button>
-                     <button class="btn btn-primary btn-lg" onclick="App.displayViewMedicine()">View Medicines</button>
-                     <button class="btn btn-primary btn-lg" onclick="App.displayEditMedicine()">Edit Medicines</button>
-                     <button class="btn btn-primary btn-lg" onclick="App.displayDeleteMedicine()">Delete Medicines</button>
-                     
-                   </td>
-                 </tr>
-                 <tr>
-                   <td colspan="2" align="center"><h2 style="background-color: burlywood;">Delete Your Medicine</h2></td>
-                 </tr>  
-              
+                
+                
                  <tr>
                    <td>Select Medicine </td>
                    <td><select class="form-control" id="medicineSelectDelete"></select></td>
@@ -754,63 +744,51 @@
                      </div>
                   </div>
                   <div class="footer-link-box clearfix">
-                     <div class="col-md-6 col-sm-6">
+                     <div class="col-md-12 col-sm-12">
                         <div class="left-f-box">
-                           <div class="col-sm-4">
+                           <div class="col-sm-2">
                               <h2>Manufacturer</h2>
                               <ul>
                                  <li><a href="#">Create account</a></li>
-                                 <li><a href="#">How it works </a></li>
-                                 <li><a href="#">Pricing</a></li>
                                  <li><a href="#">FAQ for Manufacturers</a></li>
                               </ul>
                            </div>
-                           <div class="col-sm-4">
+                           <div class="col-sm-2">
                               <h2>BUY Medicines</h2>
                               <ul>
                                  <li><a href="#">Create account</a></li>
-                                 <li><a href="#">How it works buyers</a></li>
                                  <li><a href="#">Categories</a></li>
                                  <li><a href="#">FAQ for buyers</a></li>
                               </ul>
                            </div>
-                           <div class="col-sm-4">
+                           <div class="col-sm-2">
                               <h2>COMPANY</h2>
                               <ul>
-                                 <li><a href="#">About MEDICARE</a></li>
+                                 <li><a href="#">About </a></li>
                                  <li><a href="#">Contact us</a></li>
-                                 <li><a href="#">Press</a></li>
                                  <li><a href="#">Careers</a></li>
                                  <li><a href="#">Terms of use</a></li>
                               </ul>
                            </div>
+
+                           <div class="col-sm-2">
+                              <h2>CATEGORIES</h2>
+                              <ul>
+                                 <li><a href="#">Analgesics</a></li>
+                                 <li><a href="#">Antacids</a></li>
+                                 <li><a href="#">Antiarrhythmics</a></li>
+                                 <li><a href="#">Antibacterials</a></li>
+                                 <li><a href="#">Antibiotics</a></li>
+                                </ul>
+                           </div>
+
+                           <div class="col-sm-4">
+                              <h2>DISCLAIMER</h2>
+                              <p id="disclaimer">This website does not belong to a real company. It is a Planspiel Web Engineering project.</p>
+                           </div>
                         </div>
                      </div>
-                     <div class="col-md-6 col-sm-6">
-                        <div class="right-f-box">
-                           <h2>CATEGORIES</h2>
-                           <ul class="col-sm-4">
-                              <li><a href="#">Analgesics</a></li>
-                              <li><a href="#">Antacids</a></li>
-                              <li><a href="#">Antiarrhythmics</a></li>
-                              <li><a href="#">Antibacterials</a></li>
-                              <li><a href="#">Antibiotics</a></li>
-                           </ul>
-                           <ul class="col-sm-4">
-                              <li><a href="#">Anticonvulsants</a></li>
-                              <li><a href="#">Antidepressants</a></li>
-                              <li><a href="#">Antidiarrheals</a></li>
-                              <li><a href="#">Antiemetics</a></li>
-                              <li><a href="#">Antifungals</a></li>
-                           </ul>
-                           <ul class="col-sm-4">
-                              <li><a href="#">Antihistamines</a></li>
-                              <li><a href="#">Antihypertensives</a></li>
-                              <li><a href="#">Antineoplastics</a></li>
-                              <li><a href="#">Antipsychotics</a></li>
-                           </ul>
-                        </div>
-                     </div>
+                   
                   </div>
                </div>
             </div>
@@ -865,5 +843,15 @@
       <script src="js/custom.js"></script>
       <script src="js/truffle-contract.js"></script>
       <script src="js/app.js"></script>
+      <script>
+        $('.featuredBtn').on('click', function() {
+    let featureBtn = $('.featuredBtn');
+
+    if(featureBtn.hasClass('active')) {
+        featureBtn.removeClass('active');
+        $(this).addClass('active');
+    }
+});
+      </script>
    </body>
 </html>

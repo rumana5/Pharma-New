@@ -567,6 +567,24 @@ header .navbar-default .navbar-header {
 	border-color: #0077e0;
 }
 
+.featuredBtn.active {
+	background-color: burlywood;
+	color: black;
+  }
+
+  
+  
+  .featuredBtn {
+	width: 250px;
+	height: 50px;
+	color: #8c8c8c;
+	font-weight: 700;
+	background-color: #f4efeb;
+	border: none;
+	letter-spacing: 2px;
+	outline: none;
+  }
+
 .form-sh .bootstrap-select.btn-group .dropdown-menu {
 	background: #09294c;
 	padding: 0px;
@@ -1161,7 +1179,11 @@ header .navbar-default .navbar-header {
 	color: #fff;
 }
 
-.right-f-box {}
+#disclaimer{
+	color: #7b9bbf;
+	font-family: 'Raleway', sans-serif;
+
+}
 
 .right-f-box h2 {
 	color: #fff;
