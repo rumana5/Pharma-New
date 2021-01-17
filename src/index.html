@@ -2,7 +2,7 @@
 <html lang="en">
    <head>
       <meta charset="UTF-8">
-      <title>Pharmacy - Blockchain Based</title>
+      <title>Pharmacy-Blockchain Based</title>
       <meta http-equiv="X-UA-Compatible" content="IE=edge">
       <!--enable mobile device-->
       <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -95,6 +95,7 @@
                          <div class="col-sm-3">
                             <div class="form-sh">
                                <select class="selectpicker">
+                                  <option value="" selected disabled hidden>Categories</option>
                                   <option>Antibiotics</option>
                                   <option>Analgesics</option>
                                   <option>Antacids</option>
@@ -109,7 +110,7 @@
                          <div class="col-sm-3">
                             <div class="form-sh"> <a class="btn" href="#">Search</a> </div>
                          </div>
-                         <p>Or simply<a href="#"> click here </a> To browse the categories</p>
+                         <!-- <p>Or simply<a href="#"> click here </a> To browse the categories</p> -->
                       </div>
                    </div>
                 </div>
@@ -146,7 +147,7 @@
                          </div>
                       </a>
                    </div>
-                   <div class="col-lg-3 col-sm-6 col-md-3">
+                   <!-- <div class="col-lg-3 col-sm-6 col-md-3">
                       <a href="#">
                          <div class="box-img">
                             <h4>Antibacterials</h4>
@@ -169,15 +170,15 @@
                             <img src="images/product/12.jpg" alt="" />
                          </div>
                       </a>
-                   </div>
-                   <div class="col-lg-3 col-sm-6 col-md-3">
+                   </div> -->
+                   <!-- <div class="col-lg-3 col-sm-6 col-md-3">
                       <a href="#">
                          <div class="box-img">
                             <h4>Antidiarrheals</h4>
                             <img src="images/product/13.png" alt="" />
                          </div>
                       </a>
-                   </div>
+                   </div> -->
                    <div class="categories_link">
                       <a href="#">Browse all categories here</a>
                    </div>
@@ -465,6 +466,7 @@
       <div id="manufacturer" style="display: none;"> 
         <hr/>
         <div class="container">
+         
           <form onSubmit="App.addMedicine(); return false;">
             
             <table class="table">

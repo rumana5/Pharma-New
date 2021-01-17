@@ -13,6 +13,8 @@ jQuery(document).ready(function($){
 		window.requestAnimationFrame(function(){checkScrolling(selected)});
 	});
 
+	
+
 	function checkScrolling(tables){
 		tables.each(function(){
 			var table= $(this),
