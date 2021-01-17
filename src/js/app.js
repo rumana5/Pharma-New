@@ -75,7 +75,6 @@ App = {
       var display =$("#display");
       var editpage=$("#editmedicine");
       var deletemedicinepage=$("#deletemedicine");
-      var crudOperation = $("#btnFun");
 
       var user=await App.medicine.users(App.account);
       console.log(user);
@@ -84,7 +83,8 @@ App = {
       console.log("role="+role);      
       var username=user.name;
 
-    
+      
+
       $("[id='accountAddress']").html(username+"("+App.account+")");
       if(role=="1"){
         //End User
@@ -96,8 +96,6 @@ App = {
         //Retailer
       }
       else if(role=="4"){
-
-        crudOperation.show();
         //Manufacturer
         if(approved.localeCompare("false")==0){
           alert("Waiting for approval from admin");
@@ -188,7 +186,6 @@ App = {
           editpage.hide();
           deletemedicinepage.hide();
           adminpage.show();
-          crudOperation.hide();
         }
         else{
           //New User
@@ -200,7 +197,6 @@ App = {
             editpage.hide();
             adminpage.hide();
             register.show();
-            crudOperation.hide();
         }
         
       }
