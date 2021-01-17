@@ -6481,12 +6481,12 @@
     "5777": {
       "events": {},
       "links": {},
-      "address": "0x46cA7cD6FE4493E47ae8345D7C5995f3d316c3b1",
-      "transactionHash": "0x89dd3ca8824fb23420d047cc4e20f7e5047ba5156616e2ac17daa20cd3a008fb"
+      "address": "0xA9550780e4dB6d6347e04df99DBA003a4eec7bD3",
+      "transactionHash": "0xd071c0c35e699ad9fef4705c0ade6321f3e77fead337de25d4a4e97fabfed3ed"
     }
   },
   "schemaVersion": "3.3.3",
-  "updatedAt": "2021-01-16T15:25:20.611Z",
+  "updatedAt": "2021-01-17T20:18:26.044Z",
   "networkType": "ethereum",
   "devdoc": {
     "methods": {}
