@@ -434,6 +434,24 @@ header .navbar-default .navbar-header {
 
 .page-content-product {}
 
+.featuredBtn.active {
+	background-color: burlywood;
+	color: black;
+  }
+
+  
+  
+  .featuredBtn {
+	width: 250px;
+	height: 50px;
+	color: #8c8c8c;
+	font-weight: 700;
+	background-color: #f4efeb;
+	border: none;
+	letter-spacing: 2px;
+	outline: none;
+  }
+
 .main-product {
 	background-color: #09284b;
 	background-image: url('../images/pharmacy2.jpg');
@@ -1125,6 +1143,12 @@ header .navbar-default .navbar-header {
 .footer-link-box {
 	padding-top: 55px;
 	padding-bottom: 55px;
+}
+
+#disclaimer{
+	color: #7b9bbf;
+	font-family: 'Raleway', sans-serif;
+
 }
 
 .left-f-box {}
