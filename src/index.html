@@ -1,0 +1,836 @@
+<!DOCTYPE html>
+<html lang="en">
+   <head>
+      <meta charset="UTF-8">
+ 
+      <title>Pharmacy New - Blockchain Based</title>
+ 
+      <meta http-equiv="X-UA-Compatible" content="IE=edge">
+      <!--enable mobile device-->
+      <meta name="viewport" content="width=device-width, initial-scale=1">
+      <!--fontawesome css-->
+      <link rel="stylesheet" href="css/font-awesome.min.css">
+      <!--bootstrap css-->
+      <link rel="stylesheet" href="css/bootstrap.min.css">
+      <!--animate css-->
+      <link rel="stylesheet" href="css/animate-wow.css">
+      <!--main css-->
+      <link rel="stylesheet" href="css/style.css">
+      <link rel="stylesheet" href="css/bootstrap-select.min.css">
+      <link rel="stylesheet" href="css/slick.min.css">
+      <!--responsive css-->
+      <link rel="stylesheet" href="css/responsive.css">
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+   </head>
+   <body>
+      <!-- Triwotech Pharma -->
+      <header id="header" class="top-head">
+         <!-- Static navbar -->
+         <nav class="navbar navbar-default">
+            <div class="container-fluid">
+               <div class="row">
+                  <div class="col-md-6 col-lg-6 col-sm-12 left-rs">
+                     <div class="">
+                        <button type="button" id="top-menu" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false"> 
+                        <span class="sr-only">Toggle navigation</span> 
+                        <span class="icon-bar"></span> 
+                        <span class="icon-bar"></span> 
+                        <span class="icon-bar"></span> 
+                         
+                        </button>
+                        <a href="index.html" class="navbar-brand">
+                           <!-- <img src="images/logo.png" alt="" /> -->
+                       
+                        <h3 class="h3">TriWoTech - Online Pharmacy</h3>
+                     </a>
+                     </div>
+                     
+                  </div>
+                  <div class="col-md-6 col-lg-6 col-sm-12">
+                     <div class="right-nav">
+                        <div class="login-sr">
+                           <div class="login-signup">
+                              <ul>
+                                 <li><button class="btn btn-primary" onclick="loginClick()" >Sign in / Sign up</button></li>
+                                 <!-- <li><button class="btn btn-primary" onclick="loginClick()" >Connect To Blockchain/Register</button></li> -->
+                                 <!-- <li><button class="btn btn-primary" onclick="signUpClick()" >Sign up</button></li> -->
+                              </ul>
+                           </div>
+                        </div>
+                     
+                        <div class="nav-b hidden-xs">
+                           <div class="nav-box">
+                              <ul>
+                                 <li><a href="#">Home</a></li>
+                                 <li><a href="category.html">Categories</a></li>
+                                 <li><a href="https://triwotech.de/">About Us</a></li>
+                                 <li><a href="#">Contact Us</a></li>
+                                 <li><i class="fa fa-shopping-cart" style="font-size:24px;color:#1d99ff"></i></li>
+                              </ul>
+                           </div>
+                        </div>
+                     </div>
+                  </div>
+               </div>
+            </div>
+            <!--/.container-fluid --> 
+         </nav>
+      </header>
+    
+      <div id="sidebar" class="top-nav">
+         <ul id="sidebar-nav" class="sidebar-nav">
+            <li><a class="custom-b " href="#">Login</a></li>
+            <li><a class="custom-b" href="#">Sign up</a></li>
+            <li><a href="#">Help</a></li>
+            <li><a href="#">How it works</a></li>
+            <li><a href="#">Medicine Categories</a></li>
+         </ul>
+      </div>
+      <div id="home">
+        <div class="page-content-product">
+          <div class="main-product">
+             <div class="container">
+                <div class="row clearfix">
+                   <div class="find-box">
+                      <h1>All Medicines can be verified<br>From our Blockchain</h1>
+                      <h4>It has never been easier.</h4>
+                      <div class="product-sh">
+                         <div class="col-sm-6">
+                            <div class="form-sh">
+                               <input type="text" placeholder="Search Medicine" >
+                            </div>
+                         </div>
+                         <div class="col-sm-3">
+                            <div class="form-sh">
+                               <select class="selectpicker">
+                                  <option value="" selected disabled hidden>Categories</option>
+                                  <option>Antibiotics</option>
+                                  <option>Analgesics</option>
+                                  <option>Antacids</option>
+                                  <option>Antiarrhythmics</option>
+                                  <option>Antibacterials</option>
+                                  <option>Anticonvulsants</option>
+                                  <option>Antidepressants</option>
+                                  <option>Antidiarrheals</option>
+                               </select>
+                            </div>
+                         </div>
+                         <div class="col-sm-3">
+                            <div class="form-sh"> <a class="btn" href="#">Search</a> </div>
+                         </div>
+                         <!-- <p>Or simply<a href="#"> click here </a> To browse the categories</p> -->
+                      </div>
+                   </div>
+                </div>
+                <div class="row clearfix">
+                   <div class="col-lg-3 col-sm-6 col-md-3">
+                      <a href="category.html">
+                         <div class="box-img">
+                            <h4>Antibiotics</h4>
+                            <img src="images/product/1.jpg" alt="" />
+                         </div>
+                      </a>
+                   </div>
+                   <div class="col-lg-3 col-sm-6 col-md-3">
+                      <a href="category.html">
+                         <div class="box-img">
+                            <h4>Analgesics</h4>
+                            <img src="images/product/2.jpg" alt="" />
+                         </div>
+                      </a>
+                   </div>
+                   <div class="col-lg-3 col-sm-6 col-md-3">
+                      <a href="category.html">
+                         <div class="box-img">
+                            <h4>Antacids</h4>
+                            <img src="images/product/4.jpg" alt="" />
+                         </div>
+                      </a>
+                   </div>
+                   <div class="col-lg-3 col-sm-6 col-md-3">
+                      <a href="category.html">
+                         <div class="box-img">
+                            <h4>Antiarrhythmics</h4>
+                            <img src="images/product/5.jpg" alt="" />
+                         </div>
+                      </a>
+                   </div>
+                   <!-- <div class="col-lg-3 col-sm-6 col-md-3">
+                      <a href="#">
+                         <div class="box-img">
+                            <h4>Antibacterials</h4>
+                            <img src="images/product/10.png" alt="" />
+                         </div>
+                      </a>
+                   </div>
+                   <div class="col-lg-3 col-sm-6 col-md-3">
+                      <a href="#">
+                         <div class="box-img">
+                            <h4>Anticonvulsants</h4>
+                            <img src="images/product/11.jpg" alt="" />
+                         </div>
+                      </a>
+                   </div>
+                   <div class="col-lg-3 col-sm-6 col-md-3">
+                      <a href="#">
+                         <div class="box-img">
+                            <h4>Antidepressants</h4>
+                            <img src="images/product/12.jpg" alt="" />
+                         </div>
+                      </a>
+                   </div> -->
+                   <!-- <div class="col-lg-3 col-sm-6 col-md-3">
+                      <a href="#">
+                         <div class="box-img">
+                            <h4>Antidiarrheals</h4>
+                            <img src="images/product/13.png" alt="" />
+                         </div>
+                      </a>
+                   </div> -->
+                   <div class="categories_link">
+                      <a href="category.html">Browse all categories here</a>
+                   </div>
+                </div>
+             </div>
+          </div>
+       </div>
+       <div class="cat-main-box">
+          <div class="container">
+             <div class="row panel-row">
+                <div class="col-md-4 col-sm-6 wow fadeIn" data-wow-delay="0.0s">
+                   <div class="panel panel-default">
+                      <div class="panel-body">
+                         <img src="images/xpann-icon.jpg" class="icon-small" alt="">
+                         <h4>Secure</h4>
+                         <p>Since all medicines information stored on the blockchain, It is 100 % secure
+                         </p>
+                      </div>
+                   </div>
+                </div>
+                <div class="col-md-4 col-sm-6 wow fadeIn" data-wow-delay="0.2s">
+                   <div class="panel panel-default">
+                      <div class="panel-body">
+                         <img src="images/create-icon.jpg" class="icon-small" alt="">
+                         <h4>Transparent</h4>
+                         <p>Any one can view complete histotory of medicine from the blockchain
+                         </p>
+                      </div>
+                   </div>
+                </div>
+                <div class="col-md-4 col-sm-6 wow fadeIn hidden-sm" data-wow-delay="0.4s">
+                   <div class="panel panel-default">
+                      <div class="panel-body">
+                         <img src="images/get-icon.jpg" class="icon-small" alt="">
+                         <h4>Tamperproof</h4>
+                         <p>No one can change any values on the blockchain.You will get the original Medicine.
+                         </p>
+                      </div>
+                   </div>
+                </div>
+             </div>
+          </div>
+       </div>
+       <!-- <div class="products_exciting_box">
+          <div class="container">
+             <div class="row">
+                <div class="col-md-6 col-sm-6 wow fadeIn" data-wow-delay="0.2s">
+                   <div class="exciting_box f_pd">
+                      <img src="images/exciting_img-01.jpg" class="icon-small" alt="" />
+                      <h4>Explore <strong>Original</strong> and TamperProof Medicines
+                         tailored to you.
+                      </h4>
+                      <p>ALl Medicines listed here is stored on the blockchain. So you can verify the authenticy
+                         and complete history of eeach medicine. Buy your trustworthy medicine from here.
+                      </p>
+                   </div>
+                </div>
+                <div class="col-md-6 col-sm-6 wow fadeIn" data-wow-delay="0.4s">
+                   <div class="exciting_box l_pd">
+                      <img src="images/exciting_img-02.jpg" class="icon-small" alt="" />
+                      <h4><strong>List your Medicines on</strong>  and grow buisness.</h4>
+                      <p>If you are a medicine manufacterer, you can list your product here . All products will be veryied 
+                         from our side and it will be stored on our blockchain network.
+                      </p>
+                   </div>
+                </div>
+             </div>
+          </div>
+       </div>
+       <div class="start-free-box">
+          <div class="container">
+             <div class="row">
+                <div class="container">
+                   <div class="main-start-box">
+                      <div class="free-box-a clearfix">
+                         <div class="col-md-6 col-sm-6">
+                            <div class="left-a-f">
+                               <h3>A BlockChain based platform built for buy  & sell Medicines. Start for free.</h3>
+                            </div>
+                         </div>
+                         <div class="col-md-6 col-sm-6">
+                            <div class="right-a-f">
+                               <p>Over the comming years, way the business through the blockchain will change at agreat - and we are  the
+                                  gamebreaker.
+                               </p>
+                            </div>
+                         </div>
+                      </div>
+                   </div>
+                </div>
+             </div>          
+          </div>
+       </div> -->
+       <div class="products">
+          <div class="main-products">
+             <h2>TRENDING MEDICINES ON BLOCKCHAIN</h2>
+             <div class="product-slidr">
+                <div class="slider">
+                   <div>
+                      <div class="prod-box">
+                         <div class="prod-i">
+                            <img src="images/tr1.jpg" alt="#" />
+                         </div>
+                         <div class="prod-dit clearfix">
+                            <div class="dit-t clearfix">
+                               <div class="left-ti">
+                                  <h4>Antiarrhythmics</h4>
+                                  <p>By <span>Beko</span> under <span>Medicines</span></p>
+                               </div>
+                               <a href="#">€15</a>
+                            </div>
+                            <div class="dit-btn clearfix">
+                               <a class="wis" href="#"><i class="fa fa-star" aria-hidden="true"></i> Save to wishlist </a>
+                               <a class="thi" href="#"><i class="fa fa-thumbs-up" aria-hidden="true"></i> Like this</a>
+                            </div>
+                         </div>
+                      </div>
+                   </div>
+                   <div>
+                      <div class="prod-box">
+                         <div class="prod-i">
+                            <img src="images/tr2.jpg" alt="#" />
+                         </div>
+                         <div class="prod-dit clearfix">
+                            <div class="dit-t clearfix">
+                               <div class="left-ti">
+                                  <h4>Antifungals</h4>
+                                  <p>By <span>Beko</span> under <span>Medicines</span></p>
+                               </div>
+                               <a href="#">€20</a>
+                            </div>
+                            <div class="dit-btn clearfix">
+                               <a class="wis" href="#"><i class="fa fa-star" aria-hidden="true"></i> Save to wishlist </a>
+                               <a class="thi" href="#"><i class="fa fa-thumbs-up" aria-hidden="true"></i> Like this</a>
+                            </div>
+                         </div>
+                      </div>
+                   </div>
+                   <div>
+                      <div class="prod-box">
+                         <div class="prod-i">
+                            <img src="images/tr3.jpg" alt="#" />
+                         </div>
+                         <div class="prod-dit clearfix">
+                            <div class="dit-t clearfix">
+                               <div class="left-ti">
+                                  <h4>Antacids</h4>
+                                  <p>By <span>Beko</span> under <span>Medicines</span></p>
+                               </div>
+                               <a href="#">€21</a>
+                            </div>
+                            <div class="dit-btn clearfix">
+                               <a class="wis" href="#"><i class="fa fa-star" aria-hidden="true"></i> Save to wishlist </a>
+                               <a class="thi" href="#"><i class="fa fa-thumbs-up" aria-hidden="true"></i> Like this</a>
+                            </div>
+                         </div>
+                      </div>
+                   </div>
+                   <div>
+                      <div class="prod-box">
+                         <div class="prod-i">
+                            <img src="images/tr4.png" alt="#" />
+                         </div>
+                         <div class="prod-dit clearfix">
+                            <div class="dit-t clearfix">
+                               <div class="left-ti">
+                                  <h4>Antipsychotics</h4>
+                                  <p>By <span>Beko</span> under <span>Medicines</span></p>
+                               </div>
+                               <a href="#">€26</a>
+                            </div>
+                            <div class="dit-btn clearfix">
+                               <a class="wis" href="#"><i class="fa fa-star" aria-hidden="true"></i> Save to wishlist </a>
+                               <a class="thi" href="#"><i class="fa fa-thumbs-up" aria-hidden="true"></i> Like this</a>
+                            </div>
+                         </div>
+                      </div>
+                   </div>
+                   <div>
+                      <div class="prod-box">
+                         <div class="prod-i">
+                            <img src="images/tr1.jpg" alt="#" />
+                         </div>
+                         <div class="prod-dit clearfix">
+                            <div class="dit-t clearfix">
+                               <div class="left-ti">
+                                  <h4>Antiarrhythmics</h4>
+                                  <p>By <span>Beko</span> under <span>Medicines</span></p>
+                               </div>
+                               <a href="#">€15</a>
+                            </div>
+                            <div class="dit-btn clearfix">
+                               <a class="wis" href="#"><i class="fa fa-star" aria-hidden="true"></i> Save to wishlist </a>
+                               <a class="thi" href="#"><i class="fa fa-thumbs-up" aria-hidden="true"></i> Like this</a>
+                            </div>
+                         </div>
+                      </div>
+                   </div>
+                   <div>
+                      <div class="prod-box">
+                         <div class="prod-i">
+                            <img src="images/tr2.jpg" alt="#" />
+                         </div>
+                         <div class="prod-dit clearfix">
+                            <div class="dit-t clearfix">
+                               <div class="left-ti">
+                                  <h4>Antifungals</h4>
+                                  <p>By <span>Beko</span> under <span>Medicines</span></p>
+                               </div>
+                               <a href="#">€20</a>
+                            </div>
+                            <div class="dit-btn clearfix">
+                               <a class="wis" href="#"><i class="fa fa-star" aria-hidden="true"></i> Save to wishlist </a>
+                               <a class="thi" href="#"><i class="fa fa-thumbs-up" aria-hidden="true"></i> Like this</a>
+                            </div>
+                         </div>
+                      </div>
+                   </div>
+                   <div>
+                      <div class="prod-box">
+                         <div class="prod-i">
+                            <img src="images/tr3.jpg" alt="#" />
+                         </div>
+                         <div class="prod-dit clearfix">
+                            <div class="dit-t clearfix">
+                               <div class="left-ti">
+                                  <h4>Antacids</h4>
+                                  <p>By <span>Beko</span> under <span>Medicines</span></p>
+                               </div>
+                               <a href="#">€21</a>
+                            </div>
+                            <div class="dit-btn clearfix">
+                               <a class="wis" href="#"><i class="fa fa-star" aria-hidden="true"></i> Save to wishlist </a>
+                               <a class="thi" href="#"><i class="fa fa-thumbs-up" aria-hidden="true"></i> Like this</a>
+                            </div>
+                         </div>
+                      </div>
+                   </div>
+                </div>
+             </div>
+          </div>
+       </div>
+      </div>
+      <!-- Registration Page -->
+      <div id="register" style="display: none;">            
+        <hr/>
+        <div class="container">
+          <form onSubmit="App.registerRole(); return false;">
+            <table class="table">
+              <tr>
+                <td colspan="2" align="center"><h2 style="background-color: burlywood;">Register Yourself</h2></td>
+              </tr>
+              <tr>
+               <td>Name</td>
+               <td><input type="text" class="form-control" id="userFullname"></td>
+             </tr>
+             <tr>
+               <td>Address</td>
+               <td><textarea name="address" id="userAddress" cols="30" rows="5" class="form-control"></textarea></td>
+             </tr>
+              <tr>
+                <td><label for="RoleSelect">Select Role</label></td>
+                <td>
+                  <select class="form-control" id="RoleSelect">
+                    <option value="1" selected>End User</option>
+                    <option value="2">Certification Authority</option>
+                    <option value="3">Retailer</option>   
+                    <option value="4">Manufacturer</option>                 
+                  </select>
+                </td>
+              </tr>
+              <tr>
+                <td colspan="2" align="center"><button type="submit" class="btn btn-primary" style="align-items: center;" >Register</button></td>
+              </tr>
+              <tr>
+                <td colspan="2"><h2 style="background-color: burlywood; color: burlywood;" class="mb-1">Register Yourself</h2></td>
+              </tr>
+            </table>
+          </form> 
+        </div>
+      </div>
+      <!-- Registration Page Ends -->
+
+      <div id="btnFun" style="display: none;" >
+         <hr/>
+         <div class="container">
+         <table class="table">
+           
+         <tr>
+            <td colspan="4" align="center">
+              <button type="button" class="featuredBtn active" id= "btn1" onclick="App.displayAddMedicine()">ADD Medicines</button>
+              <button type="button" class="featuredBtn" id= "btn2" onclick="App.displayViewMedicine()">View Medicines</button>
+              <button type="button" class="featuredBtn" id= "btn3" onclick="App.displayEditMedicine()">Edit Medicines</button>
+              <button type="button" class="featuredBtn" id= "btn4" onclick="App.displayDeleteMedicine()">Delete Medicines</button>
+              
+            </td>
+         </tr>
+         <tr>
+            <td colspan="4" align="center"><h2 style="background-color: burlywood; padding: 6px;">MANUFACTURER DASHBOARD</h2></td>
+          </tr>  
+      </table>
+      </div>
+      </div>
+
+      <!-- Manufacturer Page Begins -->
+      <div id="manufacturer" style="display: none;"> 
+      
+        <div class="container">
+         
+          <form onSubmit="App.addMedicine(); return false;">
+            
+            <table class="table">
+                       
+              <tr>
+                <td>Manufacturer</td>
+                <td><p id="accountAddress" class="text-center"></p></td>
+              </tr>
+              <tr>
+                <td>Medicine Name</td>
+                <td><input type="text" class="form-control" id="addmedname"></td>
+              </tr>
+              <tr>
+                <td>Batch No</td>
+                <td><input type="text" class="form-control" id="addbatchno"></td>
+              </tr>
+              <tr>
+                <td>Date of Manufacture</td>
+                <td><input type="date" class="form-control" id="addmanfdate"></td>
+              </tr>
+              <tr>
+                <td>Date of Expiry</td>
+                <td><input type="date" class="form-control" id="addexpdate"></td>
+              </tr>
+              <tr>
+                <td>Category</td>
+                <td>
+                  <select class="form-control" id="addcategory">
+                    <option value="Analgesics" selected>Analgesics</option> 
+                    <option value="Antacids">Antacids</option>
+                    <option value="Antiarrhythmics">Antiarrhythmics</option>
+                    <option value="Antibacterials">Antibacterials</option>
+                    <option value="Antibiotics">Antibiotics</option>
+                    <option value="Anticonvulsants">Anticonvulsants</option>
+                    <option value="Antidepressants">Antidepressants</option>
+                    <option value="Antidiarrheals">Antidiarrheals</option>
+                    <option value="Antiemetics">Antiemetics</option>
+                    <option value="Antifungals">Antifungals</option>
+                    <option value="Antihistamines">Antihistamines</option>
+                    <option value="Antihypertensives">Antihypertensives</option>
+                    <option value="Antineoplastics">Antineoplastics</option>
+                    <option value="Antipsychotics">Antipsychotics</option>
+                  </select>
+                </td>
+              </tr>
+              <tr>
+                <td>Price</td>
+                <td><input type="number" class="form-control" id="addprice"></td>
+              </tr>
+              <tr >
+                <td colspan="2" align="center">
+                <button class="btn btn-primary">Add Medicine</button>
+              </td>
+              </tr>
+              <tr>
+                <td colspan="2" align="center"><h2 style="background-color: burlywood;color: burlywood;">ADD Your Medicine</h2></td>
+              </tr>
+            </table> 
+          </form>
+        </div>       
+      </div>
+      <!-- Manufacturer Page Ends -->
+
+       <!-- Display Medicines Page -->
+       <div id="display" style="display: none;">            
+        
+        <div class="container">          
+            <table class="table">
+               
+             
+                <tr>
+                  <th>No</th>
+                  <th>Medicine Name</th>
+                  <th>Manufacturer</th>
+                  <th>Expiry Date</th>
+                  <th>Category</th>                  
+                  <th>Price</th>
+                </tr>
+              
+              <tbody id="displayItem">
+               
+              </tbody>
+              <tr>
+               <td colspan="6" align="center"><h2 style="background-color: burlywood;color: burlywood;">View Your Medicine</h2></td>
+             </tr>
+            </table>         
+        </div>
+      </div>
+      <!-- Display Medicines Page Ends -->
+
+       <!-- EDIT Medicines by manufacurer Page -->
+       <div id="editmedicine" style="display: none;">            
+         
+         <div class="container">  
+            <form onSubmit="App.updateMedicine(); return false;">        
+             <table class="table">
+               
+              
+                 <tr>
+                   <td>Select Medicine </td>
+                   <td><select class="form-control" id="medicineSelectEdit" onchange="App.selectedMedicineIDEdit();" ></select></td>
+                 </tr> 
+                 <tr>
+                  <td>Manufacturer</td>
+                  <td><p id="accountAddress" class="text-center"></p></td>
+                </tr>
+                <tr>
+                  <td>Medicine Name</td>
+                  <td><input type="text" class="form-control" id="editmedname"></td>
+                </tr>
+                <tr>
+                  <td>Batch No</td>
+                  <td><input type="text" class="form-control" id="editbatchno"></td>
+                </tr>
+                <tr>
+                  <td>Date of Manufacture</td>
+                  <td><input type="date" class="form-control" id="editmanfdate"></td>
+                </tr>
+                <tr>
+                  <td>Date of Expiry</td>
+                  <td><input type="date" class="form-control" id="editexpdate"></td>
+                </tr>
+                <tr>
+                  <td>Category</td>
+                  <td>
+                    <select class="form-control" id="editcategory">
+                      <option value="Analgesics" selected>Analgesics</option> 
+                      <option value="Antacids">Antacids</option>
+                      <option value="Antiarrhythmics">Antiarrhythmics</option>
+                      <option value="Antibacterials">Antibacterials</option>
+                      <option value="Antibiotics">Antibiotics</option>
+                      <option value="Anticonvulsants">Anticonvulsants</option>
+                      <option value="Antidepressants">Antidepressants</option>
+                      <option value="Antidiarrheals">Antidiarrheals</option>
+                      <option value="Antiemetics">Antiemetics</option>
+                      <option value="Antifungals">Antifungals</option>
+                      <option value="Antihistamines">Antihistamines</option>
+                      <option value="Antihypertensives">Antihypertensives</option>
+                      <option value="Antineoplastics">Antineoplastics</option>
+                      <option value="Antipsychotics">Antipsychotics</option>
+                    </select>
+                  </td>
+                </tr>
+                <tr>
+                  <td>Price</td>
+                  <td><input type="number" class="form-control" id="editprice"></td>
+                </tr>             
+                <tr >
+                  <td colspan="2" align="center">
+                        <button class="btn btn-primary">Update</button>
+                  </td>
+                </tr>
+               <tr>
+                <td colspan="6" align="center"><h2 style="background-color: burlywood;color: burlywood;">Edit Your Medicine</h2></td>
+              </tr>             
+             </table> 
+            </form>        
+         </div>
+       </div>
+       <!-- Edit  Medicines by manufacturer Page Ends -->
+
+
+       <!-- Delete Medicines by manufacurer Page -->
+       <div id="deletemedicine" style="display: none;">            
+         
+         <div class="container">  
+            <form onSubmit="App.deleteMedicine(); return false;">        
+             <table class="table">
+                
+              
+                 <tr>
+                   <td>Select Medicine </td>
+                   <td><select class="form-control" id="medicineSelectDelete"></select></td>
+                 </tr> 
+                
+                <tr >
+                  <td colspan="2" align="center">
+                        <button class="btn btn-danger">Delete</button>
+                  </td>
+                </tr>
+               <tr>
+                <td colspan="6" align="center"><h2 style="background-color: burlywood;color: burlywood;">Delete Your Medicine</h2></td>
+              </tr>             
+             </table> 
+            </form>        
+         </div>
+       </div>
+       <!-- Delete Medicines by manufacturer Page Ends -->
+
+ <!-- Admin Page -->
+ <div id="adminpage" style="display: none;">            
+   <hr/>
+   <div class="container">  
+      <form onSubmit="App.deleteMedicine(); return false;">        
+       <table class="table">   
+         <tr>
+            <td colspan="4" align="center"><h2 style="background-color: burlywood;">ADMIN DASHBOARD</h2></td>
+          </tr>       
+         <tr>
+            <th>Address </th>
+            <th>Name </th>
+            <th>Role </th>
+            <th>Approve </th>
+          </tr> 
+                   
+           <tbody id="usersforapprove">            
+           </tbody>  
+         <tr>
+          <td colspan="4" align="center"><h2 style="background-color: burlywood;color: burlywood;">ADMIN DASHBOARD</h2></td>
+        </tr>             
+       </table> 
+      </form>        
+   </div>
+ </div>
+ <!-- Admin Page Ends -->
+
+
+
+
+
+      <footer>
+         <div class="main-footer">
+            <div class="container">
+               <div class="row">
+                 
+                  <div class="footer-link-box clearfix">
+                     <div class="col-md-12 col-sm-12">
+                        <div class="left-f-box">
+                           <div class="col-sm-2">
+                              <h2>Manufacturer</h2>
+                              <ul>
+                                 <li><a href="#">Create account</a></li>
+                                 <li><a href="#">How it works </a></li>
+                                 <li><a href="#">FAQ for Manufacturers</a></li>
+                              </ul>
+                           </div>
+                           <div class="col-sm-2">
+                              <h2>BUY Medicines</h2>
+                              <ul>
+                                 <li><a href="#">Create account</a></li>
+                                 <li><a href="category.html">Categories</a></li>
+                                 <li><a href="#">FAQ for buyers</a></li>
+                              </ul>
+                           </div>
+                           <div class="col-sm-2">
+                              <h2>COMPANY</h2>
+                              <ul>
+                                 <li><a href="#">About MEDICARE</a></li>
+                                 <li><a href="#">Contact us</a></li>
+                                 <li><a href="#">Careers</a></li>
+                                 <li><a href="#">Terms of use</a></li>
+                              </ul>
+                           </div>
+
+                           <div class="col-sm-2">
+                              <h2>CATEGORIES</h2>
+                              <ul>
+                                 <li><a href="category.html">Analgesics</a></li>
+                                 <li><a href="category.html">Antacids</a></li>
+                                 <li><a href="category.html">Antiarrhythmics</a></li>
+                                 <li><a href="category.html">Antibacterials</a></li>
+                                 <li><a href="category.html">Antibiotics</a></li>
+                                </ul>
+                           </div>
+
+                           <div class="col-sm-4">
+                              <h2>DISCLAIMER</h2>
+                              <p id="disclaimer">This website does not belong to a real company. It is a Planspiel Web Engineering project.</p>
+                           </div>
+                        </div>
+                     </div>
+                     
+                  </div>
+               </div>
+            </div>
+         </div>
+         <div class="copyright">
+            <div class="container">
+               <div class="row">
+                  <div class="col-md-8">
+                     <p>
+                        <!-- <img width="90" src="images/logo.png" alt="#" style="margin-top: -5px;" /> -->
+                         All Rights Reserved. TriWoTech © 2020</p>
+                  </div>
+                  <div class="col-md-4">
+                     <ul class="list-inline socials">
+                        <li>
+                           <a href="">
+                           <i class="fa fa-facebook" aria-hidden="true"></i>
+                           </a>
+                        </li>
+                        <li>
+                           <a href="">
+                           <i class="fa fa-twitter" aria-hidden="true"></i>
+                           </a>
+                        </li>
+                        <li>
+                           <a href="">
+                           <i class="fa fa-instagram" aria-hidden="true"></i>
+                           </a>
+                        </li>
+                        <li>
+                           <a href="#">
+                           <i class="fa fa-linkedin" aria-hidden="true"></i>
+                           </a>
+                        </li>
+                     </ul>
+                    
+                  </div>
+               </div>
+            </div>
+         </div>
+      </footer>
+      <!--main js--> 
+      <script src="js/jquery-1.12.4.min.js"></script> 
+      <!--bootstrap js--> 
+      <script src="js/bootstrap.min.js"></script> 
+      <script src="js/bootstrap-select.min.js"></script>
+      <script src="js/slick.min.js"></script> 
+      <script src="js/wow.min.js"></script>
+      <!--custom js--> 
+      <!-- if web3 is not defined error occurs -->
+      <script src="https://cdn.jsdelivr.net/gh/ethereum/web3.js/dist/web3.min.js"></script>
+      <script src="js/custom.js"></script>
+      <script src="js/truffle-contract.js"></script>
+      <script src="js/app.js"></script>
+      <script>
+         $('.featuredBtn').on('click', function() {
+     let featureBtn = $('.featuredBtn');
+ 
+     if(featureBtn.hasClass('active')) {
+         featureBtn.removeClass('active');
+         $(this).addClass('active');
+     }
+ });
+       </script>
+   </body>
+</html>
