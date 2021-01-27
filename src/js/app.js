@@ -146,40 +146,40 @@ App = {
         if(admin.toUpperCase().localeCompare(App.account.toUpperCase())==0){
           //The user is admin 
           //finding un approved users
-          usersforapprove=$("#usersforapprove");
-          var usercount=await App.medicine.usersCount();
-          for (var i = 0; i < usercount; i++) {
-            var accaddr=await App.medicine.addresses(i);
-            var user=await App.medicine.users(accaddr);
-            //display all users
-            console.log("In admin dashboard="+user);            
-            var username=user.name;
-            var role=user.role;
-            var rolename="";
-            if(role.localeCompare("1")==0){
-              rolename="End User";
-            }
-            if(role.localeCompare("2")==0){
-              rolename="Certification Authorty";
-            }
-            if(role.localeCompare("3")==0){
-              rolename="Retailer";
-            }
-            if(role.localeCompare("4")==0){
-              rolename="Manufacturer";
-            }
-            var approved=user.approved;
-            console.log("role="+role); 
-            console.log("name="+username); 
+          // usersforapprove=$("#usersforapprove");
+          // var usercount=await App.medicine.usersCount();
+          // for (var i = 0; i < usercount; i++) {
+          //   var accaddr=await App.medicine.addresses(i);
+          //   var user=await App.medicine.users(accaddr);
+          //   //display all users
+          //   console.log("In admin dashboard="+user);            
+          //   var username=user.name;
+          //   var role=user.role;
+          //   var rolename="";
+          //   if(role.localeCompare("1")==0){
+          //     rolename="End User";
+          //   }
+          //   if(role.localeCompare("2")==0){
+          //     rolename="Certification Authorty";
+          //   }
+          //   if(role.localeCompare("3")==0){
+          //     rolename="Retailer";
+          //   }
+          //   if(role.localeCompare("4")==0){
+          //     rolename="Manufacturer";
+          //   }
+          //   var approved=user.approved;
+          //   console.log("role="+role); 
+          //   console.log("name="+username); 
             
-            if(approved.localeCompare("false")==0){
-              //display not approved users
-              var str = "<tr><td>" + accaddr +"</td><td>"+username+"</td><td>"+rolename+"</td><td><button class='btn btn-info' onclick='App.approveUser(`"+String(accaddr)+"`)'>Approve</button></td></tr>";
-              //alert(accaddr.toString());
-              usersforapprove.append(str);
-            }
+          //   if(approved.localeCompare("false")==0){
+          //     //display not approved users
+          //     var str = "<tr><td>" + accaddr +"</td><td>"+username+"</td><td>"+rolename+"</td><td><button class='btn btn-info' onclick='App.approveUser(`"+String(accaddr)+"`)'>Approve</button></td></tr>";
+          //     //alert(accaddr.toString());
+          //     usersforapprove.append(str);
+          //   }
             
-          }
+          // }
           //display only admin dashboard
           home.hide();
           manufacturer.hide();
@@ -357,6 +357,95 @@ App = {
     var medicineSelectDelete=parseInt($("#medicineSelectDelete").val()); 
     await App.medicine.deleteMedicine(medicineSelectDelete, { from: App.account });  
     await App.render(); 
+  },
+  displayApprovedManufecturer:async ()=>{
+    App.admindisplay=1;
+          //The user is admin 
+          //finding un approved users
+          var usercount=0;
+          $("#usersforapprove").empty();
+           usercount=await App.medicine.usersCount();
+          for (var i = 0; i < usercount; i++) {
+            var accaddr=await App.medicine.addresses(i);
+            var user=await App.medicine.users(accaddr);
+            //display all users
+            console.log("In admin dashboard="+user);            
+            var username=user.name;
+            var role=user.role;
+            var rolename="";
+            if(role.localeCompare("1")==0){
+              rolename="End User";
+            }
+            if(role.localeCompare("2")==0){
+              rolename="Certification Authorty";
+            }
+            if(role.localeCompare("3")==0){
+              rolename="Retailer";
+            }
+            if(role.localeCompare("4")==0){
+              rolename="Manufacturer";
+            }
+            var approved=user.approved;
+            console.log("role="+role); 
+            console.log("name="+username); 
+
+            if(approved.localeCompare("true")==0){
+              var str = "<tr><td>" + accaddr +"</td><td>"+username+"</td><td>"+rolename+"</td><td><button class='btn btn-info' onclick='App.approveUser(`"+String(accaddr)+"`)'>Approve</button></td></tr>";
+              //alert(accaddr.toString());
+              $("#usersforapprove").append(str);
+            }
+            
+          }
+          //display only admin dashboard
+      
+        
+    await App.render();
+  },
+
+  displayManufecturertoapprove:async ()=>{
+    App.admindisplay=2;
+        
+       
+          //The user is admin 
+          //finding un approved users
+         $("#usersforapprove").empty();
+          var usercount = 0;
+           usercount=await App.medicine.usersCount();
+          for (var i = 0; i < usercount; i++) {
+            var accaddr=await App.medicine.addresses(i);
+            var user=await App.medicine.users(accaddr);
+            //display all users
+            console.log("In admin dashboard="+user);            
+            var username=user.name;
+            var role=user.role;
+            var rolename="";
+            if(role.localeCompare("1")==0){
+              rolename="End User";
+            }
+            if(role.localeCompare("2")==0){
+              rolename="Certification Authorty";
+            }
+            if(role.localeCompare("3")==0){
+              rolename="Retailer";
+            }
+            if(role.localeCompare("4")==0){
+              rolename="Manufacturer";
+            }
+            var approved=user.approved;
+            console.log("role="+role); 
+            console.log("name="+username); 
+
+            if(approved.localeCompare("false")==0){
+              var str = "<tr><td>" + accaddr +"</td><td>"+username+"</td><td>"+rolename+"</td><td><button class='btn btn-info' onclick='App.approveUser(`"+String(accaddr)+"`)'>Approve</button></td></tr>";
+              //alert(accaddr.toString());
+              $("#usersforapprove").append(str);
+            }
+            
+          }
+          //display only admin dashboard
+      
+        
+    await App.render();
   },
   approveUser:async (addr)=>{
     //alert(addr.toString());
