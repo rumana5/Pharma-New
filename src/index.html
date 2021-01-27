@@ -79,11 +79,11 @@
     
       <div id="sidebar" class="top-nav">
          <ul id="sidebar-nav" class="sidebar-nav">
-            <li><a href="#">Home</a></li>
-            <li><a href="category.html">Categories</a></li>
-            <li><a href="https://triwotech.de/">About Us</a></li>
-            <li><a href="#">Contact Us</a></li>
-            <li><i class="fa fa-shopping-cart" style="font-size:24px;color:#1d99ff"></i></li>
+            <li><a class="custom-b " href="#">Login</a></li>
+            <li><a class="custom-b" href="#">Sign up</a></li>
+            <li><a href="#">Help</a></li>
+            <li><a href="#">How it works</a></li>
+            <li><a href="#">Medicine Categories</a></li>
          </ul>
       </div>
       <div id="home">
@@ -690,30 +690,19 @@
    <hr/>
    <div class="container">  
       <form onSubmit="App.deleteMedicine(); return false;">        
-       <table class="table"> 
-          
-         <tr>
-            <td colspan="4" align="center">
-              <button type="button" class="featuredBtn active" id= "btn5" onclick="App.displayApprovedManufecturer()">Approved Manufecturer</button>
-              <button type="button" class="featuredBtn" id= "btn6" onclick="App.displayManufecturertoapprove()">Pending request</button>
-            </td>
-         </tr>
-
+       <table class="table">   
          <tr>
             <td colspan="4" align="center"><h2 style="background-color: burlywood;">ADMIN DASHBOARD</h2></td>
           </tr>       
          <tr>
-            <th>Address </th>
+            <th>Addreess </th>
             <th>Name </th>
             <th>Role </th>
-            <th>Approve </th>
+            <th>Aprrove </th>
           </tr> 
                    
            <tbody id="usersforapprove">            
            </tbody>  
-
-           
-
          <tr>
           <td colspan="4" align="center"><h2 style="background-color: burlywood;color: burlywood;">ADMIN DASHBOARD</h2></td>
         </tr>             
