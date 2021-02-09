@@ -453,7 +453,7 @@
                   <select class="form-control" id="RoleSelect">
                     <option value="1" selected>End User</option>
                     <option value="2">Certification Authority</option>
-                    <option value="3">Retailer</option>   
+                    <option value="3">Distributor</option>   
                     <option value="4">Manufacturer</option>                 
                   </select>
                 </td>
@@ -703,12 +703,24 @@
          <tr>
             <td colspan="4" align="center"><h2 style="background-color: burlywood;">ADMIN DASHBOARD</h2></td>
           </tr>       
-         <tr>
+         <tr id="pending" style="display: none;"> 
             <th>Address </th>
             <th>Name </th>
             <th>Role </th>
             <th>Approve/Reject</th>
           </tr> 
+          <tr id="approved" style="display: none;">
+            <th>Address </th>
+            <th>Name </th>
+            <th>Role </th>
+            <th>Reject</th>
+          </tr>
+          <tr id="rejected" style="display: none;">
+            <th>Address </th>
+            <th>Name </th>
+            <th>Role </th>
+            
+          </tr>
                    
            <tbody id="usersforapprove">            
            </tbody>  

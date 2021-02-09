@@ -88,161 +88,179 @@ App = {
       
 
       $("[id='accountAddress']").html(username+"("+App.account+")");
-      if(role=="1"){
-        //End User
-      }
-      else if(role=="2"){
-        //C.A
-      }
-      else if(role=="3"){
-        //Retailer
-      }
-      else if(role=="4"){
-        // crudOperation.show();
-        //Manufacturer
-        if(approved.localeCompare("false")==0){
-          alert("Waiting for approval from admin");
-          return
-        } else if(approved.localeCompare("reject")==0){
-          alert("Sorry, you cannot login to our website");
-          return
+      // if(role=="1"){
+      //   //End User
+      // }
+      // else if(role=="2"){
+      //   //C.A
+      // }
+      if(approved.localeCompare("false")==0){
+        alert("Waiting for approval from admin");
+        return
+      }else if(approved.localeCompare("reject")==0){
+        alert("Sorry, you cannot login to our website");
+        return
 
-        }
-        
-        if(App.manfdisplay==0){
-          //Display Add Medicine Page
-          home.hide();
-          register.hide();
-          display.hide();
-          editpage.hide();
-          deletemedicinepage.hide();
-          manufacturer.show();
-          crudOperation.show();
-        }
-        if(App.manfdisplay==1){
-          //Display View Medicine Page
-          home.hide();
-          register.hide();          
-          manufacturer.hide();
-          editpage.hide();
-          deletemedicinepage.hide();
-          display.show();
-          crudOperation.show();
-        } 
-        if(App.manfdisplay==2){
-          //Edit Medicine Medicine Page
-          home.hide();
-          register.hide();          
-          manufacturer.hide();
-          display.hide();
-          deletemedicinepage.hide();
-          editpage.show();
-          crudOperation.show();
-        } 
-        if(App.manfdisplay==3){
-          //Delete Medicine Medicine Page
-          home.hide();
-          register.hide();          
-          manufacturer.hide();
-          display.hide();          
-          editpage.hide();
-          adminpage.hide();
-          deletemedicinepage.show();
-          crudOperation.show();
-        } 
       }
-      else{
-        admin=await App.medicine.admin();       
-        if(admin.toUpperCase().localeCompare(App.account.toUpperCase())==0){
-
-          //The user is admin 
-          //finding un approved users
-          usersforapprove=$("#usersforapprove");
-          $("#usersforapprove").empty();
-
-          var usercount=await App.medicine.usersCount();
-          for (var i = 0; i < usercount; i++) {
-            var accaddr=await App.medicine.addresses(i);
-            var user=await App.medicine.users(accaddr);
-            //display all users
-            console.log("In admin dashboard="+user);            
-            var username=user.name;
-            var role=user.role;
-            var rolename="";
-            if(role.localeCompare("1")==0){
-              rolename="End User";
-            }
-            if(role.localeCompare("2")==0){
-              rolename="Certification Authorty";
-            }
-            if(role.localeCompare("3")==0){
-              rolename="Retailer";
-            }
-            if(role.localeCompare("4")==0){
-              rolename="Manufacturer";
-            }
-            var approved=user.approved;
-            console.log("role="+role); 
-            console.log("name="+username); 
-
-            if(App.admindisplay==2){
-            
-            if(approved.localeCompare("true")==0){
-              //display not approved users
-              var str = "<tr><td>" + accaddr +"</td><td>"+username+"</td><td>"+rolename+"</td><td><button class='btn btn-info' onclick='App.approveUser(`"+String(accaddr)+"`)'>Reject</button></td></tr>";
-              //alert(accaddr.toString());
-              usersforapprove.append(str);
-            }
-          }else if(App.admindisplay==1){
-            if(approved.localeCompare("false")==0){
-              //display not approved users
-              var str = "<tr><td>" + accaddr +"</td><td>"+username+"</td><td>"+rolename+"</td><td><button class='btn btn-info' onclick='App.approveUser(`"+String(accaddr)+"`)'>Approve</button> &nbsp <button class='btn btn-info' onclick='App.rejectUser(`"+String(accaddr)+"`)'>Reject</button></td></tr>";
-              //alert(accaddr.toString());
-              usersforapprove.append(str);
-          }
-        }else{
-          if(approved.localeCompare("reject")==0){
-            //display not approved users
-            var str = "<tr><td>" + accaddr +"</td><td>"+username+"</td><td>"+rolename+"</td></tr>";
-            //alert(accaddr.toString());
-            usersforapprove.append(str);
-          }
+        if(role=="3"){
+          //Distributor
         }
-      }
-          //display only admin dashboard
-          home.hide();
-          manufacturer.hide();
-          display.hide();
-          register.hide();
-          editpage.hide();
-          deletemedicinepage.hide();
-          adminpage.show();
-          crudOperation.hide();
-        }
-        else{
-          //New User
-          //New User
+        else if(role=="4"){
+          // crudOperation.show();
+          //Manufacturer
+          
+          
+          if(App.manfdisplay==0){
+            //Display Add Medicine Page
             home.hide();
+            register.hide();
+            display.hide();
+            editpage.hide();
+            deletemedicinepage.hide();
+            manufacturer.show();
+            crudOperation.show();
+          }
+          if(App.manfdisplay==1){
+            //Display View Medicine Page
+            home.hide();
+            register.hide();          
             manufacturer.hide();
-            display.hide(); 
-            deletemedicinepage.hide();                    
+            editpage.hide();
+            deletemedicinepage.hide();
+            display.show();
+            crudOperation.show();
+          } 
+          if(App.manfdisplay==2){
+            //Edit Medicine Medicine Page
+            home.hide();
+            register.hide();          
+            manufacturer.hide();
+            display.hide();
+            deletemedicinepage.hide();
+            editpage.show();
+            crudOperation.show();
+          } 
+          if(App.manfdisplay==3){
+            //Delete Medicine Medicine Page
+            home.hide();
+            register.hide();          
+            manufacturer.hide();
+            display.hide();          
             editpage.hide();
             adminpage.hide();
-            register.show();
-            crudOperation.hide();
+            deletemedicinepage.show();
+            crudOperation.show();
+          } 
         }
-        
-      }
+        else{
+          admin=await App.medicine.admin();       
+          if(admin.toUpperCase().localeCompare(App.account.toUpperCase())==0){
+  
+            //The user is admin 
+            //finding un approved users
+            usersforapprove=$("#usersforapprove");
+            $("#usersforapprove").empty();
+  
+            var usercount=await App.medicine.usersCount();
+            for (var i = 0; i < usercount; i++) {
+              var accaddr=await App.medicine.addresses(i);
+              var user=await App.medicine.users(accaddr);
+              //display all users
+              console.log("In admin dashboard="+user);            
+              var username=user.name;
+              var role=user.role;
+              var rolename="";
+              if(role.localeCompare("1")==0){
+                rolename="End User";
+              }
+              if(role.localeCompare("2")==0){
+                rolename="Certification Authorty";
+              }
+              if(role.localeCompare("3")==0){
+                rolename="Distributor";
+              }
+              if(role.localeCompare("4")==0){
+                rolename="Manufacturer";
+              }
+              var approved=user.approved;
+              console.log("role="+role); 
+              console.log("name="+username); 
+  
+              if(App.admindisplay==2){
+                $('#pending').hide();
+              $('#approved').show();
+              $('#rejected').hide();
+              
+              if(approved.localeCompare("true")==0){
+                //display approved users
+                
+                var str = "<tr><td>" + accaddr +"</td><td>"+username+"</td><td>"+rolename+"</td><td><button class='btn btn-info' onclick='App.rejectUser(`"+String(accaddr)+"`)'>Reject</button></td></tr>";
+                //alert(accaddr.toString());
+                usersforapprove.append(str);
+                
+              }
+            }else if(App.admindisplay==1){
+              $('#pending').show();
+              $('#approved').hide();
+              $('#rejected').hide();
+              if(approved.localeCompare("false")==0){
+                //display pending users
+                var str = "<tr><td>" + accaddr +"</td><td>"+username+"</td><td>"+rolename+"</td><td><button class='btn btn-info' onclick='App.approveUser(`"+String(accaddr)+"`)'>Approve</button> &nbsp <button class='btn btn-info' onclick='App.rejectUser(`"+String(accaddr)+"`)'>Reject</button></td></tr>";
+                //alert(accaddr.toString());
+                usersforapprove.append(str);
+            }
+          }else{
+            $('#pending').hide();
+              $('#approved').hide();
+              $('#rejected').show();
+            if(approved.localeCompare("reject")==0){
+              //display rejected users
+              var str = "<tr><td>" + accaddr +"</td><td>"+username+"</td><td>"+rolename+"</td></tr>";
+              //alert(accaddr.toString());
+              usersforapprove.append(str);
+              
 
-    // $('#account').html(App.account)
-    // const medicinesCount = await App.medicine.medicineCount();
-    // $('#count').append(medicinesCount.toString())
-    // Render Tasks
-    //await App.renderTasks()
+            }
+          }
+        }
+            //display only admin dashboard
+            home.hide();
+            manufacturer.hide();
+            display.hide();
+            register.hide();
+            editpage.hide();
+            deletemedicinepage.hide();
+            adminpage.show();
+            crudOperation.hide();
+          }
+          else{
+            //New User
+            //New User
+              home.hide();
+              manufacturer.hide();
+              display.hide(); 
+              deletemedicinepage.hide();                    
+              editpage.hide();
+              adminpage.hide();
+              register.show();
+              crudOperation.hide();
+          }
+          
+        }
+  
+     
+      
+      
+   // $('#account').html(App.account)
+      // const medicinesCount = await App.medicine.medicineCount();
+      // $('#count').append(medicinesCount.toString())
+      // Render Tasks
+      //await App.renderTasks()
+  
+      // Update loading state
+      App.setLoading(false)
+    },
 
-    // Update loading state
-    App.setLoading(false)
-  },
   setLoading: (boolean) => {
     App.loading = boolean
     const loader = $('#loader')
@@ -405,11 +423,13 @@ App = {
     //alert(addr.toString());
     await App.medicine.approveUser(addr.toString(),"true",{ from: App.account });
     await App.render(); 
+    alert("User Approved");
   },
   rejectUser:async (addr)=>{
     //alert(addr.toString());
     await App.medicine.approveUser(addr.toString(),"reject",{ from: App.account });
     await App.render(); 
+    alert("User Rejected");
   }
 
 }
