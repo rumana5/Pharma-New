@@ -2,6 +2,7 @@ App = {
   loading: false,
   contracts: {},
   manfdisplay:0,
+  admindisplay:1,
 
   load: async () => {
     await App.loadWeb3()
@@ -97,12 +98,17 @@ App = {
         //Retailer
       }
       else if(role=="4"){
-        crudOperation.show();
+        // crudOperation.show();
         //Manufacturer
         if(approved.localeCompare("false")==0){
           alert("Waiting for approval from admin");
           return
+        } else if(approved.localeCompare("reject")==0){
+          alert("Sorry, you cannot login to our website");
+          return
+
         }
+        
         if(App.manfdisplay==0){
           //Display Add Medicine Page
           home.hide();
@@ -111,6 +117,7 @@ App = {
           editpage.hide();
           deletemedicinepage.hide();
           manufacturer.show();
+          crudOperation.show();
         }
         if(App.manfdisplay==1){
           //Display View Medicine Page
@@ -120,6 +127,7 @@ App = {
           editpage.hide();
           deletemedicinepage.hide();
           display.show();
+          crudOperation.show();
         } 
         if(App.manfdisplay==2){
           //Edit Medicine Medicine Page
@@ -129,6 +137,7 @@ App = {
           display.hide();
           deletemedicinepage.hide();
           editpage.show();
+          crudOperation.show();
         } 
         if(App.manfdisplay==3){
           //Delete Medicine Medicine Page
@@ -139,47 +148,67 @@ App = {
           editpage.hide();
           adminpage.hide();
           deletemedicinepage.show();
+          crudOperation.show();
         } 
       }
       else{
         admin=await App.medicine.admin();       
         if(admin.toUpperCase().localeCompare(App.account.toUpperCase())==0){
+
           //The user is admin 
           //finding un approved users
-          // usersforapprove=$("#usersforapprove");
-          // var usercount=await App.medicine.usersCount();
-          // for (var i = 0; i < usercount; i++) {
-          //   var accaddr=await App.medicine.addresses(i);
-          //   var user=await App.medicine.users(accaddr);
-          //   //display all users
-          //   console.log("In admin dashboard="+user);            
-          //   var username=user.name;
-          //   var role=user.role;
-          //   var rolename="";
-          //   if(role.localeCompare("1")==0){
-          //     rolename="End User";
-          //   }
-          //   if(role.localeCompare("2")==0){
-          //     rolename="Certification Authorty";
-          //   }
-          //   if(role.localeCompare("3")==0){
-          //     rolename="Retailer";
-          //   }
-          //   if(role.localeCompare("4")==0){
-          //     rolename="Manufacturer";
-          //   }
-          //   var approved=user.approved;
-          //   console.log("role="+role); 
-          //   console.log("name="+username); 
+          usersforapprove=$("#usersforapprove");
+          $("#usersforapprove").empty();
+
+          var usercount=await App.medicine.usersCount();
+          for (var i = 0; i < usercount; i++) {
+            var accaddr=await App.medicine.addresses(i);
+            var user=await App.medicine.users(accaddr);
+            //display all users
+            console.log("In admin dashboard="+user);            
+            var username=user.name;
+            var role=user.role;
+            var rolename="";
+            if(role.localeCompare("1")==0){
+              rolename="End User";
+            }
+            if(role.localeCompare("2")==0){
+              rolename="Certification Authorty";
+            }
+            if(role.localeCompare("3")==0){
+              rolename="Retailer";
+            }
+            if(role.localeCompare("4")==0){
+              rolename="Manufacturer";
+            }
+            var approved=user.approved;
+            console.log("role="+role); 
+            console.log("name="+username); 
+
+            if(App.admindisplay==2){
             
-          //   if(approved.localeCompare("false")==0){
-          //     //display not approved users
-          //     var str = "<tr><td>" + accaddr +"</td><td>"+username+"</td><td>"+rolename+"</td><td><button class='btn btn-info' onclick='App.approveUser(`"+String(accaddr)+"`)'>Approve</button></td></tr>";
-          //     //alert(accaddr.toString());
-          //     usersforapprove.append(str);
-          //   }
-            
-          // }
+            if(approved.localeCompare("true")==0){
+              //display not approved users
+              var str = "<tr><td>" + accaddr +"</td><td>"+username+"</td><td>"+rolename+"</td><td><button class='btn btn-info' onclick='App.approveUser(`"+String(accaddr)+"`)'>Reject</button></td></tr>";
+              //alert(accaddr.toString());
+              usersforapprove.append(str);
+            }
+          }else if(App.admindisplay==1){
+            if(approved.localeCompare("false")==0){
+              //display not approved users
+              var str = "<tr><td>" + accaddr +"</td><td>"+username+"</td><td>"+rolename+"</td><td><button class='btn btn-info' onclick='App.approveUser(`"+String(accaddr)+"`)'>Approve</button> &nbsp <button class='btn btn-info' onclick='App.rejectUser(`"+String(accaddr)+"`)'>Reject</button></td></tr>";
+              //alert(accaddr.toString());
+              usersforapprove.append(str);
+          }
+        }else{
+          if(approved.localeCompare("reject")==0){
+            //display not approved users
+            var str = "<tr><td>" + accaddr +"</td><td>"+username+"</td><td>"+rolename+"</td></tr>";
+            //alert(accaddr.toString());
+            usersforapprove.append(str);
+          }
+        }
+      }
           //display only admin dashboard
           home.hide();
           manufacturer.hide();
@@ -359,99 +388,30 @@ App = {
     await App.render(); 
   },
   displayApprovedManufecturer:async ()=>{
-    App.admindisplay=1;
-          //The user is admin 
-          //finding un approved users
-          var usercount=0;
-          $("#usersforapprove").empty();
-           usercount=await App.medicine.usersCount();
-          for (var i = 0; i < usercount; i++) {
-            var accaddr=await App.medicine.addresses(i);
-            var user=await App.medicine.users(accaddr);
-            //display all users
-            console.log("In admin dashboard="+user);            
-            var username=user.name;
-            var role=user.role;
-            var rolename="";
-            if(role.localeCompare("1")==0){
-              rolename="End User";
-            }
-            if(role.localeCompare("2")==0){
-              rolename="Certification Authorty";
-            }
-            if(role.localeCompare("3")==0){
-              rolename="Retailer";
-            }
-            if(role.localeCompare("4")==0){
-              rolename="Manufacturer";
-            }
-            var approved=user.approved;
-            console.log("role="+role); 
-            console.log("name="+username); 
-
-            if(approved.localeCompare("true")==0){
-              var str = "<tr><td>" + accaddr +"</td><td>"+username+"</td><td>"+rolename+"</td><td><button class='btn btn-info' onclick='App.approveUser(`"+String(accaddr)+"`)'>Approve</button></td></tr>";
-              //alert(accaddr.toString());
-              $("#usersforapprove").append(str);
-            }
-            
-          }
-          //display only admin dashboard
-      
-        
+    App.admindisplay=2;
     await App.render();
   },
 
   displayManufecturertoapprove:async ()=>{
-    App.admindisplay=2;
-        
-       
-          //The user is admin 
-          //finding un approved users
-         $("#usersforapprove").empty();
-          var usercount = 0;
-           usercount=await App.medicine.usersCount();
-          for (var i = 0; i < usercount; i++) {
-            var accaddr=await App.medicine.addresses(i);
-            var user=await App.medicine.users(accaddr);
-            //display all users
-            console.log("In admin dashboard="+user);            
-            var username=user.name;
-            var role=user.role;
-            var rolename="";
-            if(role.localeCompare("1")==0){
-              rolename="End User";
-            }
-            if(role.localeCompare("2")==0){
-              rolename="Certification Authorty";
-            }
-            if(role.localeCompare("3")==0){
-              rolename="Retailer";
-            }
-            if(role.localeCompare("4")==0){
-              rolename="Manufacturer";
-            }
-            var approved=user.approved;
-            console.log("role="+role); 
-            console.log("name="+username); 
+    App.admindisplay=1;  
+    await App.render();
+  },
 
-            if(approved.localeCompare("false")==0){
-              var str = "<tr><td>" + accaddr +"</td><td>"+username+"</td><td>"+rolename+"</td><td><button class='btn btn-info' onclick='App.approveUser(`"+String(accaddr)+"`)'>Approve</button></td></tr>";
-              //alert(accaddr.toString());
-              $("#usersforapprove").append(str);
-            }
-            
-          }
-          //display only admin dashboard
-      
-        
+  displayRejectedManufacturer:async ()=>{
+    App.admindisplay=3;  
     await App.render();
   },
   approveUser:async (addr)=>{
     //alert(addr.toString());
     await App.medicine.approveUser(addr.toString(),"true",{ from: App.account });
     await App.render(); 
+  },
+  rejectUser:async (addr)=>{
+    //alert(addr.toString());
+    await App.medicine.approveUser(addr.toString(),"reject",{ from: App.account });
+    await App.render(); 
   }
+
 }
 
 // $(() => {
