@@ -694,9 +694,9 @@
 
          <tr>
             <td colspan="4" align="center">
-               <button type="button" class="featuredBtn" id= "btn6" onclick="App.displayManufecturertoapprove()">Pending request</button>
-               <button type="button" class="featuredBtn active" id= "btn5" onclick="App.displayApprovedManufecturer()">Approved Manufacturer</button>
-               <button type="button" class="featuredBtn" id= "btn6" onclick="App.displayRejectedManufacturer()">Rejected Manufacturer</button>
+               <button type="button" class="featuredBtn active" id= "btn6" onclick="App.displayManufecturertoapprove()">Pending request</button>
+               <button type="button" class="featuredBtn " id= "btn5" onclick="App.displayApprovedManufecturer()">Approved Users</button>
+               <button type="button" class="featuredBtn" id= "btn6" onclick="App.displayRejectedManufacturer()">Rejected Users</button>
             </td>
          </tr>
 
@@ -732,6 +732,38 @@
    </div>
  </div>
  <!-- Admin Page Ends -->
+ <!-- Distributor Page start-->
+ <div id="distributorpage" style="display: none;">            
+   <hr/>
+   <div class="container">  
+      <form onSubmit="App.deleteMedicine(); return false;">        
+       <table class="table">   
+
+         <tr>
+            <td colspan="7" align="center"><h2 style="background-color: burlywood;">DISTRIBUTOR DASHBOARD</h2></td>
+          </tr>  
+
+          <tr>
+            <th>No</th>
+            <th>Medicine Name</th>
+            <th>Manufacturer</th>
+            <th>Expiry Date</th>
+            <th>Category</th>                  
+            <th>Price</th>
+            <th></th>
+          </tr>
+                   
+           <tbody id="displayMedicine">            
+           </tbody>  
+         <tr>
+          <td colspan="7" align="center"><h2 style="background-color: burlywood;color: burlywood;">DISTRIBUTOR DASHBOARD</h2></td>
+        </tr>             
+       </table> 
+      </form>        
+   </div>
+ </div>
+
+<!-- Distributor Page end-->
 
 
 
