@@ -77,15 +77,17 @@ App = {
       var editpage=$("#editmedicine");
       var deletemedicinepage=$("#deletemedicine");
       var crudOperation = $("#btnFun");
+      var distributorpage=$('#distributorpage');
 
       var user=await App.medicine.users(App.account);
       console.log(user);
       var role=user.role;
+
       var approved=user.approved;
       console.log("role="+role);      
       var username=user.name;
 
-      
+      console.log(role);
 
       $("[id='accountAddress']").html(username+"("+App.account+")");
       if(role=="1"){
@@ -95,7 +97,43 @@ App = {
         //C.A
       }
       else if(role=="3"){
-        //Retailer
+        //Distributor
+        if(approved.localeCompare("false")==0){
+          alert("Waiting for approval from admin");
+          return
+        } else if(approved.localeCompare("reject")==0){
+          alert("Sorry, you cannot login to our website");
+          return
+        }
+        $("#displayMedicine").empty();
+        var count= await App.medicine.medicineCount();
+        console.log(count);
+        for (var i = 1; i <= count; i++) {
+           var medicine=await App.medicine.medicines(i);
+           console.log(medicine);
+           var accountaddrees=medicine[2];
+            var id=medicine[0];
+             var medname=medicine[1];  
+             //Display name of manufacturer from ethereum address    
+             var user=await App.medicine.users(medicine[2]);
+             var manfact=user.name;      
+             var expdate=medicine[5]
+             var category=medicine[6];
+             var price=medicine[7];
+             var str = "<tr><td>" + id +"</td><td>"+medname+"</td><td>"+manfact+"</td><td>"+expdate+"</td><td>"+category+"</td><td>"+price+"</td><td><button class='btn btn-info'>Buy</button></td></tr>";
+             $("#displayMedicine").append(str); 
+        }
+
+        console.log("approved distributor");
+        distributorpage.show();
+        home.hide();
+        register.hide();
+        display.hide();
+        editpage.hide();
+        deletemedicinepage.hide();
+        manufacturer.hide();
+        crudOperation.hide();
+
       }
       else if(role=="4"){
         // crudOperation.show();
@@ -106,7 +144,6 @@ App = {
         } else if(approved.localeCompare("reject")==0){
           alert("Sorry, you cannot login to our website");
           return
-
         }
         
         if(App.manfdisplay==0){
@@ -176,7 +213,7 @@ App = {
               rolename="Certification Authorty";
             }
             if(role.localeCompare("3")==0){
-              rolename="Retailer";
+              rolename="Distributor";
             }
             if(role.localeCompare("4")==0){
               rolename="Manufacturer";
@@ -185,7 +222,7 @@ App = {
             console.log("role="+role); 
             console.log("name="+username); 
 
-            if(App.admindisplay==2){
+            if(App.admindisplay==2){  
             
             if(approved.localeCompare("true")==0){
               //display not approved users
@@ -193,22 +230,22 @@ App = {
               //alert(accaddr.toString());
               usersforapprove.append(str);
             }
-          }else if(App.admindisplay==1){
+            }else if(App.admindisplay==1){
             if(approved.localeCompare("false")==0){
               //display not approved users
               var str = "<tr><td>" + accaddr +"</td><td>"+username+"</td><td>"+rolename+"</td><td><button class='btn btn-info' onclick='App.approveUser(`"+String(accaddr)+"`)'>Approve</button> &nbsp <button class='btn btn-info' onclick='App.rejectUser(`"+String(accaddr)+"`)'>Reject</button></td></tr>";
               //alert(accaddr.toString());
               usersforapprove.append(str);
-          }
-        }else{
-          if(approved.localeCompare("reject")==0){
+             }
+            }else{
+            if(approved.localeCompare("reject")==0){
             //display not approved users
             var str = "<tr><td>" + accaddr +"</td><td>"+username+"</td><td>"+rolename+"</td></tr>";
             //alert(accaddr.toString());
             usersforapprove.append(str);
+            }
+           }
           }
-        }
-      }
           //display only admin dashboard
           home.hide();
           manufacturer.hide();
