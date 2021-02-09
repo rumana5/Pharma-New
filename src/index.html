@@ -230,56 +230,7 @@
              </div>
           </div>
        </div>
-       <!-- <div class="products_exciting_box">
-          <div class="container">
-             <div class="row">
-                <div class="col-md-6 col-sm-6 wow fadeIn" data-wow-delay="0.2s">
-                   <div class="exciting_box f_pd">
-                      <img src="images/exciting_img-01.jpg" class="icon-small" alt="" />
-                      <h4>Explore <strong>Original</strong> and TamperProof Medicines
-                         tailored to you.
-                      </h4>
-                      <p>ALl Medicines listed here is stored on the blockchain. So you can verify the authenticy
-                         and complete history of eeach medicine. Buy your trustworthy medicine from here.
-                      </p>
-                   </div>
-                </div>
-                <div class="col-md-6 col-sm-6 wow fadeIn" data-wow-delay="0.4s">
-                   <div class="exciting_box l_pd">
-                      <img src="images/exciting_img-02.jpg" class="icon-small" alt="" />
-                      <h4><strong>List your Medicines on</strong>  and grow buisness.</h4>
-                      <p>If you are a medicine manufacterer, you can list your product here . All products will be veryied 
-                         from our side and it will be stored on our blockchain network.
-                      </p>
-                   </div>
-                </div>
-             </div>
-          </div>
-       </div>
-       <div class="start-free-box">
-          <div class="container">
-             <div class="row">
-                <div class="container">
-                   <div class="main-start-box">
-                      <div class="free-box-a clearfix">
-                         <div class="col-md-6 col-sm-6">
-                            <div class="left-a-f">
-                               <h3>A BlockChain based platform built for buy  & sell Medicines. Start for free.</h3>
-                            </div>
-                         </div>
-                         <div class="col-md-6 col-sm-6">
-                            <div class="right-a-f">
-                               <p>Over the comming years, way the business through the blockchain will change at agreat - and we are  the
-                                  gamebreaker.
-                               </p>
-                            </div>
-                         </div>
-                      </div>
-                   </div>
-                </div>
-             </div>          
-          </div>
-       </div> -->
+       
        <div class="products">
           <div class="main-products">
              <h2>TRENDING MEDICINES ON BLOCKCHAIN</h2>
@@ -695,8 +646,11 @@
          <tr>
             <td colspan="4" align="center">
                <button type="button" class="featuredBtn active" id= "btn6" onclick="App.displayManufecturertoapprove()">Pending request</button>
+
                <button type="button" class="featuredBtn " id= "btn5" onclick="App.displayApprovedManufecturer()">Approved Users</button>
                <button type="button" class="featuredBtn" id= "btn6" onclick="App.displayRejectedManufacturer()">Rejected Users</button>
+
+               
             </td>
          </tr>
 
@@ -765,9 +719,38 @@
 
 <!-- Distributor Page end-->
 
+<!-- Distributor Page start-->
+ <div id="distributorpage" style="display: none;">            
+   <hr/>
+   <div class="container">  
+      <form onSubmit="App.deleteMedicine(); return false;">        
+       <table class="table">   
 
+         <tr>
+            <td colspan="7" align="center"><h2 style="background-color: burlywood;">DISTRIBUTOR DASHBOARD</h2></td>
+          </tr>  
 
+          <tr>
+            <th>No</th>
+            <th>Medicine Name</th>
+            <th>Manufacturer</th>
+            <th>Expiry Date</th>
+            <th>Category</th>                  
+            <th>Price</th>
+            <th></th>
+          </tr>
+                   
+           <tbody id="displayMedicine">            
+           </tbody>  
+         <tr>
+          <td colspan="7" align="center"><h2 style="background-color: burlywood;color: burlywood;">DISTRIBUTOR DASHBOARD</h2></td>
+        </tr>             
+       </table> 
+      </form>        
+   </div>
+ </div>
 
+<!-- Distributor Page end-->
 
       <footer>
          <div class="main-footer">
