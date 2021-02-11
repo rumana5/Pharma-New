@@ -71,7 +71,7 @@ App = {
       App.setLoading(true)      
       var home = $("#home");  
       var register = $("#register");   
-      var distributorpage=$('#distributorpage');
+
 
       var user=await App.medicine.users(App.account);
       console.log(user);
@@ -80,9 +80,7 @@ App = {
       console.log("role="+role);      
       var username=user.name;
 
-      
-
-      $("[id='accountAddress']").html(username+"("+App.account+")");
+   
       // if(role=="1"){
       //   //End User
       // }
@@ -122,11 +120,14 @@ App = {
           else{
             //New User
             //New User
-              home.hide();
+
+
+             // home.hide();
+              window.location.replace('./Register.html');
+
               
-              register.show();
-              
-              distributorpage.hide();
+              // register.show();
+             
           }
           
         }
