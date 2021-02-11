@@ -6,7 +6,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
         <meta name="description" content="" />
         <meta name="author" content="" />
-        <title>Admin Dashboard</title>
+        <title>Distributor Dashboard</title>
         <link href="css/styles.css" rel="stylesheet" />
         <link href="https://cdn.datatables.net/1.10.20/css/dataTables.bootstrap4.min.css" rel="stylesheet" crossorigin="anonymous" />
         <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/js/all.min.js" crossorigin="anonymous"></script>
@@ -45,18 +45,18 @@
                         <div class="nav">
                             <div class="sb-sidenav-menu-heading">HOME</div>
                            
-                            <button type="button" class=" btn btn-dark featuredBtn" id= "btn5" onclick="App.displayApprovedManufecturer()">Approved Users</button>
+                            <button type="button" class=" btn btn-dark featuredBtn" id= "btn5" onclick="App.displayApprovedManufecturer()">View Medicines</button>
                             
-                            <button type="button" class="btn btn-dark featuredBtn" id= "btn6" onclick="App.displayManufecturertoapprove()">Pending requests</button>
+                            <!-- <button type="button" class="btn btn-dark featuredBtn" id= "btn6" onclick="App.displayManufecturertoapprove()">Pending requests</button>
 
-                            <button type="button" class=" btn btn-dark featuredBtn" id= "btn7" onclick="App.displayRejectedManufacturer()">Rejected Users</button>
+                            <button type="button" class=" btn btn-dark featuredBtn" id= "btn7" onclick="App.displayRejectedManufacturer()">Rejected Users</button> -->
 
                             
 
                         </div>
                     </div>
                     <div class="sb-sidenav-footer">
-                        <div class="small">Logged in as: <span> Admin</span></div> 
+                        <div class="small">Logged in as: <span id="user"> </span></div> 
                         
                     </div>
                 </nav>
@@ -64,36 +64,26 @@
             <div id="layoutSidenav_content">
                 <main>
                     <div class="container-fluid">
-                        <h1 class="mt-4">Admin Dashboard</h1>
+                        <h1 class="mt-4">Distributor Dashboard</h1>
 
                        
                             <div class="card-body">
                                 <div class="table-responsive">
-                                    <table class="table table-bordered" id="dataTablePending" width="100%" cellspacing="0">
+                                    <table class="table table-bordered" width="100%" cellspacing="0">
                                         
                                         
-                                        <tr id="pending" style="display: none;"> 
-                                            <th>Address </th>
-                                            <th>Name </th>
-                                            <th>Role </th>
-                                            <th>Approve/Reject</th>
-                                          </tr> 
-                                          <tr id="approved" style="display: none;">
-                                            <th>Address </th>
-                                            <th>Name </th>
-                                            <th>Role </th>
-                                            <th>Reject</th>
-                                          </tr>
-                                          <tr id="rejected" style="display: none;">
-                                            <th>Address </th>
-                                            <th>Name </th>
-                                            <th>Role </th>
-                                            
+                                        <tr>
+                                            <th>No</th>
+                                            <th>Medicine Name</th>
+                                            <th>Manufacturer</th>
+                                            <th>Expiry Date</th>
+                                            <th>Category</th>                  
+                                            <th>Price</th>
+                                            <th></th>
                                           </tr>
                                                    
-                                           <tbody id="usersforapprove">            
-                                           </tbody>  
-                                         <tr>
+                                           <tbody id="displayMedicine">            
+                                           </tbody>
                                        
                                     </table>
                                 </div>
@@ -113,20 +103,7 @@
                 </footer>
             </div>
         </div>
-        <script>
-            
-         $('.featuredBtn').on('click', function() {
-     let featureBtn = $('.featuredBtn');
- 
-     if(featureBtn.hasClass('active')) {
-         featureBtn.removeClass('active');
-         $(this).addClass('active');
-     }
- });
-
-
-
-        </script>
+        
        
         <script src="../js/jquery-1.12.4.min.js"></script>
         <script src="https://cdn.jsdelivr.net/gh/ethereum/web3.js/dist/web3.min.js"></script>
@@ -134,7 +111,7 @@
          <script src="../js/truffle-contract.js"></script>
         
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
-        <script src="js/Admin.js"></script>
+        <script src="js/Distributor.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js" crossorigin="anonymous"></script>
         
     </body>
