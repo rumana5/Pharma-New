@@ -99,32 +99,8 @@ App = {
       }
         if(role=="3"){
           //Distributor
-          $("#displayMedicine").empty();
-        var count= await App.medicine.medicineCount();
-        console.log(count);
-        for (var i = 1; i <= count; i++) {
-           var medicine=await App.medicine.medicines(i);
-           console.log(medicine);
-           var accountaddrees=medicine[2];
-            var id=medicine[0];
-             var medname=medicine[1];  
-             //Display name of manufacturer from ethereum address    
-             var user=await App.medicine.users(medicine[2]);
-             var manfact=user.name;      
-             var expdate=medicine[5]
-             var category=medicine[6];
-             var price=medicine[7];
-             var str = "<tr><td>" + id +"</td><td>"+medname+"</td><td>"+manfact+"</td><td>"+expdate+"</td><td>"+category+"</td><td>"+price+"</td><td><button class='btn btn-info'>Buy</button></td></tr>";
-             $("#displayMedicine").append(str); 
-        }
-
-        console.log("approved distributor");
-        distributorpage.show();
-        home.hide();
-        register.hide();
-        
-
-      }
+          window.location.replace('Distributor/index.html');
+          }
         
         else if(role=="4"){
           // crudOperation.show();
@@ -132,7 +108,7 @@ App = {
 
           window.location.replace('Manufacturer/index.html');
           
-          distributorpage.hide();
+          
           
         }
         else{
