@@ -150,6 +150,7 @@ App = {
   
 
   registerRole:async ()=>{
+    console.log("register");
     var userFullname=$("#userFullname").val();
     var userAddress=$("#userAddress").val();
     var role=$("#RoleSelect").val();

@@ -125,7 +125,8 @@ App = {
             var expdate=medicine[5]
             var category=medicine[6];
             var price=medicine[7];
-            var str = "<tr><td>" + id +"</td><td>"+medname+"</td><td>"+manfact+"</td><td>"+expdate+"</td><td>"+category+"</td><td>"+price+"</td></tr>";
+            var quantity=medicine[8];
+            var str = "<tr><td>" + id +"</td><td>"+medname+"</td><td>"+manfact+"</td><td>"+expdate+"</td><td>"+category+"</td><td>"+price+"</td><td>"+quantity+"</td></tr>";
             displayItem.append(str);
           }
         }
@@ -160,7 +161,8 @@ App = {
       var expdate=$("#addexpdate").val();
       var category=$("#addcategory").val();
       var price=parseInt($("#addprice").val());
-      await App.medicine.addMedicine(medname,manfaddrss,batchno,manfdate,expdate,category,price, { from: App.account });  
+      var quantity=parseInt($("#addquantity").val());
+      await App.medicine.addMedicine(medname,manfaddrss,batchno,manfdate,expdate,category,price,quantity, { from: App.account });  
       await App.render();
       $("#addmedname").val('');    
       $("#addbatchno").val('');
