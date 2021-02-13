@@ -84,6 +84,9 @@ App = {
 
   render: async () => {
 
+    var distributorpage=$('#distributorpage');
+    var distributorBuypage=$('#distributorBuypage');
+
     $("#displayMedicine").empty();
     var count= await App.medicine.medicineCount();
     console.log(count);
@@ -103,12 +106,77 @@ App = {
          var expdate=medicine[5]
          var category=medicine[6];
          var price=medicine[7];
-         var str = "<tr><td>" + id +"</td><td>"+medname+"</td><td>"+manfact+"</td><td>"+expdate+"</td><td>"+category+"</td><td>"+price+"</td><td><button class='btn btn-info'>Buy</button></td></tr>";
+         var available_Qty=medicine[8];
+         var str = "<tr><td>" + id +"</td><td>"+medname+"</td><td>"+manfact+"</td><td>"+expdate+"</td><td>"+category+"</td><td>"+price+"</td><td>"+available_Qty+"</td><td><button class='btn btn-info' onclick='App.buyMedicineByDistributer(`"+id+"`)'>Buy</button></td><td><button class='btn btn-info'>Track</button></td></tr>";
          $("#displayMedicine").append(str); 
     }
             
 
   },
+
+  buyMedicineByDistributer:async (id)=>{
+    window.alert(id);
+    var id=parseInt(id);
+    $("#displayMedicineforBuy").empty();   
+    var medicine=await App.medicine.medicines(id);       
+    var id=medicine[0];
+     var medname=medicine[1];  
+     //Display name of manufacturer from ethereum address    
+     var user=await App.medicine.users(medicine[2]);
+     var manfact=user.name;      
+     var expdate=medicine[5]
+     var category=medicine[6];
+     var price=medicine[7];
+     var available_Qty=medicine[8];
+     var str = "<tr><td>" + id +"</td><td>"+medname+"</td><td>"+manfact+"</td><td>"+expdate+"</td><td>"+category+"</td><td>"+price+"</td><td>"+available_Qty+"</td><td><input type='number' class='form-control' id='buyingQtyByDistr'></td></tr><tr>"+
+     "<td colspan='8' align='center'><button type='button' class='btn btn-primary' onclick='App.proceedToBuyByDistributer(`"+id+"`)' >Procced to Buy</button></td></tr>";
+     $("#displayMedicineforBuy").append(str); 
+     var home = $("#home");  
+      var adminpage = $("#adminpage");  
+      var register = $("#register");   
+      var manufacturer =$("#manufacturer");
+      var display =$("#display");
+      var editpage=$("#editmedicine");
+      var deletemedicinepage=$("#deletemedicine");
+      var crudOperation = $("#btnFun");
+      var distributorpage=$('#distributorpage');
+      var distributorBuypage=$('#distributorBuypage');
+    
+     distributorpage.hide();
+     distributorBuypage.show();
+},
+proceedToBuyByDistributer: async (id)=>{
+  var inputqty=parseInt($("#buyingQtyByDistr").val());
+  //window.alert(inputqty);
+  var id=parseInt(id);      
+  var medicine=await App.medicine.medicines(id);       
+  var id=medicine[0];     
+  var price=parseInt(medicine[7]);
+  var available_Qty=parseInt(medicine[8]);
+  if(inputqty>available_Qty){
+    window.alert("Quatity Not Avilable To Buy");
+  }
+  else{
+    window.alert("Puchased "+inputqty*price);
+    await App.medicine.buyMedicineByDistributer(id,inputqty, { from: App.account }); 
+    await App.render();
+  }
+
+},
+
+  viewCertificate:async ()=>{
+    $.ajax({
+      url: "https://app.certificateok.de/api/certificate/0xaF7eD4e8e423F81d1F543eC5eFc382943121129e",
+      contentType: "application/json",
+      type: 'GET',
+      dataType: 'json',
+      success: function (response) {
+          var data = response.results;
+          console.log(data);
+      }
+  });
+
+}
  
 };
 
