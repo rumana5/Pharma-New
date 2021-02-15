@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+   <head>
+      <meta charset="UTF-8">
+ 
+      <title>pharmaCare - Blockchain Based</title>
+ 
+      <meta http-equiv="X-UA-Compatible" content="IE=edge">
+      <!--enable mobile device-->
+      <meta name="viewport" content="width=device-width, initial-scale=1">
+      <!--fontawesome css-->
+      <link rel="stylesheet" href="css/font-awesome.min.css">
+      <!--bootstrap css-->
+      <link rel="stylesheet" href="css/bootstrap.min.css">
+      <!--animate css-->
+      <link rel="stylesheet" href="css/animate-wow.css">
+      <!--main css-->
+      <link rel="stylesheet" href="css/style.css">
+      <link rel="stylesheet" href="css/bootstrap-select.min.css">
+      <link rel="stylesheet" href="css/slick.min.css">
+      <!--responsive css-->
+      <link rel="stylesheet" href="css/responsive.css">
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+   </head>
+   <body>
+      <!-- Triwotech Pharma -->
+      <header id="header" class="top-head">
+         <!-- Static navbar -->
+         <nav class="navbar navbar-default">
+            <div class="container-fluid">
+               <div class="row">
+                  <div class="col-md-6 col-lg-6 col-sm-12 left-rs">
+                     <div class="">
+                        <button type="button" id="top-menu" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false"> 
+                        <span class="sr-only">Toggle navigation</span> 
+                        <span class="icon-bar"></span> 
+                        <span class="icon-bar"></span> 
+                        <span class="icon-bar"></span> 
+                         
+                        </button>
+                        <a href="index.html" class="navbar-brand">
+                           <!-- <img src="images/logo.png" alt="" /> -->
+                       
+                        <h3 class="h3">pharmaCare</h3>
+                     </a>
+                     </div>
+                     
+                  </div>
+                  <div class="col-md-6 col-lg-6 col-sm-12">
+                     <div class="right-nav">
+                        <div class="login-sr">
+                           <div class="login-signup">
+                              
+                           </div>
+                        </div>
+                     
+                        <div class="nav-b hidden-xs">
+                           <div class="nav-box">
+                              <ul>
+                                 <li><a href="#">Home</a></li>
+                                 <li><a href="category.html">Categories</a></li>
+                                 <li><a href="https://triwotech.de/">About Us</a></li>
+                                 <li><a href="#">Contact Us</a></li>
+                                
+                              </ul>
+                           </div>
+                        </div>
+                     </div>
+                  </div>
+               </div>
+            </div>
+            <!--/.container-fluid --> 
+         </nav>
+      </header>
+    
+      <div id="sidebar" class="top-nav">
+         <ul id="sidebar-nav" class="sidebar-nav">
+            <li><a class="custom-b " href="#">Login</a></li>
+            <li><a class="custom-b" href="#">Sign up</a></li>
+            <li><a href="#">Help</a></li>
+            <li><a href="#">How it works</a></li>
+            <li><a href="#">Medicine Categories</a></li>
+         </ul>
+      </div>
+      <div id="home">
+        
+       
+      <!--new registration page-->
+
+      <div class="registration-form">
+         <form onSubmit="App.registerRole(); return false;">
+             <div class="form-icon">
+                 <span><i class="fa fa-user"></i></span>
+             </div>
+             <div class="form-group">
+               <input type="text" class="form-control item" id="userFullname" placeholder="Username">
+                 <!-- <input type="text" class="form-control item" id="userFullname" placeholder="Username"> -->
+             </div>
+             <div class="form-group">
+               <!-- <textarea name="address" id="userAddress" cols="5" rows="5" class="form-control"> -->
+                 <input type="text" class="form-control item" id="userAddress" placeholder="Address">
+             </div>
+             <div class="form-group">
+                 <input type="text" class="form-control item" id="email" placeholder="Email">
+             </div>
+             <div class="form-group">
+               <select class="form-control" id="RoleSelect">
+                  <option value="1" selected>End User</option>
+                  <option value="2">Certification Authority</option>
+                  <option value="3">Distributor</option>   
+                  <option value="4">Manufacturer</option>                 
+                </select>
+             </div>
+             
+             <div class="form-group">
+                 <button type="submit" class="btn btn-block create-account">Create Account</button>
+             </div>
+         </form>
+     </div>
+
+      <!-- new registration end-->
+      
+      <!--main js--> 
+      <script src="js/jquery-1.12.4.min.js"></script> 
+      <!--bootstrap js--> 
+      <script src="js/bootstrap.min.js"></script> 
+      <script src="js/bootstrap-select.min.js"></script>
+      <script src="js/slick.min.js"></script> 
+      <script src="js/wow.min.js"></script>
+      <!--custom js--> 
+      <!-- if web3 is not defined error occurs -->
+      <script src="https://cdn.jsdelivr.net/gh/ethereum/web3.js/dist/web3.min.js"></script>
+      <script src="js/custom.js"></script>
+      <script src="js/truffle-contract.js"></script>
+      <script src="js/register.js"></script>
+     
+   </body>
+</html>

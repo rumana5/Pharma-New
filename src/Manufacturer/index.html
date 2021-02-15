@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+        <meta name="description" content="" />
+        <meta name="author" content="" />
+        <title>Manufacturer Dashboard</title>
+        <link href="css/styles.css" rel="stylesheet" />
+        <link href="https://cdn.datatables.net/1.10.20/css/dataTables.bootstrap4.min.css" rel="stylesheet" crossorigin="anonymous" />
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/js/all.min.js" crossorigin="anonymous"></script>
+    </head>
+    <body class="sb-nav-fixed">
+        <nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark">
+            <a class="navbar-brand" href="index.html">pharmaCare</a>
+            <button class="btn btn-link btn-sm order-1 order-lg-0" id="sidebarToggle" href="#"><i class="fas fa-bars"></i></button>
+            <!-- Navbar Search-->
+            <form class="d-none d-md-inline-block form-inline ml-auto mr-0 mr-md-3 my-2 my-md-0">
+                <div class="input-group">
+                 
+                    <div class="input-group-append">
+                        
+                    </div>
+                </div>
+            </form>
+            <!-- Navbar-->
+            <ul class="navbar-nav ml-auto ml-md-0">
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" id="userDropdown" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fas fa-user fa-fw"></i></a>
+                    <div class="dropdown-menu dropdown-menu-right" aria-labelledby="userDropdown">
+                        <a class="dropdown-item" href="../index.html">Home</a>
+                        <a class="dropdown-item" href="../category.html">Categories</a>
+                        
+                        <div class="dropdown-divider"></div>
+                        <a class="dropdown-item" href="../index.html">Logout</a>
+                    </div>
+                </li>
+            </ul>
+        </nav>
+        
+        <div id="layoutSidenav">
+            <div id="layoutSidenav_nav">
+                <nav class="sb-sidenav accordion sb-sidenav-dark" id="sidenavAccordion">
+                    <div class="sb-sidenav-menu">
+                        <div class="nav">
+                           
+                            <button type="button" class="btn btn-dark featuredBtn" id= "btn2" onclick="App.displayViewMedicine()">Home</button>
+                            <button type="button" class="btn btn-dark featuredBtn" id= "btn1" onclick="App.displayAddMedicine()">ADD Medicines</button>
+              
+                            <button type="button" class="btn btn-dark featuredBtn" id= "btn3" onclick="App.displayEditMedicine()">Edit Medicines</button>
+                            <button type="button" class="btn btn-dark featuredBtn" id= "btn4" onclick="App.displayDeleteMedicine()">Delete Medicines</button>
+              
+                            
+                        </div>
+                    </div>
+                    <div class="sb-sidenav-footer">
+                        <div class="small">Logged in as: <span id="username"> </span></div>
+                        
+                    </div>
+                </nav>
+            </div>
+            <div id="layoutSidenav_content">
+                <main>
+                    <div class="container-fluid">
+                        <h1 class="mt-4">Manufacturer Dashboard</h1>
+                         
+                            <div class="card-body">
+                                <div class="table-responsive">
+
+                                    <!-- Manufacturer Page -->
+                                    <div id="manufacturer" style="display: none;"> 
+      
+                                        <div class="container">
+                                         
+                                          <form onSubmit="App.addMedicine(); return false;">
+                                            
+                                            <table class="table table-bordered" id="dataTablePending" width="100%" cellspacing="0">
+                                                       
+                                              <tr>
+                                                <td>Manufacturer</td>
+                                                <td><p id="accountAddress" class="text-center"></p></td>
+                                              </tr>
+                                              <tr>
+                                                <td>Medicine Name</td>
+                                                <td><input type="text" class="form-control" id="addmedname"></td>
+                                              </tr>
+                                              <tr>
+                                                <td>Batch No</td>
+                                                <td><input type="text" class="form-control" id="addbatchno"></td>
+                                              </tr>
+                                              <tr>
+                                                <td>Date of Manufacture</td>
+                                                <td><input type="date" class="form-control" id="addmanfdate"></td>
+                                              </tr>
+                                              <tr>
+                                                <td>Date of Expiry</td>
+                                                <td><input type="date" class="form-control" id="addexpdate"></td>
+                                              </tr>
+                                              <tr>
+                                                <td>Category</td>
+                                                <td>
+                                                  <select class="form-control" id="addcategory">
+                                                    <option value="Analgesics" selected>Analgesics</option> 
+                                                    <option value="Antacids">Antacids</option>
+                                                    <option value="Antiarrhythmics">Antiarrhythmics</option>
+                                                    <option value="Antibacterials">Antibacterials</option>
+                                                    <option value="Antibiotics">Antibiotics</option>
+                                                    <option value="Anticonvulsants">Anticonvulsants</option>
+                                                    <option value="Antidepressants">Antidepressants</option>
+                                                    <option value="Antidiarrheals">Antidiarrheals</option>
+                                                    <option value="Antiemetics">Antiemetics</option>
+                                                    <option value="Antifungals">Antifungals</option>
+                                                    <option value="Antihistamines">Antihistamines</option>
+                                                    <option value="Antihypertensives">Antihypertensives</option>
+                                                    <option value="Antineoplastics">Antineoplastics</option>
+                                                    <option value="Antipsychotics">Antipsychotics</option>
+                                                  </select>
+                                                </td>
+                                              </tr>
+                                              <tr>
+                                                <td>Price</td>
+                                                <td><input type="number" class="form-control" id="addprice"></td>
+                                              </tr>
+                                              <tr>
+                                                <td>Quantity</td>
+                                                <td><input type="number" class="form-control" id="addquantity"></td>
+                                              </tr>
+                                              <tr >
+                                                <td colspan="2" align="center">
+                                                <button class="btn btn-primary">Add Medicine</button>
+                                              </td>
+                                              </tr>
+                                            </table> 
+                                          </form>
+                                        </div>       
+                                    </div>
+                                    <!-- Manufacturer Page Ends -->
+
+                                    <!-- Display Medicines Page -->
+                                    <div id="display" style="display: none;">            
+        
+                                        <div class="container">          
+                                            <table class="table table-bordered" id="dataTablePending" width="100%" cellspacing="0">
+                                               
+                                                <tr>
+                                                  <th>No</th>
+                                                  <th>Medicine Name</th>
+                                                  <th>Manufacturer</th>
+                                                  <th>Expiry Date</th>
+                                                  <th>Category</th>                  
+                                                  <th>Price</th>
+                                                  <th>Quantity</th>
+                                                </tr>
+                                              
+                                              <tbody id="displayItem">
+                                               
+                                              </tbody>
+                                              
+                                            </table>         
+                                        </div>
+                                    </div>
+                                    <!--Display Medicines End-->
+
+                                    <!-- EDIT Medicines by manufacurer Page -->
+                                    <div id="editmedicine" style="display: none;">            
+         
+                                        <div class="container">  
+                                            <form onSubmit="App.updateMedicine(); return false;">        
+                                                <table class="table table-bordered" id="dataTablePending" width="100%" cellspacing="0">
+              
+             
+                                                    <tr>
+                                                        <td>Select Medicine </td>
+                                                        <td><select class="form-control" id="medicineSelectEdit" onchange="App.selectedMedicineIDEdit();" ></select></td>
+                                                    </tr> 
+                                                    <tr>
+                                                        <td>Manufacturer</td>
+                                                        <td><p id="accountAddress" class="text-center"></p></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Medicine Name</td>
+                                                        <td><input type="text" class="form-control" id="editmedname"></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Batch No</td>
+                                                        <td><input type="text" class="form-control" id="editbatchno"></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Date of Manufacture</td>
+                                                        <td><input type="date" class="form-control" id="editmanfdate"></td>
+                                                    </tr>
+                                                    <tr>
+                                                         <td>Date of Expiry</td>
+                                                        <td><input type="date" class="form-control" id="editexpdate"></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Category</td>
+                                                        <td>
+                                                            <select class="form-control" id="editcategory">
+                                                            <option value="Analgesics" selected>Analgesics</option> 
+                                                            <option value="Antacids">Antacids</option>
+                                                            <option value="Antiarrhythmics">Antiarrhythmics</option>
+                                                            <option value="Antibacterials">Antibacterials</option>
+                                                            <option value="Antibiotics">Antibiotics</option>
+                                                            <option value="Anticonvulsants">Anticonvulsants</option>
+                                                            <option value="Antidepressants">Antidepressants</option>
+                                                            <option value="Antidiarrheals">Antidiarrheals</option>
+                                                            <option value="Antiemetics">Antiemetics</option>
+                                                            <option value="Antifungals">Antifungals</option>
+                                                            <option value="Antihistamines">Antihistamines</option>
+                                                            <option value="Antihypertensives">Antihypertensives</option>
+                                                            <option value="Antineoplastics">Antineoplastics</option>
+                                                            <option value="Antipsychotics">Antipsychotics</option>
+                                                            </select>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Price</td>
+                                                        <td><input type="number" class="form-control" id="editprice"></td>
+                                                    </tr>             
+                                                    <tr>
+                                                        <td colspan="2" align="center">
+                                                            <button class="btn btn-primary">Update</button>
+                                                        </td>
+                                                    </tr>
+                                                               
+                                                </table> 
+                                            </form>        
+                                        </div>
+                                    </div>
+                                    <!-- Edit  Medicines by manufacturer Page Ends -->
+
+                                    <!-- Delete Medicines by manufacurer Page -->
+                                    <div id="deletemedicine" style="display: none;">            
+         
+                                        <div class="container">  
+                                            <form onSubmit="App.deleteMedicine(); return false;">        
+                                                <table class="table table-bordered" id="dataTablePending" width="100%" cellspacing="0">
+               
+             
+                                                    <tr>
+                                                        <td>Select Medicine </td>
+                                                        <td><select class="form-control" id="medicineSelectDelete"></select></td>
+                                                    </tr> 
+               
+                                                    <tr >
+                                                        <td colspan="2" align="center">
+                                                            <button class="btn btn-danger">Delete</button>
+                                                         </td>
+                                                    </tr>
+                      
+                                                </table> 
+                                            </form>        
+                                        </div>
+                                    </div>
+                                    <!-- Delete Medicines by manufacturer Page Ends -->
+
+                                </div>
+                            </div>
+                        
+                    </div>
+                </main>
+                <footer class="py-4 bg-light mt-auto">
+                    <div class="container-fluid">
+                        <div class="d-flex align-items-center justify-content-between small">
+                            <div class="text-muted">Copyright &copy; pharmaCare</div>
+                            
+                        </div>
+                    </div>
+                </footer>
+            </div>
+        </div>
+        <script>
+            var btnContainer = document.getElementById("nav");
+
+// // Get all buttons with class="btn" inside the container
+// var btns = btnContainer.getElementsByClassName("btn");
+
+// // Loop through the buttons and add the active class to the current/clicked button
+// for (var i = 0; i < btns.length; i++) {
+//   btns[i].addEventListener("click", function() {
+//     var current = document.getElementsByClassName("active");
+//     current[0].className = current[0].className.replace(" active", "");
+//     this.className += " active";
+//   });
+// }
+          </script>
+        <script src="../js/jquery-1.12.4.min.js"></script> 
+        <!--bootstrap js--> 
+        <script src="../js/bootstrap.min.js"></script> 
+        <script src="../js/bootstrap-select.min.js"></script>
+        
+        <script src="https://cdn.jsdelivr.net/gh/ethereum/web3.js/dist/web3.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
+        <script src="../js/truffle-contract.js"></script>
+        <script type="text/javascript" src="js/scripts.js"></script>
+        
+    </body>
+</html>
