@@ -82,8 +82,9 @@
                                             <th>Category</th>                  
                                             <th>Price</th>
                                             <th>Available Qty</th>
-                                            <th>Buy</th>
+                                            <th>Add to Cart</th>
                                             <th>Track</th>
+                                            <th>View Certificate</th>
                                           </tr>
                                                    
                                            <tbody id="displayMedicine">            
@@ -118,14 +119,84 @@
               
           
         </table> 
+
+        
            
     </div>
-  </div>
+    <div class="container">  
+             
+        <table class="table table-bordered" width="100%" cellspacing="0">   
+ 
+          
+           <tr>
+             <th>No</th>
+             <th>Medicine Name</th>
+             <th>Manufacturer</th>
+             <th>Expiry Date</th>
+             <th>Category</th>                  
+             <th>Price</th>
+             <th>Available Qty</th>
+             <th>Buying Qty</th>
+             
+           </tr>
+                    
+            <tbody id="displayMedicineforBuy">            
+            </tbody>
+              
+          
+        </table> 
+
+        
+           
+    </div>
+  <!-- </div>
+  <div id="trackdisplay">
+</div> -->
+
  
  <!-- Distributor Buy Medicine Page end-->
                                 
                                 
                             </div>
+                            <!-- Button trigger modal -->
+<!-- <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
+    Launch demo modal
+  </button> -->
+  
+  <!-- Modal -->
+  <!-- <div class="modal fade " id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Medicine Tracking Details</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+            <div id="trackdisplay">
+            </div>
+        </div>
+       
+      </div>
+    </div>
+  </div> -->
+  <div class="modal fade" id="exampleModalLong" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLongTitle">Medicine Tracking Details</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+            <div id="trackdisplay">
+            </div>
+        </div>
+        
+    </div>
+  </div>
                         </div>
                     
                 </main>

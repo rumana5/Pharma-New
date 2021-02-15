@@ -8,7 +8,7 @@ contract Medicine {
   struct Med {
     uint id;    
     string medname;
-    string manufaname;
+    address manufaname;
     string batchNo;
     string manufadate;
     string expdate;
@@ -23,21 +23,38 @@ contract Medicine {
     string role;
     string approved;    
   }
+  
   mapping(address => User) public users;
   address[] public addresses;
+
+   // event 
+    event updatedMedicine (
+        uint  id,    
+        string medname,
+        address manufaname,
+        string batchNo,
+        string manufadate,
+        string expdate,
+        string category,
+        //uint price,
+        uint quantity      
+    );
+
   constructor() public {  
     admin=msg.sender;    
   }
 
- function addMedicine (string memory _medname,string memory _manufaname,string memory  _batchNo,string memory _manufadate,string memory _expdate,string memory _category,uint _price,uint _quantity) public {
+ function addMedicine (string memory _medname,address _manufaname,string memory  _batchNo,string memory _manufadate,string memory _expdate,string memory _category,uint _price,uint _quantity) public {
         medicineCount ++;
         medicines[medicineCount] = Med(medicineCount, _medname,_manufaname,_batchNo, _manufadate,_expdate,_category,_price,_quantity);
         //emit addedProduct(productCount,msg.sender,_name,_date,_time,_productinfo);
+        emit updatedMedicine(medicineCount, _medname,_manufaname,_batchNo, _manufadate,_expdate,_category,_quantity);
     }
-  function updateMedicine (uint _id,string memory _medname,string memory _manufaname,string memory  _batchNo,string memory _manufadate,string memory _expdate,string memory _category,uint _price) public {
+  function updateMedicine (uint _id,string memory _medname,address _manufaname,string memory  _batchNo,string memory _manufadate,string memory _expdate,string memory _category,uint _price) public {
         uint _quanity=medicines[_id].quantity;
         medicines[_id] = Med(_id, _medname,_manufaname,_batchNo, _manufadate,_expdate,_category,_price,_quanity);
         //emit addedProduct(productCount,msg.sender,_name,_date,_time,_productinfo);
+        emit updatedMedicine(medicineCount, _medname,_manufaname,_batchNo, _manufadate,_expdate,_category,_quanity);
     } 
   function deleteMedicine (uint _id) public {
       delete(medicines[_id]);
@@ -61,12 +78,13 @@ contract Medicine {
     function buyMedicineByDistributer(uint _id,uint _qty) public  {
       uint _quanity=medicines[_id].quantity-_qty;
       string memory _medname=medicines[_id].medname;
-      string memory _manufaname=medicines[_id].manufaname;
+      address _manufaname=medicines[_id].manufaname;
       string memory _batchNo=medicines[_id].batchNo;
       string memory _manufadate=medicines[_id].manufadate;
       string memory _expdate=medicines[_id].expdate;
       string memory _category=medicines[_id].category;
       uint _price=medicines[_id].price;      
       medicines[_id] = Med(_id, _medname,_manufaname,_batchNo,_manufadate,_expdate,_category,_price,_quanity);
+      emit updatedMedicine(_id, _medname,msg.sender,_batchNo, _manufadate,_expdate,_category,_quanity);
     }
 }

@@ -2,6 +2,7 @@ App = {
     web3Provider: null,
     contracts: {},
     manfdisplay:1,
+    allblocks:[],
     
     load: async function () {
         return await App.initWeb3();
@@ -60,6 +61,7 @@ App = {
   
       // Hydrate the smart contract with values from the blockchain
       App.medicine = await App.contracts.Medicine.deployed()
+      App.listenForEvents();
 
       return App.render();
     },
@@ -112,10 +114,12 @@ App = {
           var displayItem = $('#displayItem');
           displayItem.empty();
           var count= await App.medicine.medicineCount();
+          console.log(count+"hi");
           for (var i = 1; i <= count; i++) {
             var medicine=await App.medicine.medicines(i);
             var accountaddrees=medicine[2];
-            if(accountaddrees.localeCompare(App.account)==0){
+            console.log(accountaddrees + "bye" + App.account);
+            if(accountaddrees.toUpperCase().localeCompare(App.account.toUpperCase())==0){
               console.log("match found");
             var id=medicine[0];
             var medname=medicine[1];  
@@ -172,6 +176,35 @@ App = {
       $("#addprice").val('');
       alert("Product Added successfully"); 
     },
+
+    //Listen for events emitted from the contract
+listenForEvents:async  function() {   
+  var instance=await App.contracts.Medicine.deployed();
+
+    instance.getPastEvents("updatedMedicine", { fromBlock: 0 }).then((events) => {
+      //window.alert("previous event");
+      App.allblocks.push(events);
+      
+    });
+    instance.contract.events.updatedMedicine({
+      filter: {}, // Using an array means OR: e.g. 20 or 23
+      fromBlock: 0,
+      toBlock: 'latest'
+  }, function(error, event){ //console.log(event); 
+  })
+  .on('data', function(event){
+      //console.log(event); // same results as the optional callback above
+      //window.alert("event cPTURD");
+      App.allblocks.push(event); 
+      console.log(App.allblocks);
+  })
+  .on('changed', function(event){
+      // remove event from local database
+      window.alert("event on Changed");
+  })
+  .on('error', console.error);
+},
+
     displayAddMedicine:async ()=>{
       App.manfdisplay=0;
       await App.render();
@@ -192,7 +225,7 @@ App = {
         console.log("Check select option"+i);
         var medicine=await App.medicine.medicines(i);
         var accountaddrees=medicine[2];
-        if(accountaddrees.localeCompare(App.account)==0){
+        if(accountaddrees.toUpperCase().localeCompare(App.account.toUpperCase())==0){
           console.log("match found");
           var id=medicine[0];
           var str = "<option value='" + id + "' >" + id + "</ option>";
@@ -218,7 +251,7 @@ App = {
       for (var i = 1; i <= count; i++) {      
         var medicine=await App.medicine.medicines(i);
         var accountaddrees=medicine[2];
-        if(accountaddrees.localeCompare(App.account)==0){        
+        if(accountaddrees.toUpperCase().localeCompare(App.account.toUpperCase())==0){        
           var id=medicine[0];
           var str = "<option value='" + id + "' >" + id + "</ option>";        
           medicineSelectDelete.append(str);       
