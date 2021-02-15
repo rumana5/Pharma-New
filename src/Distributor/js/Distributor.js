@@ -3,6 +3,7 @@ App = {
   contracts: {},
   metamaskAccountID: "0x0000000000000000000000000000000000000000",
   admindisplay:2,
+  allblocks:[],
   
   load: async function () {
       
@@ -78,6 +79,7 @@ App = {
 
     // Hydrate the smart contract with values from the blockchain
     App.medicine = await App.contracts.Medicine.deployed()
+    App.listenForEvents();
 
     return App.render();
   },
@@ -107,7 +109,7 @@ App = {
          var category=medicine[6];
          var price=medicine[7];
          var available_Qty=medicine[8];
-         var str = "<tr><td>" + id +"</td><td>"+medname+"</td><td>"+manfact+"</td><td>"+expdate+"</td><td>"+category+"</td><td>"+price+"</td><td>"+available_Qty+"</td><td><button class='btn btn-info' onclick='App.buyMedicineByDistributer(`"+id+"`)'>Buy</button></td><td><button class='btn btn-info'>Track</button></td></tr>";
+         var str = "<tr><td>" + id +"</td><td>"+medname+"</td><td>"+manfact+"</td><td>"+expdate+"</td><td>"+category+"</td><td>"+price+"</td><td>"+available_Qty+"</td><td><a href='../Cart/index.html'><button class='btn btn-info'>Add</button></a></td><td><button class='btn btn-info' data-toggle='modal' data-target='#exampleModalLong' onclick='App.trackMedicineByDistributer(`"+id+"`)'>Track</button></td><td><button class='btn btn-info'>View</button></td></tr>";
          $("#displayMedicine").append(str); 
     }
             
@@ -145,6 +147,67 @@ App = {
      distributorpage.hide();
      distributorBuypage.show();
 },
+
+//Listen for events emitted from the contract
+listenForEvents:async  function() {   
+  var instance=await App.contracts.Medicine.deployed();
+
+    instance.getPastEvents("updatedMedicine", { fromBlock: 0 }).then((events) => {
+      //window.alert("previous event");
+      App.allblocks.push(events);
+      
+    });
+    instance.contract.events.updatedMedicine({
+      filter: {}, // Using an array means OR: e.g. 20 or 23
+      fromBlock: 0,
+      toBlock: 'latest'
+  }, function(error, event){ //console.log(event); 
+  })
+  .on('data', function(event){
+      //console.log(event); // same results as the optional callback above
+      //window.alert("event cPTURD");
+      App.allblocks.push(event); 
+      console.log(App.allblocks);
+  })
+  .on('changed', function(event){
+      // remove event from local database
+      window.alert("event on Changed");
+  })
+  .on('error', console.error);
+},
+
+trackMedicineByDistributer:async (id)=>{
+  //window.alert("Tracking ID"+id); 
+  //console.log("Tracking");
+   // console.log(App.allblocks[0]) ;
+    // trackdisplay=$("#trackdisplay");
+    var id=parseInt(id);  
+    var medicine=await App.medicine.medicines(id); 
+    $("#trackdisplay").empty();
+    // console.log(App.allblocks);
+    var user=await App.medicine.users(medicine[2]);
+    var manfact=user.name;
+    console.log(manfact);
+    
+    for(var i=0;i<App.allblocks[0].length;i++){
+      
+      var block= App.allblocks[0][i];
+      //window.alert(block);
+      //console.log("Tracking");
+      //.log(block.args[0].toNumber());
+      if(block.args[0].toNumber()==id)
+      {    
+        var str="<table class='table table-bordered' width='100%' cellspacing='0'><tr><th>Medicine Name</th><td>"+block.args[1].toString()+"</td></tr><tr><th>Manufacturer Name</th><td>"+manfact+"</td></tr> <tr><th>Manufacturer Address</th><td>"+block.args[2].toString()+"</td></tr><tr><th>Batch No</th><td>"+block.args[3].toString()+"</td></tr><tr><th>Manufacture Date</th><td>"+block.args[4].toString()+"</td></tr><tr><th>Expiry Date</th><td>"+block.args[5].toString()+"</td></tr><tr><th>Category</th><td>"+block.args[6].toString()+"</td></tr><tr><th>Qty</th><td>"+block.args[7].toNumber().toString()+"</td> </table>";
+          console.log(str);
+          console.log("Tracking") ;
+          console.log(block)   ; 
+          $("#trackdisplay").append(str);                                                    
+      } 
+  }
+  
+},
+
+
 proceedToBuyByDistributer: async (id)=>{
   var inputqty=parseInt($("#buyingQtyByDistr").val());
   //window.alert(inputqty);
