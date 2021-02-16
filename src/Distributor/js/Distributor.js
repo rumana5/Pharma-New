@@ -91,14 +91,12 @@ App = {
 
     $("#displayMedicine").empty();
     var count= await App.medicine.medicineCount();
-    console.log(count);
     var user=await App.medicine.users(App.account);
     var username=user.name;
     $("[id='user']").html(username);
 
     for (var i = 1; i <= count; i++) {
        var medicine=await App.medicine.medicines(i);
-       console.log(medicine);
        var accountaddrees=medicine[2];
         var id=medicine[0];
          var medname=medicine[1];  
@@ -109,7 +107,7 @@ App = {
          var category=medicine[6];
          var price=medicine[7];
          var available_Qty=medicine[8];
-         var str = "<tr><td>" + id +"</td><td>"+medname+"</td><td>"+manfact+"</td><td>"+expdate+"</td><td>"+category+"</td><td>"+price+"</td><td>"+available_Qty+"</td><td><a href='../Cart/index.html'><button class='btn btn-info'>Add</button></a></td><td><button class='btn btn-info' data-toggle='modal' data-target='#exampleModalLong' onclick='App.trackMedicineByDistributer(`"+id+"`)'>Track</button></td><td><button class='btn btn-info'>View</button></td></tr>";
+         var str = "<tr><td>" + id +"</td><td>"+medname+"</td><td>"+manfact+"</td><td>"+expdate+"</td><td>"+category+"</td><td>"+price+"</td><td>"+available_Qty+"</td><td><a href='../Cart/index.html'><button class='btn btn-info'>Add</button></a></td><td><button class='btn btn-info' data-toggle='modal' data-target='#exampleModalLong' onclick='App.trackMedicineByDistributer(`"+id+"`)'>Track</button></td><td><button class='btn btn-info' onclick='App.viewCertificate()'>View</button></td></tr>";
          $("#displayMedicine").append(str); 
     }
             
@@ -167,7 +165,6 @@ listenForEvents:async  function() {
       //console.log(event); // same results as the optional callback above
       //window.alert("event cPTURD");
       App.allblocks.push(event); 
-      console.log(App.allblocks);
   })
   .on('changed', function(event){
       // remove event from local database
@@ -187,7 +184,6 @@ trackMedicineByDistributer:async (id)=>{
     // console.log(App.allblocks);
     var user=await App.medicine.users(medicine[2]);
     var manfact=user.name;
-    console.log(manfact);
     
     for(var i=0;i<App.allblocks[0].length;i++){
       
@@ -198,9 +194,7 @@ trackMedicineByDistributer:async (id)=>{
       if(block.args[0].toNumber()==id)
       {    
         var str="<table class='table table-bordered' width='100%' cellspacing='0'><tr><th>Medicine Name</th><td>"+block.args[1].toString()+"</td></tr><tr><th>Manufacturer Name</th><td>"+manfact+"</td></tr> <tr><th>Manufacturer Address</th><td>"+block.args[2].toString()+"</td></tr><tr><th>Batch No</th><td>"+block.args[3].toString()+"</td></tr><tr><th>Manufacture Date</th><td>"+block.args[4].toString()+"</td></tr><tr><th>Expiry Date</th><td>"+block.args[5].toString()+"</td></tr><tr><th>Category</th><td>"+block.args[6].toString()+"</td></tr><tr><th>Qty</th><td>"+block.args[7].toNumber().toString()+"</td> </table>";
-          console.log(str);
           console.log("Tracking") ;
-          console.log(block)   ; 
           $("#trackdisplay").append(str);                                                    
       } 
   }
@@ -227,20 +221,33 @@ proceedToBuyByDistributer: async (id)=>{
 
 },
 
-  viewCertificate:async ()=>{
-    $.ajax({
-      url: "https://app.certificateok.de/api/certificate/0xaF7eD4e8e423F81d1F543eC5eFc382943121129e",
-      contentType: "application/json",
-      type: 'GET',
-      dataType: 'json',
-      success: function (response) {
-          var data = response.results;
-          console.log(data);
-      }
-  });
+viewCertificate:async ()=>{
+  var certificateAddress= "0xaF7eD4e8e423F81d1F543eC5eFc382943121129e";
+  var baseURL = "https://app.certificateok.de/api/certificate/";
+
+  $.ajax({
+    url: baseURL + certificateAddress,
+    contentType: "application/json",
+    type: 'GET',
+    dataType: 'application/json',
+
+    success: function (response) {
+      console.log("sucess");
+        var data = response.results;
+        console.log(data);
+        var jsondata = JSON.parse(response);
+        console.log(jsondata[0].cbName);
+    },
+    
+    error: function(response){
+      console.log("error");
+      var data = response.results;
+      console.log(data);
+   } 
+});
 
 }
- 
+
 };
 
 $(function () {
