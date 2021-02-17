@@ -107,11 +107,9 @@ App = {
          var category=medicine[6];
          var price=medicine[7];
          var available_Qty=medicine[8];
-         var str = "<tr><td>" + id +"</td><td>"+medname+"</td><td>"+manfact+"</td><td>"+expdate+"</td><td>"+category+"</td><td>"+price+"</td><td>"+available_Qty+"</td><td><a href='../Cart/index.html'><button class='btn btn-info'>Add</button></a></td><td><button class='btn btn-info' data-toggle='modal' data-target='#exampleModalLong' onclick='App.trackMedicineByDistributer(`"+id+"`)'>Track</button></td><td><button class='btn btn-info' onclick='App.viewCertificate()'>View</button></td></tr>";
+         var str = "<tr><td>" + id +"</td><td>"+medname+"</td><td>"+manfact+"</td><td>"+expdate+"</td><td>"+category+"</td><td>"+price+"</td><td>"+available_Qty+"</td><td><a href='../Cart/index.html'><button class='btn btn-info'>Add</button></a></td><td><button class='btn btn-info' data-toggle='modal' data-target='#exampleModalLong' onclick='App.trackMedicineByDistributer(`"+id+"`)'>Track</button></td><td><button class='btn btn-info' data-toggle='modal' data-target='#exampleModalLong1' onclick='App.viewCertificate()'>View</button></td></tr>";
          $("#displayMedicine").append(str); 
-    }
-            
-
+    }          
   },
 
   buyMedicineByDistributer:async (id)=>{
@@ -226,24 +224,38 @@ viewCertificate:async ()=>{
   var baseURL = "https://app.certificateok.de/api/certificate/";
 
   $.ajax({
-    url: baseURL + certificateAddress,
-    contentType: "application/json",
-    type: 'GET',
-    dataType: 'application/json',
 
-    success: function (response) {
-      console.log("sucess");
-        var data = response.results;
-        console.log(data);
-        var jsondata = JSON.parse(response);
-        console.log(jsondata[0].cbName);
-    },
+      url: "https://app.certificateok.de/api/certificate/0x2fcd5be391Beb9Ce874b117fD3D50cCBA172C2bB",
+      method:"GET"
+  
+    }).done(function(data){
+      $('#main').empty();
+      for (const [key, value] of Object.entries(data)) {
+      $("#main").append("<div>" + `${key}: ${value}` + "</div>");
+   
+    }
+    }).fail(function(err){
+      console.log({err});
+  
+
+  //   url: baseURL + certificateAddress,
+  //   contentType: "application/json",
+  //   type: 'GET',
+  //   dataType: 'application/json',
+
+  //   success: function (response) {
+  //     console.log("sucess");
+  //       var data = response.results;
+  //       console.log(data);
+  //       var jsondata = JSON.parse(response);
+  //       console.log(jsondata[0].cbName);
+  //   },
     
-    error: function(response){
-      console.log("error");
-      var data = response.results;
-      console.log(data);
-   } 
+  //   error: function(response){
+  //     console.log("error");
+  //     var data = response.results;
+  //     console.log(data);
+  //  } 
 });
 
 }
