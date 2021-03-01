@@ -80,8 +80,9 @@ App = {
     // Hydrate the smart contract with values from the blockchain
     App.medicine = await App.contracts.Medicine.deployed()
     App.listenForEvents();
-
-    return App.render();
+    
+    await App.render();
+    loadcart();
   },
 
   render: async () => {
@@ -107,9 +108,14 @@ App = {
          var category=medicine[6];
          var price=medicine[7];
          var available_Qty=medicine[8];
-         var str = "<tr><td>" + id +"</td><td>"+medname+"</td><td>"+manfact+"</td><td>"+expdate+"</td><td>"+category+"</td><td>"+price+"</td><td>"+available_Qty+"</td><td><a href='../Cart/index.html'><button class='btn btn-info'>Add</button></a></td><td><button class='btn btn-info' data-toggle='modal' data-target='#exampleModalLong' onclick='App.trackMedicineByDistributer(`"+id+"`)'>Track</button></td><td><button class='btn btn-info' data-toggle='modal' data-target='#exampleModalLong1' onclick='App.viewCertificate()'>View</button></td></tr>";
+        //  var str = "<tr><td>" + id +"</td><td>"+medname+"</td><td>"+manfact+"</td><td>"+expdate+"</td><td>"+category+"</td><td>"+price+"</td><td>"+available_Qty+"</td><td><a href='../Cart/index.html'><button class='btn btn-info'>Add</button></a></td><td><button class='btn btn-info' data-toggle='modal' data-target='#exampleModalLong' onclick='App.trackMedicineByDistributer(`"+id+"`)'>Track</button></td><td><button class='btn btn-info' data-toggle='modal' data-target='#exampleModalLong1' onclick='App.viewCertificate()'>View</button></td></tr>";
+        //  $("#displayMedicine").append(str); 
+        var btn=`<a href='#0' class='cd-add-to-cart js-cd-add-to-cart btn btn-info' data-price=${price} med-name=${medname} med-id=${id}>Add To Cart</a>  <div class='cd-cart cd-cart--empty js-cd-cart'><a href='#0' class='cd-cart__trigger text-replace'> Cart  <ul class='cd-cart__count'> <li>0</li><li>0</li> </ul> </a><div class='cd-cart__content'> <div class='cd-cart__layout'><header class='cd-cart__header'> <h2>Cart</h2> <span class='cd-cart__undo'>Item removed. <a href='#0'>Undo</a></span>  </header>  <div class='cd-cart__body'> <ul>  </ul>  </div>   <footer class='cd-cart__footer'>  <a style='cursor: pointer;' onclick='App.proceedToBuyByDistributer()' class='cd-cart__checkout'><em>Checkout - $<span>0</span> <svg class='icon icon--sm' viewBox='0 0 24 24'><g fill='none' stroke='currentColor'><line stroke-width='2' stroke-linecap='round' stroke-linejoin='round' x1='3' y1='12' x2='21' y2='12'/><polyline stroke-width='2' stroke-linecap='round' stroke-linejoin='round' points='15,6 21,12 15,18 '/></g>  </svg>  </em>  </a> </footer>  </div></div>  </div> `;
+         var str = "<tr><td>" + id +"</td><td>"+medname+"</td><td>"+manfact+"</td><td>"+expdate+"</td><td>"+category+"</td><td>"+price+"</td><td>"+available_Qty+"</td><td>"+btn+"</td><td><button class='btn btn-info' data-toggle='modal' data-target='#exampleModalLong' onclick='App.trackMedicineByDistributer(`"+id+"`)'>Track</button></td><td><button class='btn btn-info' onclick='App.viewCertificate()'>View</button></td></tr>";
          $("#displayMedicine").append(str); 
-    }          
+    }      
+    $("#distributermainpage").show(); 
+    $("#payemtsuccesspage").hide();    
   },
 
   buyMedicineByDistributer:async (id)=>{
@@ -129,19 +135,9 @@ App = {
      var str = "<tr><td>" + id +"</td><td>"+medname+"</td><td>"+manfact+"</td><td>"+expdate+"</td><td>"+category+"</td><td>"+price+"</td><td>"+available_Qty+"</td><td><input type='number' class='form-control' id='buyingQtyByDistr'></td></tr><tr>"+
      "<td colspan='8' align='center'><button type='button' class='btn btn-primary' onclick='App.proceedToBuyByDistributer(`"+id+"`)' >Procced to Buy</button></td></tr>";
      $("#displayMedicineforBuy").append(str); 
-     var home = $("#home");  
-      var adminpage = $("#adminpage");  
-      var register = $("#register");   
-      var manufacturer =$("#manufacturer");
-      var display =$("#display");
-      var editpage=$("#editmedicine");
-      var deletemedicinepage=$("#deletemedicine");
-      var crudOperation = $("#btnFun");
-      var distributorpage=$('#distributorpage');
-      var distributorBuypage=$('#distributorBuypage');
-    
-     distributorpage.hide();
-     distributorBuypage.show();
+  
+      $('#distributorpage').hide();
+      $('#distributorBuypage').show();
 },
 
 //Listen for events emitted from the contract
@@ -201,22 +197,57 @@ trackMedicineByDistributer:async (id)=>{
 
 
 proceedToBuyByDistributer: async (id)=>{
-  var inputqty=parseInt($("#buyingQtyByDistr").val());
-  //window.alert(inputqty);
-  var id=parseInt(id);      
-  var medicine=await App.medicine.medicines(id);       
-  var id=medicine[0];     
-  var price=parseInt(medicine[7]);
-  var available_Qty=parseInt(medicine[8]);
-  if(inputqty>available_Qty){
-    window.alert("Quatity Not Avilable To Buy");
-  }
-  else{
-    window.alert("Puchased "+inputqty*price);
-    await App.medicine.buyMedicineByDistributer(id,inputqty, { from: App.account }); 
-    await App.render();
-  }
+  var cart = document.getElementsByClassName('js-cd-cart');
+  var cartTotal = cart[0].getElementsByClassName('cd-cart__checkout')[0].getElementsByTagName('span')[0].innerText;    
+  $("#distributermainpage").hide(); 
+  $("#payemtsuccesspage").show();
+  //window.alert("purchased")   ;
+  $("#totalamountforcreditcard").append(cartTotal);
 
+},
+
+completepaymentbyDistributer: async ()=>{
+  //var inputqty=parseInt($("#buyingQtyByDistr").val());
+//window.alert(inputqty);
+//var id=parseInt(id); 
+var cart = document.getElementsByClassName('js-cd-cart');
+if(cart.length > 0) {
+  var cartAddBtns = document.getElementsByClassName('js-cd-add-to-cart'),
+  cartBody = cart[0].getElementsByClassName('cd-cart__body')[0],
+  cartList = cartBody.getElementsByTagName('ul')[0],
+  cartListItems = cartList.getElementsByClassName('cd-cart__product'),
+  cartTotal = cart[0].getElementsByClassName('cd-cart__checkout')[0].getElementsByTagName('span')[0],
+  cartCount = cart[0].getElementsByClassName('cd-cart__count')[0],
+  cartCountItems = cartCount.getElementsByTagName('li'),
+  cartUndo = cart[0].getElementsByClassName('cd-cart__undo')[0];
+}
+var products = cartList.getElementsByClassName('cd-cart__body');
+
+//console.log(cartListItems);
+var total_amount=0;
+    for(var i = 0; i < cartListItems.length; i++) {         
+        var Quantity = cartListItems[i].getElementsByTagName('select')[0].value;
+        console.log("quantiy="+Quantity);            
+       var  price1 =cartListItems[i].getElementsByClassName('cd-cart__price')[0].innerText;
+       console.log("price="+price1);       
+       var  medicineId =cartListItems[i].getElementsByClassName('med-id-cart')[0].innerText;
+       console.log("Medicine Id="+medicineId); 
+        var medicine=await App.medicine.medicines(parseInt(medicineId));       
+        var id=medicine[0];  
+        var inputqty=parseInt(Quantity)   
+        var price=parseInt(medicine[7]);
+        var available_Qty=parseInt(medicine[8]);
+        if(inputqty>available_Qty){
+          window.alert("Quatity Not Avilable To Buy");
+        }
+        else{
+          window.alert("Transaction for amount= "+inputqty*price);
+          total_amount+=inputqty*price;
+          await App.medicine.buyMedicineByDistributer(id,inputqty, { from: App.account });               
+        } 
+    }
+    window.alert("Completed successfully");
+    await App.render();
 },
 
 viewCertificate:async ()=>{
@@ -287,5 +318,210 @@ $(function () {
         $("body").toggleClass("sb-sidenav-toggled");
     });
 })(jQuery);
+
+function loadcart(){
+  // Add to Cart Interaction - by CodyHouse.co
+  //window.alert("initial");
+  var cart = document.getElementsByClassName('js-cd-cart');
+  if(cart.length > 0) {
+  	var cartAddBtns = document.getElementsByClassName('js-cd-add-to-cart'),
+  		cartBody = cart[0].getElementsByClassName('cd-cart__body')[0],
+  		cartList = cartBody.getElementsByTagName('ul')[0],
+  		cartListItems = cartList.getElementsByClassName('cd-cart__product'),
+  		cartTotal = cart[0].getElementsByClassName('cd-cart__checkout')[0].getElementsByTagName('span')[0],
+  		cartCount = cart[0].getElementsByClassName('cd-cart__count')[0],
+  		cartCountItems = cartCount.getElementsByTagName('li'),
+  		cartUndo = cart[0].getElementsByClassName('cd-cart__undo')[0],
+  		productId = 0, //this is a placeholder -> use your real product ids instead
+  		cartTimeoutId = false,
+  		animatingQuantity = false;
+		initCartEvents();
+
+
+		function initCartEvents() {
+			// add products to cart
+			for(var i = 0; i < cartAddBtns.length; i++) {(function(i){
+				cartAddBtns[i].addEventListener('click', addToCart);
+			})(i);}
+
+			// open/close cart
+			cart[0].getElementsByClassName('cd-cart__trigger')[0].addEventListener('click', function(event){
+				event.preventDefault();
+				toggleCart();
+			});
+			
+			cart[0].addEventListener('click', function(event) {
+				if(event.target == cart[0]) { // close cart when clicking on bg layer
+					toggleCart(true);
+				} else if (event.target.closest('.cd-cart__delete-item')) { // remove product from cart
+					event.preventDefault();
+					removeProduct(event.target.closest('.cd-cart__product'));
+				}
+			});
+
+			// update product quantity inside cart
+			cart[0].addEventListener('change', function(event) {
+				if(event.target.tagName.toLowerCase() == 'select') quickUpdateCart();
+			});
+
+			//reinsert product deleted from the cart
+			cartUndo.addEventListener('click', function(event) {
+				if(event.target.tagName.toLowerCase() == 'a') {
+					
+					event.preventDefault();
+					if(cartTimeoutId) clearInterval(cartTimeoutId);
+					// reinsert deleted product
+					var deletedProduct = cartList.getElementsByClassName('cd-cart__product--deleted')[0];
+					Util.addClass(deletedProduct, 'cd-cart__product--undo');
+					deletedProduct.addEventListener('animationend', function cb(){
+						deletedProduct.removeEventListener('animationend', cb);
+						Util.removeClass(deletedProduct, 'cd-cart__product--deleted cd-cart__product--undo');
+						deletedProduct.removeAttribute('style');
+						quickUpdateCart();
+					});
+					Util.removeClass(cartUndo, 'cd-cart__undo--visible');
+				}
+			});
+		};
+
+		function addToCart(event) {
+			//window.alert("clicked");
+      //console.log(event);
+			event.preventDefault();
+			if(animatingQuantity) return;
+			var cartIsEmpty = Util.hasClass(cart[0], 'cd-cart--empty');
+			//update cart product list
+      //console.log("checking name"+this);
+			addProduct(this,this.getAttribute('data-price'),this.getAttribute('med-name'),this.getAttribute('med-id'));
+			//update number of items 
+			updateCartCount(cartIsEmpty);
+			//update total price
+			updateCartTotal(this.getAttribute('data-price'), true);
+			//show cart
+			Util.removeClass(cart[0], 'cd-cart--empty');
+		};
+
+		function toggleCart(bool) { // toggle cart visibility
+			var cartIsOpen = ( typeof bool === 'undefined' ) ? Util.hasClass(cart[0], 'cd-cart--open') : bool;
+		
+			if( cartIsOpen ) {
+				Util.removeClass(cart[0], 'cd-cart--open');
+				//reset undo
+				if(cartTimeoutId) clearInterval(cartTimeoutId);
+				Util.removeClass(cartUndo, 'cd-cart__undo--visible');
+				removePreviousProduct(); // if a product was deleted, remove it definitively from the cart
+
+				setTimeout(function(){
+					cartBody.scrollTop = 0;
+					//check if cart empty to hide it
+					if( Number(cartCountItems[0].innerText) == 0) Util.addClass(cart[0], 'cd-cart--empty');
+				}, 500);
+			} else {
+				Util.addClass(cart[0], 'cd-cart--open');
+			}
+		};
+
+		function addProduct(target,price,medname,medid) {
+			// this is just a product placeholder
+			// you should insert an item with the selected product info
+			// replace productId, productName, price and url with your real product info
+			// you should also check if the product was already in the cart -> if it is, just update the quantity
+			productId = productId + 1;
+      //window.alert("check price="+price)
+      //var productAdded = '<li class="cd-cart__product"><div class="cd-cart__image"><a href="#0"><img src="assets/img/product-preview.png" alt="placeholder"></a></div><div class="cd-cart__details"><h3 class="truncate"><a href="#0">Product Name</a></h3><span class="cd-cart__price">'+price+'</span><div class="cd-cart__actions"><a href="#0" class="cd-cart__delete-item">Delete</a><div class="cd-cart__quantity"><label for="cd-product-'+ productId +'">Qty</label><span class="cd-cart__select"><select class="reset" id="cd-product-'+ productId +'" name="quantity"><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option><option value="6">6</option><option value="7">7</option><option value="8">8</option><option value="9">9</option></select><svg class="icon" viewBox="0 0 12 12"><polyline fill="none" stroke="currentColor" points="2,4 6,8 10,4 "/></svg></span></div></div></div></li>';
+      //Here you can increase number of quantity
+			var productAdded = '<li class="cd-cart__product"><div class="cd-cart__image"><a href="#0"><img src="assets/img/product-preview.png" alt="placeholder"></a></div><div class="cd-cart__details"><h3 class="truncate"><a href="#0">'+medname+'</a></h3><span class="med-id-cart" style="display: none;">'+medid+'</span><span class="cd-cart__price">'+price+'</span><div class="cd-cart__actions"><a href="#0" class="cd-cart__delete-item">Delete</a><div class="cd-cart__quantity"><label for="cd-product-'+ productId +'">Qty</label><span class="cd-cart__select"><select class="reset" id="cd-product-'+ productId +'" name="quantity"><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option><option value="6">6</option><option value="7">7</option><option value="8">8</option><option value="9">9</option></select><svg class="icon" viewBox="0 0 12 12"><polyline fill="none" stroke="currentColor" points="2,4 6,8 10,4 "/></svg></span></div></div></div></li>';
+			cartList.insertAdjacentHTML('beforeend', productAdded);
+      //console.log("Check full product"+cartList);
+		};
+
+		function removeProduct(product) {
+			if(cartTimeoutId) clearInterval(cartTimeoutId);
+			removePreviousProduct(); // prduct previously deleted -> definitively remove it from the cart
+			
+			var topPosition = product.offsetTop,
+				productQuantity = Number(product.getElementsByTagName('select')[0].value),
+				productTotPrice = Number((product.getElementsByClassName('cd-cart__price')[0].innerText).replace('$', '')) * productQuantity;
+
+			product.style.top = topPosition+'px';
+			Util.addClass(product, 'cd-cart__product--deleted');
+
+			//update items count + total price
+			updateCartTotal(productTotPrice, false);
+			updateCartCount(true, -productQuantity);
+			Util.addClass(cartUndo, 'cd-cart__undo--visible');
+
+			//wait 8sec before completely remove the item
+			cartTimeoutId = setTimeout(function(){
+				Util.removeClass(cartUndo, 'cd-cart__undo--visible');
+				removePreviousProduct();
+			}, 8000);
+		};
+
+		function removePreviousProduct() { // definitively removed a product from the cart (undo not possible anymore)
+			var deletedProduct = cartList.getElementsByClassName('cd-cart__product--deleted');
+			if(deletedProduct.length > 0 ) deletedProduct[0].remove();
+		};
+
+		function updateCartCount(emptyCart, quantity) {
+			if( typeof quantity === 'undefined' ) {
+				var actual = Number(cartCountItems[0].innerText) + 1;
+				var next = actual + 1;
+				
+				if( emptyCart ) {
+					cartCountItems[0].innerText = actual;
+					cartCountItems[1].innerText = next;
+					animatingQuantity = false;
+				} else {
+					Util.addClass(cartCount, 'cd-cart__count--update');
+
+					setTimeout(function() {
+						cartCountItems[0].innerText = actual;
+					}, 150);
+
+					setTimeout(function() {
+						Util.removeClass(cartCount, 'cd-cart__count--update');
+					}, 200);
+
+					setTimeout(function() {
+						cartCountItems[1].innerText = next;
+						animatingQuantity = false;
+					}, 230);
+				}
+			} else {
+				var actual = Number(cartCountItems[0].innerText) + quantity;
+				var next = actual + 1;
+				
+				cartCountItems[0].innerText = actual;
+				cartCountItems[1].innerText = next;
+				animatingQuantity = false;
+			}
+		};
+
+		function updateCartTotal(price, bool) {
+			cartTotal.innerText = bool ? (Number(cartTotal.innerText) + Number(price)).toFixed(2) : (Number(cartTotal.innerText) - Number(price)).toFixed(2);
+		};
+
+		function quickUpdateCart() {
+			var quantity = 0;
+			var price = 0;
+
+			for(var i = 0; i < cartListItems.length; i++) {
+				if( !Util.hasClass(cartListItems[i], 'cd-cart__product--deleted') ) {
+					var singleQuantity = Number(cartListItems[i].getElementsByTagName('select')[0].value);
+					quantity = quantity + singleQuantity;
+					price = price + singleQuantity*Number((cartListItems[i].getElementsByClassName('cd-cart__price')[0].innerText).replace('$', ''));
+				}
+			}
+
+			cartTotal.innerText = price.toFixed(2);
+			cartCountItems[0].innerText = quantity;
+			cartCountItems[1].innerText = quantity+1;
+		};
+    
+  }
+};
+
+
 
 
