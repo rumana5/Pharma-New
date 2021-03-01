@@ -3,6 +3,7 @@ App = {
   contracts: {},
   manfdisplay:0,
   admindisplay:1,
+  allblocks:[],
 
   load: async () => {
     await App.loadWeb3()
@@ -11,6 +12,105 @@ App = {
     await App.render()
   },
 
+  showProductPage :async (id) => {
+    //window.alert("clicked view page" +id);
+    var med=await App.medicine.medicines(parseInt(id));
+    var descdire= await App.medicine.meddescdirections(parseInt(id));
+    var description=descdire.description;
+    var direction=descdire.direction;    
+     //console.log(med);
+    var price=med.price;
+    var qty=med.quantity;
+    //window.alert(price);
+    //window.alert(price);
+    $("#displayprice").html(price.toString());
+    $("#displayquantity").html(qty.toString());
+    
+    $("#displaydescription").html(description);
+    $("#displaydirections").html(direction);    
+    var str=`<button type="button" class="btn btn-primary" data-toggle='modal' data-target='#exampleModalLong' onclick="App.trackProduct('`+id+`')">Track Product</button><button type="button" class="btn btn-primary">View Certificate</button>`;
+    
+    $("#displaytrackbutton").html(str);
+    $("#categorypage").hide();
+    $("#productpage").show();
+  },
+
+  //Listen for events emitted from the contract
+listenForEvents:async  function() {   
+  
+  var instance=await App.contracts.Medicine.deployed();
+    instance.getPastEvents("updatedMedicine", { fromBlock: 0 }).then((events) => {
+      //window.alert("previous event");
+      App.allblocks.push(events);          
+    });
+    instance.contract.events.updatedMedicine({
+      filter: {}, // Using an array means OR: e.g. 20 or 23
+      fromBlock: 0,
+      toBlock: 'latest'
+  }, function(error, event){ //console.log(event); 
+  })
+  .on('data', function(event){
+      //console.log(event); // same results as the optional callback above
+      //window.alert("event cPTURD");
+      App.allblocks.push(event); 
+  })
+  .on('changed', function(event){
+      // remove event from local database
+      window.alert("event on Changed");
+  })
+  .on('error', console.error);
+},
+
+trackProduct :async (id) => { 
+  //window.alert("Tracking ID"+id); 
+  //console.log("Tracking");
+   // console.log(App.allblocks[0]) ;
+    // trackdisplay=$("#trackdisplay");
+    var id=parseInt(id);  
+    var medicine=await App.medicine.medicines(id); 
+    $("#trackdisplayenduser").empty();
+    // console.log(App.allblocks);
+    var user=await App.medicine.users(medicine[2]);
+    var manfact=user.name;   
+    for(var i=0;i<App.allblocks[0].length;i++){
+      
+      var block= App.allblocks[0][i];
+      //window.alert(block);
+      //console.log("Tracking");
+      //.log(block.args[0].toNumber());
+      if(block.args[0].toNumber()==id)
+      {    
+        var str="<table class='table table-bordered' width='100%' cellspacing='0'><tr><th>Medicine Name</th><td>"+block.args[1].toString()+"</td></tr><tr><th>Manufacturer Name</th><td>"+manfact+"</td></tr> <tr><th>Manufacturer Address</th><td>"+block.args[2].toString()+"</td></tr><tr><th>Batch No</th><td>"+block.args[3].toString()+"</td></tr><tr><th>Manufacture Date</th><td>"+block.args[4].toString()+"</td></tr><tr><th>Expiry Date</th><td>"+block.args[5].toString()+"</td></tr><tr><th>Category</th><td>"+block.args[6].toString()+"</td></tr><tr><th>Qty</th><td>"+block.args[7].toNumber().toString()+"</td> </table>";
+          console.log("Tracking") ;
+          $("#trackdisplayenduser").append(str);                                                    
+      } 
+   }
+   
+  },
+
+  loadHome :async () => {
+    //window.alert("Home display");
+
+    $("#categorypage").show();
+    $("#productpage").hide();
+
+    $("#displaymedicinesofdistributer").empty();
+    await App.loadContract1();
+    var count=await App.medicine.medicineforendusersCount();
+    for(var i=1;i<=count;i++){
+      var medicine=await App.medicine.medicineforendusers(i);
+      var med=await App.medicine.medicines(parseInt(medicine.medicineid));
+      var price=med.price;
+      var descdire= await App.medicine.meddescdirections(parseInt(medicine.medicineid));
+      var description=descdire.description;
+      var direction=descdire.direction;
+     
+      //var description=med.description
+      var str=`<div class="big-box col-md-5"><div class="big-img-box"><img src="images/product/2.jpg" alt="#" /></div><div class="big-dit-b clearfix"><div class="col-md-6"><div class="left-big"><h3>${medicine.medicinename}</h3><p>${description}</p><div class="prod-btn"><a href="#"><i class="fa fa-star" aria-hidden="true"></i> Save to wishlist</a></div></div></div<div class="col-md-6"><div class="right-big-b"><div class="tight-btn-b clearfix"><button class="btn btn-primary" onclick="App.showProductPage('`+medicine.medicineid+`')">View</button><a href="#">${price}</a></div></div></div></div></div><div class="col-md-1"></div>`
+     
+      $("#displaymedicinesofdistributer").append(str);
+    }
+},
   // https://medium.com/metamask/https-medium-com-metamask-breaking-change-injecting-web3-7722797916a8
   loadWeb3: async () => {
     //var Web3 = require('web3')  ;  
@@ -61,6 +161,19 @@ App = {
 
     // Hydrate the smart contract with values from the blockchain
     App.medicine = await App.contracts.Medicine.deployed()
+  },
+  loadContract1: async () => {
+    // Create a JavaScript version of the smart contract
+    const Medicine = await $.getJSON('Medicine.json')
+    App.contracts.Medicine = TruffleContract(Medicine);
+
+    //if hosted in kovan or rinkypi then use  "https://rinkeby.infura.io/v3/..." istead of localhost
+    web3 = new Web3(new Web3.providers.HttpProvider("http://localhost:7545"));
+    App.contracts.Medicine.setProvider(web3.currentProvider)
+
+    // Hydrate the smart contract with values from the blockchain
+    App.medicine = await App.contracts.Medicine.deployed()
+    App.listenForEvents();
   },
   render: async () => {
     // Prevent double render
@@ -149,7 +262,11 @@ App = {
   },
 
 }
-
+$(function () {
+  $(window).load(function () {
+       App.loadHome();
+  })
+});
 
 
 function loginClick(){
