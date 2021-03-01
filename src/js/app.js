@@ -147,20 +147,6 @@ App = {
       content.show()
     }
   },
-  
-
-  registerRole:async ()=>{
-    console.log("register");
-    var userFullname=$("#userFullname").val();
-    var userAddress=$("#userAddress").val();
-    var role=$("#RoleSelect").val();
-    //console.log("Selected role is=",role);     
-    console.log("Before sending to BC userAddress="+userAddress+"userRole="+role+"name="+userFullname);
-    await App.medicine.registerRoles(userFullname,userAddress,role,"false", { from: App.account });      
-    alert("Registered successfully"); 
-    await App.render();
-   }
- 
 
 }
 
