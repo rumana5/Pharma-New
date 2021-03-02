@@ -267,26 +267,6 @@ viewCertificate:async ()=>{
     }
     }).fail(function(err){
       console.log({err});
-  
-
-  //   url: baseURL + certificateAddress,
-  //   contentType: "application/json",
-  //   type: 'GET',
-  //   dataType: 'application/json',
-
-  //   success: function (response) {
-  //     console.log("sucess");
-  //       var data = response.results;
-  //       console.log(data);
-  //       var jsondata = JSON.parse(response);
-  //       console.log(jsondata[0].cbName);
-  //   },
-    
-  //   error: function(response){
-  //     console.log("error");
-  //     var data = response.results;
-  //     console.log(data);
-  //  } 
 });
 
 }
