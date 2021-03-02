@@ -28,9 +28,9 @@ App = {
     
     $("#displaydescription").html(description);
     $("#displaydirections").html(direction);    
-    var str=`<button type="button" class="btn btn-primary" data-toggle='modal' data-target='#exampleModalLong' onclick="App.trackProduct('`+id+`')">Track Product</button><button type="button" class="btn btn-primary">View Certificate</button>`;
-    
+    var str=`<button type="button" class="btn btn-primary" data-toggle='modal' data-target='#exampleModalLong' onclick="App.trackProduct('`+id+`')">Track Product</button>`+" "+`<button type="button" class="btn btn-primary" data-toggle='modal' data-target='#exampleModalLong1' onclick="App.viewCertificate()">View Certificate</button>`;
     $("#displaytrackbutton").html(str);
+
     $("#categorypage").hide();
     $("#productpage").show();
   },
@@ -70,8 +70,7 @@ trackProduct :async (id) => {
     var medicine=await App.medicine.medicines(id); 
     $("#trackdisplayenduser").empty();
     // console.log(App.allblocks);
-    var user=await App.medicine.users(medicine[2]);
-    var manfact=user.name;   
+
     for(var i=0;i<App.allblocks[0].length;i++){
       
       var block= App.allblocks[0][i];
@@ -80,7 +79,23 @@ trackProduct :async (id) => {
       //.log(block.args[0].toNumber());
       if(block.args[0].toNumber()==id)
       {    
-        var str="<table class='table table-bordered' width='100%' cellspacing='0'><tr><th>Medicine Name</th><td>"+block.args[1].toString()+"</td></tr><tr><th>Manufacturer Name</th><td>"+manfact+"</td></tr> <tr><th>Manufacturer Address</th><td>"+block.args[2].toString()+"</td></tr><tr><th>Batch No</th><td>"+block.args[3].toString()+"</td></tr><tr><th>Manufacture Date</th><td>"+block.args[4].toString()+"</td></tr><tr><th>Expiry Date</th><td>"+block.args[5].toString()+"</td></tr><tr><th>Category</th><td>"+block.args[6].toString()+"</td></tr><tr><th>Qty</th><td>"+block.args[7].toNumber().toString()+"</td> </table>";
+        var user=await App.medicine.users(block.args[2].toString());
+        var userName=user.name; 
+        var roleName, roleAddress;
+
+        var role = user.role;
+         if(role == 4){
+           roleName = "Manufacturer Name";
+           roleAddress = "Manufacturer Address";
+
+         }
+         else{
+          roleName = "Distributor Name";
+          roleAddress = "Distributor Address";
+         }
+        console.log(userName);
+        
+        var str="<table class='table table-bordered' width='100%' cellspacing='0'><tr><th>Medicine Name</th><td>"+block.args[1].toString()+"</td></tr><tr><th>"+roleName+"</th><td>"+userName+"</td></tr> <tr><th>"+roleAddress+"</th><td>"+block.args[2].toString()+"</td></tr><tr><th>Batch No</th><td>"+block.args[3].toString()+"</td></tr><tr><th>Manufacture Date</th><td>"+block.args[4].toString()+"</td></tr><tr><th>Expiry Date</th><td>"+block.args[5].toString()+"</td></tr><tr><th>Category</th><td>"+block.args[6].toString()+"</td></tr><tr><th>Qty</th><td>"+block.args[7].toNumber().toString()+"</td> </table>";
           console.log("Tracking") ;
           $("#trackdisplayenduser").append(str);                                                    
       } 
@@ -246,6 +261,27 @@ trackProduct :async (id) => {
         }
   
       App.setLoading(false)
+    },
+
+    viewCertificate:async ()=>{
+      var certificateAddress= "0xaF7eD4e8e423F81d1F543eC5eFc382943121129e";
+      var baseURL = "https://app.certificateok.de/api/certificate/";
+    
+      $.ajax({
+    
+          url: "https://app.certificateok.de/api/certificate/0x2fcd5be391Beb9Ce874b117fD3D50cCBA172C2bB",
+          method:"GET"
+      
+        }).done(function(data){
+          $('#viewCert').empty();
+          for (const [key, value] of Object.entries(data)) {
+          $("#viewCert").append("<div>" + `${key}: ${value}` + "</div>");
+       
+        }
+        }).fail(function(err){
+          console.log({err});
+    });
+    
     },
 
   setLoading: (boolean) => {

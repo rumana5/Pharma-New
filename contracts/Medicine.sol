@@ -104,7 +104,10 @@ contract Medicine {
       uint _price=medicines[_id].price;    
         
       medicines[_id] = Med(_id, _medname,_manufaname,_batchNo,_manufadate,_expdate,_category,_price,_quanity);
-      emit updatedMedicine(_id, _medname,msg.sender,_batchNo, _manufadate,_expdate,_category,_quanity);
+
+      _quanity = _qty;
+
+      emit updatedMedicine(_id, _medname,msg.sender,_batchNo, _manufadate,_expdate,_category, _quanity);
        uint _newentry=1;
       uint i=1;
       for(i=1;i<=medicineforendusersCount;i++){
