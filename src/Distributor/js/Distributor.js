@@ -3,6 +3,7 @@ App = {
   contracts: {},
   metamaskAccountID: "0x0000000000000000000000000000000000000000",
   admindisplay:2,
+  distributordisplay:1,
   allblocks:[],
   
   load: async function () {
@@ -95,27 +96,61 @@ App = {
     var user=await App.medicine.users(App.account);
     var username=user.name;
     $("[id='user']").html(username);
+    if(App.distributordisplay==1){
+      for (var i = 1; i <= count; i++) {
+        var medicine=await App.medicine.medicines(i);
+        var accountaddrees=medicine[2];
+         var id=medicine[0];
+          var medname=medicine[1];  
+          //Display name of manufacturer from ethereum address    
+          var user=await App.medicine.users(medicine[2]);
+          var manfact=user.name;      
+          var expdate=medicine[5]
+          var category=medicine[6];
+          var price=medicine[7];
+          var available_Qty=medicine[8];
+         //  var str = "<tr><td>" + id +"</td><td>"+medname+"</td><td>"+manfact+"</td><td>"+expdate+"</td><td>"+category+"</td><td>"+price+"</td><td>"+available_Qty+"</td><td><a href='../Cart/index.html'><button class='btn btn-info'>Add</button></a></td><td><button class='btn btn-info' data-toggle='modal' data-target='#exampleModalLong' onclick='App.trackMedicineByDistributer(`"+id+"`)'>Track</button></td><td><button class='btn btn-info' data-toggle='modal' data-target='#exampleModalLong1' onclick='App.viewCertificate()'>View</button></td></tr>";
+         //  $("#displayMedicine").append(str); 
+         var btn=`<a href='#0' class='cd-add-to-cart js-cd-add-to-cart btn btn-info' data-price=${price} med-name=${medname} med-id=${id}>Add</a>  <div class='cd-cart cd-cart--empty js-cd-cart'><a href='#0' class='cd-cart__trigger text-replace'> Cart  <ul class='cd-cart__count'> <li>0</li><li>0</li> </ul> </a><div class='cd-cart__content'> <div class='cd-cart__layout'><header class='cd-cart__header'> <h2>Cart</h2> <span class='cd-cart__undo'>Item removed. <a href='#0'>Undo</a></span>  </header>  <div class='cd-cart__body'> <ul>  </ul>  </div>   <footer class='cd-cart__footer'>  <a style='cursor: pointer;' onclick='App.proceedToBuyByDistributer()' class='cd-cart__checkout'><em>Checkout - $<span>0</span> <svg class='icon icon--sm' viewBox='0 0 24 24'><g fill='none' stroke='currentColor'><line stroke-width='2' stroke-linecap='round' stroke-linejoin='round' x1='3' y1='12' x2='21' y2='12'/><polyline stroke-width='2' stroke-linecap='round' stroke-linejoin='round' points='15,6 21,12 15,18 '/></g>  </svg>  </em>  </a> </footer>  </div></div>  </div> `;
+          var str = "<tr><td>" + id +"</td><td>"+medname+"</td><td>"+manfact+"</td><td>"+expdate+"</td><td>"+category+"</td><td>"+price+"</td><td>"+available_Qty+"</td><td>"+btn+"</td><td><button class='btn btn-info' data-toggle='modal' data-target='#exampleModalLong' onclick='App.trackMedicineByDistributer(`"+id+"`)'>TRACK</button></td><td><button class='btn btn-info' data-toggle='modal' data-target='#exampleModalLong1' onclick='App.viewCertificate()'>VIEW</button></td></tr>";
+          $("#displayMedicine").append(str); 
+     }      
+     $("#distributorpage").show(); 
+    $("#payemtsuccesspage").hide();
+    $('#displaypurcahsedmedicine').hide(); 
 
-    for (var i = 1; i <= count; i++) {
-       var medicine=await App.medicine.medicines(i);
-       var accountaddrees=medicine[2];
-        var id=medicine[0];
-         var medname=medicine[1];  
-         //Display name of manufacturer from ethereum address    
-         var user=await App.medicine.users(medicine[2]);
-         var manfact=user.name;      
-         var expdate=medicine[5]
-         var category=medicine[6];
-         var price=medicine[7];
-         var available_Qty=medicine[8];
-        //  var str = "<tr><td>" + id +"</td><td>"+medname+"</td><td>"+manfact+"</td><td>"+expdate+"</td><td>"+category+"</td><td>"+price+"</td><td>"+available_Qty+"</td><td><a href='../Cart/index.html'><button class='btn btn-info'>Add</button></a></td><td><button class='btn btn-info' data-toggle='modal' data-target='#exampleModalLong' onclick='App.trackMedicineByDistributer(`"+id+"`)'>Track</button></td><td><button class='btn btn-info' data-toggle='modal' data-target='#exampleModalLong1' onclick='App.viewCertificate()'>View</button></td></tr>";
-        //  $("#displayMedicine").append(str); 
-        var btn=`<a href='#0' class='cd-add-to-cart js-cd-add-to-cart btn btn-info' data-price=${price} med-name=${medname} med-id=${id}>Add</a>  <div class='cd-cart cd-cart--empty js-cd-cart'><a href='#0' class='cd-cart__trigger text-replace'> Cart  <ul class='cd-cart__count'> <li>0</li><li>0</li> </ul> </a><div class='cd-cart__content'> <div class='cd-cart__layout'><header class='cd-cart__header'> <h2>Cart</h2> <span class='cd-cart__undo'>Item removed. <a href='#0'>Undo</a></span>  </header>  <div class='cd-cart__body'> <ul>  </ul>  </div>   <footer class='cd-cart__footer'>  <a style='cursor: pointer;' onclick='App.proceedToBuyByDistributer()' class='cd-cart__checkout'><em>Checkout - $<span>0</span> <svg class='icon icon--sm' viewBox='0 0 24 24'><g fill='none' stroke='currentColor'><line stroke-width='2' stroke-linecap='round' stroke-linejoin='round' x1='3' y1='12' x2='21' y2='12'/><polyline stroke-width='2' stroke-linecap='round' stroke-linejoin='round' points='15,6 21,12 15,18 '/></g>  </svg>  </em>  </a> </footer>  </div></div>  </div> `;
-         var str = "<tr><td>" + id +"</td><td>"+medname+"</td><td>"+manfact+"</td><td>"+expdate+"</td><td>"+category+"</td><td>"+price+"</td><td>"+available_Qty+"</td><td>"+btn+"</td><td><button class='btn btn-info' data-toggle='modal' data-target='#exampleModalLong' onclick='App.trackMedicineByDistributer(`"+id+"`)'>Track</button></td><td><button class='btn btn-info' data-toggle='modal' data-target='#exampleModalLong1' onclick='App.viewCertificate()'>View</button></td></tr>";
-         $("#displayMedicine").append(str); 
-    }      
-    $("#distributermainpage").show(); 
-    $("#payemtsuccesspage").hide();    
+    }else{
+      $("#displayItem").empty();
+      for(var i=1;i<=count;i++){
+        var medicine=await App.medicine.medicineforendusers(i);
+        var med=await App.medicine.medicines(parseInt(medicine.medicineid));
+        var price=med.price;
+        var accountaddrees=med.manufaname;
+        console.log(accountaddrees);
+      var id=med.id;
+       var medname=med.medname;  
+       //Display name of manufacturer from ethereum address    
+       var user=await App.medicine.users(accountaddrees);
+       var manfact=user.name;      
+       var expdate=med.expdate;
+       var category=med.category;
+       var price=med.price;
+       var available_Qty=med.quantity;
+        
+          //var btn= "<a href='#0' class='cd-add-to-cart js-cd-add-to-cart' data-price='25.99'>Add To Cart</a>  <div class='cd-cart cd-cart--empty js-cd-cart'><a href='#0' class='cd-cart__trigger text-replace'> Cart  <ul class='cd-cart__count'> <li>0</li><li>0</li> </ul> </a><div class='cd-cart__content'> <div class='cd-cart__layout'><header class='cd-cart__header'> <h2>Cart</h2> <span class='cd-cart__undo'>Item removed. <a href='#0'>Undo</a></span>  </header>  <div class='cd-cart__body'> <ul>  </ul>  </div>   <footer class='cd-cart__footer'>  <a href='#0' class='cd-cart__checkout'><em>Checkout - $<span>0</span> <svg class='icon icon--sm' viewBox='0 0 24 24'><g fill='none' stroke='currentColor'><line stroke-width='2' stroke-linecap='round' stroke-linejoin='round' x1='3' y1='12' x2='21' y2='12'/><polyline stroke-width='2' stroke-linecap='round' stroke-linejoin='round' points='15,6 21,12 15,18 '/></g>  </svg>  </em>  </a> </footer>  </div></div>  </div> ";
+           //var btn=" <main class='cd-main container margin-top-xxl'><div class='text-component text-center'><p class='flex flex-wrap flex-center flex-gap-xxs'><a href='#0' class='cd-add-to-cart js-cd-add-to-cart' data-price='10'>Add To Cart</a></p></div></main>";
+           //var btn="<a href='#0' class='cd-add-to-cart js-cd-add-to-cart' data-price='18'>Add To Cart</a>  <div class='cd-cart cd-cart--empty js-cd-cart'><a href='#0' class='cd-cart__trigger text-replace'> Cart  <ul class='cd-cart__count'> <li>0</li><li>0</li> </ul> </a><div class='cd-cart__content'> <div class='cd-cart__layout'><header class='cd-cart__header'> <h2>Cart</h2> <span class='cd-cart__undo'>Item removed. <a href='#0'>Undo</a></span>  </header>  <div class='cd-cart__body'> <ul>  </ul>  </div>   <footer class='cd-cart__footer'>  <a href='#0' class='cd-cart__checkout'><em>Checkout - $<span>0</span> <svg class='icon icon--sm' viewBox='0 0 24 24'><g fill='none' stroke='currentColor'><line stroke-width='2' stroke-linecap='round' stroke-linejoin='round' x1='3' y1='12' x2='21' y2='12'/><polyline stroke-width='2' stroke-linecap='round' stroke-linejoin='round' points='15,6 21,12 15,18 '/></g>  </svg>  </em>  </a> </footer>  </div></div>  </div> ";
+          
+          var str = "<tr><td>" + id +"</td><td>"+medname+"</td><td>"+manfact+"</td><td>"+expdate+"</td><td>"+category+"</td><td>"+price+"</td><td>"+available_Qty+"</td></tr>";
+          console.log(str);
+         $("#displayItem").append(str); 
+          //$("#checking").append(chk); 
+     }
+     $("#distributorpage").hide(); 
+  $("#payemtsuccesspage").hide();
+  $('#displaypurcahsedmedicine').show();
+    }
+      
   },
 
   buyMedicineByDistributer:async (id)=>{
@@ -269,7 +304,19 @@ viewCertificate:async ()=>{
       console.log({err});
 });
 
-}
+},
+displayMedicine:async ()=>{
+  //alert("View Button clicked");
+  App.distributordisplay=1;
+ 
+  await App.render();
+},
+displayPurchasedMedicine:async ()=>{
+  //alert("View Button clicked");
+  App.distributordisplay=2;
+ 
+  await App.render();
+},
 
 };
 
