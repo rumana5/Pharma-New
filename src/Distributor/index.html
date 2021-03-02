@@ -47,7 +47,8 @@
                         <div class="nav">
                             <div class="sb-sidenav-menu-heading">HOME</div>
                            
-                            <button type="button" class=" btn btn-dark featuredBtn" id= "btn5" onclick="App.displayApprovedManufecturer()">View Medicines</button>
+                            <button type="button" class=" btn btn-dark featuredBtn" id= "btn5" onclick="App.displayMedicine()">View Medicines</button>
+                            <button type="button" class=" btn btn-dark featuredBtn" id= "btn5" onclick="App.displayPurchasedMedicine()">Purchased Medicines</button>
                             
                             <!-- <button type="button" class="btn btn-dark featuredBtn" id= "btn6" onclick="App.displayManufecturertoapprove()">Pending requests</button>
 
@@ -94,6 +95,30 @@
                                        
                                     </table>
                                 </div>
+                                <!-- Display Purchased Medicines Page -->
+                                <div id="displaypurcahsedmedicine" style="display: none;">         
+        
+                                    <div class="container">          
+                                        <table class="table table-bordered" width="100%" cellspacing="0">
+                                           
+                                            <tr>
+                                              <th>No</th>
+                                              <th>Medicine Name</th>
+                                              <th>Manufacturer</th>
+                                              <th>Expiry Date</th>
+                                              <th>Category</th>                  
+                                              <th>Price</th>
+                                              <th>Quantity</th>
+                                            </tr>
+                                          
+                                          <tbody id="displayItem">
+                                           
+                                          </tbody>
+                                          
+                                        </table>         
+                                    </div>
+                                </div>
+                                <!--Display Purchased Medicines End-->
                                 </div>
 
                                 <!-- Distributor Buy Medicine  start-->
@@ -223,6 +248,8 @@
                             </div>
                           </div>
                                                 </div>
+                        </div>
+                    </div>
                     
                     
                 </main>

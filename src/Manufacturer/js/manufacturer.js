@@ -252,6 +252,7 @@ listenForEvents:async  function() {
       App.manfdisplay=3;
       var medicineSelectDelete=$("#medicineSelectDelete");    
       var count= await App.medicine.medicineCount();
+      medicineSelectDelete.empty();
       for (var i = 1; i <= count; i++) {      
         var medicine=await App.medicine.medicines(i);
         var accountaddrees=medicine[2];

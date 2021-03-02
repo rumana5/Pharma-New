@@ -182,7 +182,7 @@ trackProduct :async (id) => {
     const Medicine = await $.getJSON('Medicine.json')
     App.contracts.Medicine = TruffleContract(Medicine);
 
-    //if hosted in kovan or rinkypi then use  "https://rinkeby.infura.io/v3/..." istead of localhost
+    //if hosted in kovan or rinkeby then use  "https://rinkeby.infura.io/v3/..." istead of localhost
     web3 = new Web3(new Web3.providers.HttpProvider("http://localhost:7545"));
     App.contracts.Medicine.setProvider(web3.currentProvider)
 
