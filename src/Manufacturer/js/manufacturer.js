@@ -166,7 +166,9 @@ App = {
       var category=$("#addcategory").val();
       var price=parseInt($("#addprice").val());
       var quantity=parseInt($("#addquantity").val());
-      await App.medicine.addMedicine(medname,manfaddrss,batchno,manfdate,expdate,category,price,quantity, { from: App.account });  
+      var adddescription=$("#adddescription").val();
+      var adddirection=$("#adddirection").val();
+      await App.medicine.addMedicine(medname,manfaddrss,batchno,manfdate,expdate,category,price,quantity,adddescription,adddirection, { from: App.account });  
       await App.render();
       $("#addmedname").val('');    
       $("#addbatchno").val('');
@@ -174,6 +176,8 @@ App = {
       $("#addexpdate").val('');
       $("#addcategory").val('');
       $("#addprice").val('');
+      $("#adddescription").val('');
+      $("#adddirection").val('');
       alert("Product Added successfully"); 
     },
 
@@ -248,6 +252,7 @@ listenForEvents:async  function() {
       App.manfdisplay=3;
       var medicineSelectDelete=$("#medicineSelectDelete");    
       var count= await App.medicine.medicineCount();
+      medicineSelectDelete.empty();
       for (var i = 1; i <= count; i++) {      
         var medicine=await App.medicine.medicines(i);
         var accountaddrees=medicine[2];
