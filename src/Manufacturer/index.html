@@ -53,7 +53,7 @@
               
                             <button type="button" class="btn btn-dark featuredBtn" id= "btn3" onclick="App.displayEditMedicine()">Edit Medicines</button>
                             <button type="button" class="btn btn-dark featuredBtn" id= "btn4" onclick="App.displayDeleteMedicine()">Delete Medicines</button>
-              
+                            <button type="button" class="btn btn-dark featuredBtn" id= "btn5" onclick="App.displayOrderManagementPage()">Order Management</button>
                             
                         </div>
                     </div>
@@ -173,6 +173,27 @@
                                         </div>
                                     </div>
                                     <!--Display Medicines End-->
+
+                                     <!-- Order Management  Page -->
+                                     <div id="ordermanagementpage" style="display: none;">            
+        
+                                        <div class="container">          
+                                            <table class="table table-bordered" id="dataTablePending" width="100%" cellspacing="0">
+                                               
+                                                <tr>
+                                                  <th>ID</th>                                                 
+                                                  <th>Distributer</th>
+                                                  <th>Name</th>
+                                                  <th>Quantity</th>
+                                                  <th>Status</th>                 
+                                                  
+                                                </tr>                                              
+                                              <tbody id="displayOrders">                                               
+                                              </tbody>                                              
+                                            </table>         
+                                        </div>
+                                    </div>
+                                    <!--Order MAnagement Page End-->
 
                                     <!-- EDIT Medicines by manufacurer Page -->
                                     <div id="editmedicine" style="display: none;">            
