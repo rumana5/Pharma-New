@@ -21,17 +21,19 @@ App = {
      //console.log(med);
     var price="€ "+ med.price;
     var qty=med.quantity;
+    
     //window.alert(price);
     //window.alert(price);
+
     $("#displayprice").html(price.toString());
     $("#displayquantity").html(qty.toString());
     $("#productName").html(med.medname); 
-    
     $("#displaydescription").html(description);
-    $("#displaydirections").html(direction);    
-    var str=`<button type="button" class="btn btn-primary" data-toggle='modal' data-target='#exampleModalLong' onclick="App.trackProduct('`+id+`')">Track Product</button>`+" "+`<button type="button" class="btn btn-primary" data-toggle='modal' data-target='#exampleModalLong1' onclick="App.viewCertificate()">View Certificate</button>`;
-    $("#displaytrackbutton").html(str);
+    $("#displaydirections").html(direction);  
 
+    var str=`<div class="col-md-4 col-lg-3 viewBtn"><button type="button" class="btn btn-primary btn-block" data-toggle='modal' data-target='#exampleModalLong' onclick="App.trackProduct('`+id+`')">Track Product</button></div>`+" "+`<div class="col-md-4 col-lg-3 viewBtn"><button type="button" class="btn btn-primary btn-block" data-toggle='modal' data-target='#exampleModalLong1' onclick="App.viewCertificate()">View Certificate</button></div>`;
+    
+    $("#displaytrackbutton").html(str);
     $("#categorypage").hide();
     $("#productpage").show();
   },
@@ -106,9 +108,11 @@ trackProduct :async (id) => {
 
   loadHome :async () => {
     //window.alert("Home display");
-
+    
     $("#categorypage").show();
     $("#productpage").hide();
+
+    $('#boxscroll').empty();
 
     $("#displaymedicinesofdistributer").empty();
     await App.loadContract1();
@@ -116,10 +120,15 @@ trackProduct :async (id) => {
     for(var i=1;i<=count;i++){
       var medicine=await App.medicine.medicineforendusers(i);
       var med=await App.medicine.medicines(parseInt(medicine.medicineid));
+
+      var manufactName = med.manufaname;
+      var user=await App.medicine.users(manufactName);
+      var username=user.name;
       var price=med.price + " €";
       var descdire= await App.medicine.meddescdirections(parseInt(medicine.medicineid));
       var description=descdire.description;
       var direction=descdire.direction;
+
      
       //var description=med.description
       //var str=`<div class="big-box col-md-5"><div class="big-img-box"><img src="images/product/2.jpg" alt="#" /></div><div class="big-dit-b clearfix"><div class="col-md-6"><div class="left-big"><h3>${medicine.medicinename}</h3><p>${description}</p><div class="prod-btn"><a href="#"><i class="fa fa-star" aria-hidden="true"></i> Save to wishlist</a></div></div></div><div class="col-md-6"><div class="right-big-b"><div class="tight-btn-b clearfix"><button class="btn btn-primary" onclick="App.showProductPage('`+medicine.medicineid+`')">View</button><a href="#">${price}</a></div></div></div></div></div>`

@@ -7,11 +7,8 @@ App = {
   allblocks:[],
   
   load: async function () {
-      
       /// Setup access to blockchain
       return await App.initWeb3();
-
-
   },
 
   initWeb3: async function () {
@@ -50,26 +47,15 @@ App = {
     else {
       console.log('Non-Ethereum browser detected. You should consider trying MetaMask!')
     }
+
     App.getMetaskAccountID();
         
-
-        return App.loadContract();;
-  },
+    return App.loadContract();;
+},
 
   getMetaskAccountID: function () {
       web3 = new Web3(App.web3Provider);
       App.account = App.acc[0];
-
-      // Retrieving accounts
-      // web3.eth.getAccounts(function (err, res) {
-      //     if (err) {
-      //         console.log('Error:', err);
-      //         return;
-      //     }
-      //     App.metamaskAccountID = res[0];
-      //     console.log('getMetaskID:', App.metamaskAccountID);
-      // })
-
   },
 
   loadContract: async () => {
@@ -96,6 +82,7 @@ App = {
     var user=await App.medicine.users(App.account);
     var username=user.name;
     $("[id='user']").html(username);
+    console.log(App.distributordisplay);
     if(App.distributordisplay==1){
       for (var i = 1; i <= count; i++) {
         var medicine=await App.medicine.medicines(i);
@@ -117,9 +104,10 @@ App = {
      }      
      $("#distributorpage").show(); 
     $("#payemtsuccesspage").hide();
-    $('#displaypurcahsedmedicine').hide(); 
+    $('#displaypurcahsedmedicine').hide();
+    $("#ordermanagement").hide(); 
 
-    }else{
+    }else if(App.distributordisplay==2){
       $("#displayItem").empty();
       for(var i=1;i<=count;i++){
         var medicine=await App.medicine.medicineforendusers(i);
@@ -127,15 +115,15 @@ App = {
         var price=med.price;
         var accountaddrees=med.manufaname;
         console.log(accountaddrees);
-      var id=med.id;
-       var medname=med.medname;  
-       //Display name of manufacturer from ethereum address    
-       var user=await App.medicine.users(accountaddrees);
-       var manfact=user.name;      
-       var expdate=med.expdate;
-       var category=med.category;
-       var price=med.price;
-       var available_Qty=med.quantity;
+        var id=med.id;
+        var medname=med.medname;  
+        //Display name of manufacturer from ethereum address    
+         var user=await App.medicine.users(accountaddrees);
+         var manfact=user.name;      
+         var expdate=med.expdate;
+         var category=med.category;
+         var price=med.price;
+         var available_Qty=med.quantity;
         
           //var btn= "<a href='#0' class='cd-add-to-cart js-cd-add-to-cart' data-price='25.99'>Add To Cart</a>  <div class='cd-cart cd-cart--empty js-cd-cart'><a href='#0' class='cd-cart__trigger text-replace'> Cart  <ul class='cd-cart__count'> <li>0</li><li>0</li> </ul> </a><div class='cd-cart__content'> <div class='cd-cart__layout'><header class='cd-cart__header'> <h2>Cart</h2> <span class='cd-cart__undo'>Item removed. <a href='#0'>Undo</a></span>  </header>  <div class='cd-cart__body'> <ul>  </ul>  </div>   <footer class='cd-cart__footer'>  <a href='#0' class='cd-cart__checkout'><em>Checkout - $<span>0</span> <svg class='icon icon--sm' viewBox='0 0 24 24'><g fill='none' stroke='currentColor'><line stroke-width='2' stroke-linecap='round' stroke-linejoin='round' x1='3' y1='12' x2='21' y2='12'/><polyline stroke-width='2' stroke-linecap='round' stroke-linejoin='round' points='15,6 21,12 15,18 '/></g>  </svg>  </em>  </a> </footer>  </div></div>  </div> ";
            //var btn=" <main class='cd-main container margin-top-xxl'><div class='text-component text-center'><p class='flex flex-wrap flex-center flex-gap-xxs'><a href='#0' class='cd-add-to-cart js-cd-add-to-cart' data-price='10'>Add To Cart</a></p></div></main>";
@@ -147,10 +135,120 @@ App = {
           //$("#checking").append(chk); 
      }
      $("#distributorpage").hide(); 
-  $("#payemtsuccesspage").hide();
-  $('#displaypurcahsedmedicine').show();
+     $("#payemtsuccesspage").hide();
+     $('#displaypurcahsedmedicine').show();
+     $("#ordermanagement").hide(); 
+    }else{
+      $("#displayOrders").empty();
+    var totalstatuses=await App.medicine.orderStatusCount();       
+    for (var i = 1; i <= totalstatuses; i++) {      
+      var orderstatus=await App.medicine.orderstatuses(i);     
+      var medid=orderstatus[1];
+      var qty=orderstatus[2];
+      var manufacturer=orderstatus[3];
+      var distributer=orderstatus[4];
+      var user=await App.medicine.users(manufacturer);
+      var username=user.name;
+      var status=orderstatus[5]; 
+      if(distributer.toUpperCase().localeCompare(App.account.toUpperCase())==0){     
+        //found 
+        var str="";
+        if(status=="0"){
+          str = "<tr><td>" + medid +"</td><td>"+manufacturer+"</td><td>"+username+"</td><td>"+qty+"</td><tr>"                 
+        }
+        if(status=="1"){
+          //purchased by distributer Need to accept
+          str = "<tr><td>" + medid +"</td><td>"+manufacturer+"</td><td>"+username+"</td><td>"+qty+"</td><td>Waiting For Order Accepted</td><tr>"  
+         
+        }
+        if(status=="2"){
+          //Accepted the order Need to ship
+          str = "<tr><td>" + medid +"</td><td>"+manufacturer+"</td><td>"+username+"</td><td>"+qty+"</td><td>Order Accepted.Waiting For Shipping</td><tr>"  
+         
+        }
+        if(status=="3"){
+          //Product Shipped MArk as wating for Delivery confirmation
+          str = "<tr><td>" + medid +"</td><td>"+manufacturer+"</td><td>"+username+"</td><td>"+qty+"</td><td>Shipped</td><td><button class='btn btn-info' onclick='App.markSatusAsCompleted(`"+i+"`)'>Mark as Delivered</button></td><tr>"  
+         
+        }
+        if(status=="4"){
+          //Product Shipped MArk as wating for Delivery confirmation
+          str = "<tr><td>" + medid +"</td><td>"+manufacturer+"</td><td>"+username+"</td><td>"+qty+"</td><td>Waiting Delivery Confirmation</td><tr>"  
+         
+        }
+        if(status=="5"){
+          //Product Delivered by the Distributer
+          str = "<tr><td>" + medid +"</td><td>"+manufacturer+"</td><td>"+username+"</td><td>"+qty+"</td><td>Product Delivered</td><tr>"  
+         
+        }   
+        $("#displayOrders").append(str);       
+      }      
+    }
+    $("#distributorpage").hide(); 
+     $("#payemtsuccesspage").hide();
+     $('#displaypurcahsedmedicine').hide();
+     $("#ordermanagement").show(); 
     }
       
+  },
+  markSatusAsCompleted :async (id)=>{
+    await App.medicine.updateOrderStatus(parseInt(id),"5",{from:App.account});
+    await App.render();
+  },
+  showOrderManagementPage :async ()=>{
+    App.distributordisplay = 3;
+    // $("#displayOrders").empty();
+    // var totalstatuses=await App.medicine.orderStatusCount();       
+    // for (var i = 1; i <= totalstatuses; i++) {      
+    //   var orderstatus=await App.medicine.orderstatuses(i);     
+    //   var medid=orderstatus[1];
+    //   var qty=orderstatus[2];
+    //   var manufacturer=orderstatus[3];
+    //   var distributer=orderstatus[4];
+    //   var user=await App.medicine.users(manufacturer);
+    // var username=user.name;
+    //   var status=orderstatus[5]; 
+    //   if(distributer.toUpperCase().localeCompare(App.account.toUpperCase())==0){     
+    //     //found 
+    //     var str="";
+    //     if(status=="0"){
+    //       str = "<tr><td>" + medid +"</td><td>"+manufacturer+"</td><td>"+username+"</td><td>"+qty+"</td><tr>"                 
+    //     }
+    //     if(status=="1"){
+    //       //purchased by distributer Need to accept
+    //       str = "<tr><td>" + medid +"</td><td>"+manufacturer+"</td><td>"+username+"</td><td>"+qty+"</td><td>Waiting For Order Accepted</td><tr>"  
+         
+    //     }
+    //     if(status=="2"){
+    //       //Accepted the order Need to ship
+    //       str = "<tr><td>" + medid +"</td><td>"+manufacturer+"</td><td>"+username+"</td><td>"+qty+"</td><td>Order Accepted.Waiting For Shipping</td><tr>"  
+         
+    //     }
+    //     if(status=="3"){
+    //       //Product Shipped MArk as wating for Delivery confirmation
+    //       str = "<tr><td>" + medid +"</td><td>"+manufacturer+"</td><td>"+username+"</td><td>"+qty+"</td><td>Shipped</td><td><button class='btn btn-info' onclick='App.markSatusAsCompleted(`"+i+"`)'>Mark as Delivered</button></td><tr>"  
+         
+    //     }
+    //     if(status=="4"){
+    //       //Product Shipped MArk as wating for Delivery confirmation
+    //       str = "<tr><td>" + medid +"</td><td>"+manufacturer+"</td><td>"+username+"</td><td>"+qty+"</td><td>Waiting Delivery Confirmation</td><tr>"  
+         
+    //     }
+    //     if(status=="5"){
+    //       //Product Delivered by the Distributer
+    //       str = "<tr><td>" + medid +"</td><td>"+manufacturer+"</td><td>"+username+"</td><td>"+qty+"</td><td>Product Delivered</td><tr>"  
+         
+    //     }   
+    //     $("#displayOrders").append(str);       
+    //   }      
+    // }
+    await App.render();
+
+
+      // $("#distributorpage").hide();
+      // $("#distributorBuypage").hide();
+      // $("#ordermanagement").show();
+      // $("#payemtsuccesspage").hide();
   },
 
   buyMedicineByDistributer:async (id)=>{
@@ -268,7 +366,8 @@ var total_amount=0;
        var  medicineId =cartListItems[i].getElementsByClassName('med-id-cart')[0].innerText;
        console.log("Medicine Id="+medicineId); 
         var medicine=await App.medicine.medicines(parseInt(medicineId));       
-        var id=medicine[0];  
+        var id=medicine[0]; 
+        var manufactaddress=medicine[2]; 
         var inputqty=parseInt(Quantity)   
         var price=parseInt(medicine[7]);
         var available_Qty=parseInt(medicine[8]);
@@ -278,7 +377,7 @@ var total_amount=0;
         else{
           window.alert("Transaction for amount= "+inputqty*price);
           total_amount+=inputqty*price;
-          await App.medicine.buyMedicineByDistributer(id,inputqty, { from: App.account });               
+          await App.medicine.buyMedicineByDistributer(id,manufactaddress,inputqty, { from: App.account });               
         } 
     }
     window.alert("Completed successfully");

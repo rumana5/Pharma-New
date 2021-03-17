@@ -4,6 +4,7 @@ pragma solidity >=0.4.22 <0.8.0;
 contract Medicine {
  uint public medicineCount = 0;
  uint public usersCount = 0;
+ uint public orderStatusCount=0;
  uint public medicineforendusersCount = 0;
  address public admin;
   struct Med {
@@ -24,6 +25,16 @@ contract Medicine {
     string direction;
   }
    mapping(uint => MedDescDirection ) public meddescdirections;
+   struct OrderStatus{
+    uint id;
+    uint medid;
+    uint qty;
+    address manufacturer;
+    address distributer;
+    string status;
+    //"1" means initiated "2" means accepted "3" means shipped "4" completed
+  }
+  mapping(uint => OrderStatus ) public orderstatuses;
   struct User {       
     string name;
     string addr;
@@ -93,7 +104,14 @@ contract Medicine {
         users[_address] = User(_name,_addr,_role,_approved);        
         //emit registeredEvent(msg.sender);
     }
-    function buyMedicineByDistributer(uint _id,uint _qty) public  {
+    function updateOrderStatus(uint _id,string memory _status) public {      
+        uint _medid=orderstatuses[_id].medid;
+        uint _qty=orderstatuses[_id].qty; 
+        address _manufacturer=orderstatuses[_id].manufacturer;
+        address _distributer=orderstatuses[_id].distributer;        
+        orderstatuses[_id]=OrderStatus(_id,_medid,_qty,_manufacturer,_distributer,_status);        
+    }
+    function buyMedicineByDistributer(uint _id,address _manufact,uint _qty) public  {
       uint _quanity=medicines[_id].quantity-_qty;
       string memory _medname=medicines[_id].medname;
       address _manufaname=medicines[_id].manufaname;
@@ -104,8 +122,6 @@ contract Medicine {
       uint _price=medicines[_id].price;    
         
       medicines[_id] = Med(_id, _medname,_manufaname,_batchNo,_manufadate,_expdate,_category,_price,_quanity);
-
-      _quanity = _qty;
 
       emit updatedMedicine(_id, _medname,msg.sender,_batchNo, _manufadate,_expdate,_category, _quanity);
        uint _newentry=1;
@@ -122,6 +138,10 @@ contract Medicine {
         medicineforendusersCount++;
         medicineforendusers[medicineforendusersCount]=MedicineForEndUser(medicineforendusersCount,_id,_medname,msg.sender,_qty);
       }
+
+      //Status updation
+      orderStatusCount++;
+      orderstatuses[orderStatusCount]=OrderStatus(orderStatusCount,_id,_qty,_manufact,msg.sender,"1");     
       
     }
 }
