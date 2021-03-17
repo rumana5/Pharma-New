@@ -8,6 +8,9 @@
       <meta http-equiv="X-UA-Compatible" content="IE=edge">
       <!--enable mobile device-->
       <meta name="viewport" content="width=device-width, initial-scale=1">
+      <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
       <!--fontawesome css-->
       <link rel="stylesheet" href="css/font-awesome.min.css">
       <!--bootstrap css-->
@@ -23,9 +26,52 @@
       <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
    </head>
    <body>
+      <header id="header">
+         <nav class="navbar navbar-default">
+            <div class="container-fluid">
+           
+               
+               <a href="index.html" class="navbar-brand">
+                  <img src="images/product/logo.png" alt="pharmaCare" />
+   
+            </a>
+            
+           
+               
+                  <nav id="nav-menu-container">
+                     <ul class="nav-menu">
+                          
+                        <li><a href="#">Home</a></li>
+                        <li><a href="category.html">Categories</a></li>
+                        <li><a href="https://triwotech.de/">About Us</a></li>
+                        <li><a href="#">Contact Us</a></li>
+                        
+                        <li><a><button class="btn btn-primary" onclick="loginClick()" >Sign in / Sign up</button></a></li>
+                     </ul>
+                   </nav>
+               
+               
+               
+               
+                  
+                   
+                        
+                     
+                  
+               
+          
+         
+
+         
+  
+       
+      </div>
+         </nav>
+         
+       </header>
       <!-- Triwotech Pharma -->
-      <header id="header" class="top-head">
-         <!-- Static navbar -->
+      <!-- <header id="header" class="top-head">
+        
          <nav class="navbar navbar-default">
             <div class="container-fluid">
                <div class="row">
@@ -39,24 +85,15 @@
                          
                         </button>
                         <a href="index.html" class="navbar-brand">
-                           <!-- <img src="images/logo.png" alt="" /> -->
-                       
-                        <h3 class="h3">pharmaCare</h3>
+                           <img src="images/product/logo.png" alt="pharmaCare" />
+
                      </a>
                      </div>
                      
                   </div>
                   <div class="col-md-6 col-lg-6 col-sm-12">
                      <div class="right-nav">
-                        <div class="login-sr">
-                           <div class="login-signup">
-                              <ul>
-                                 <li><button class="btn btn-primary" onclick="loginClick()" >Sign in / Sign up</button></li>
-                                 <!-- <li><button class="btn btn-primary" onclick="loginClick()" >Connect To Blockchain/Register</button></li> -->
-                                 <!-- <li><button class="btn btn-primary" onclick="signUpClick()" >Sign up</button></li> -->
-                              </ul>
-                           </div>
-                        </div>
+                        
                      
                         <div class="nav-b hidden-xs">
                            <div class="nav-box">
@@ -65,7 +102,8 @@
                                  <li><a href="category.html">Categories</a></li>
                                  <li><a href="https://triwotech.de/">About Us</a></li>
                                  <li><a href="#">Contact Us</a></li>
-                                 <li><i class="fa fa-shopping-cart" style="font-size:24px;color:#1d99ff"></i></li>
+                                 
+                                 <li><a><button class="btn btn-primary" onclick="loginClick()" >Sign in / Sign up</button></a></li>
                               </ul>
                            </div>
                         </div>
@@ -73,11 +111,11 @@
                   </div>
                </div>
             </div>
-            <!--/.container-fluid --> 
+             
          </nav>
-      </header>
+      </header> -->
     
-      <div id="sidebar" class="top-nav">
+      <!-- <div id="sidebar" class="top-nav">
          <ul id="sidebar-nav" class="sidebar-nav">
             <li><a class="custom-b " href="#">Login</a></li>
             <li><a class="custom-b" href="#">Sign up</a></li>
@@ -85,7 +123,7 @@
             <li><a href="#">How it works</a></li>
             <li><a href="#">Medicine Categories</a></li>
          </ul>
-      </div>
+      </div> -->
       <div id="home">
         <div class="page-content-product">
           <div class="main-product">
@@ -484,6 +522,49 @@
             </div>
          </div>
       </footer>
+      <script>
+         // Mobile Navigation
+  if ($('#nav-menu-container').length) {
+    var $mobile_nav = $('#nav-menu-container').clone().prop({
+      id: 'mobile-nav'
+    });
+    $mobile_nav.find('> ul').attr({
+      'class': '',
+      'id': ''
+    });
+    $('body').append($mobile_nav);
+    $('body').prepend('<button type="button" id="mobile-nav-toggle"><i class="fa fa-bars"></i></button>');
+    $('body').append('<div id="mobile-body-overly"></div>');
+    $('#mobile-nav').find('.menu-has-children').prepend('<i class="fa fa-chevron-down"></i>');
+
+    $(document).on('click', '.menu-has-children i', function(e) {
+      $(this).next().toggleClass('menu-item-active');
+      $(this).nextAll('ul').eq(0).slideToggle();
+      $(this).toggleClass("fa-chevron-up fa-chevron-down");
+    });
+
+    $(document).on('click', '#mobile-nav-toggle', function(e) {
+      $('body').toggleClass('mobile-nav-active');
+      $('#mobile-nav-toggle i').toggleClass('fa-times fa-bars');
+      $('#mobile-body-overly').toggle();
+    });
+
+    $(document).click(function(e) {
+      var container = $("#mobile-nav, #mobile-nav-toggle");
+      if (!container.is(e.target) && container.has(e.target).length === 0) {
+        if ($('body').hasClass('mobile-nav-active')) {
+          $('body').removeClass('mobile-nav-active');
+          $('#mobile-nav-toggle i').toggleClass('fa-times fa-bars');
+          $('#mobile-body-overly').fadeOut();
+        }
+      }
+    });
+  } else if ($("#mobile-nav, #mobile-nav-toggle").length) {
+    $("#mobile-nav, #mobile-nav-toggle").hide();
+  }
+  
+
+      </script>
       <!--main js--> 
       <script src="js/jquery-1.12.4.min.js"></script> 
       <!--bootstrap js--> 
