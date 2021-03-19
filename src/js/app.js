@@ -13,7 +13,7 @@ App = {
   },
 
   showProductPage :async (id) => {
-    //window.alert("clicked view page" +id);
+    // window.alert("clicked view page" +id);
     var med=await App.medicine.medicines(parseInt(id));
     var descdire= await App.medicine.meddescdirections(parseInt(id));
     var description=descdire.description;
@@ -32,7 +32,7 @@ App = {
     $("#displaydirections").html(direction);  
 
     var str=`<div class="col-md-4 col-lg-3 viewBtn"><button type="button" class="btn btn-primary btn-block" data-toggle='modal' data-target='#exampleModalLong' onclick="App.trackProduct('`+id+`')">Track Product</button></div>`+" "+`<div class="col-md-4 col-lg-3 viewBtn"><button type="button" class="btn btn-primary btn-block" data-toggle='modal' data-target='#exampleModalLong1' onclick="App.viewCertificate()">View Certificate</button></div>`;
-    
+    // console.log(str);
     $("#displaytrackbutton").html(str);
     $("#categorypage").hide();
     $("#productpage").show();
@@ -110,6 +110,7 @@ trackProduct :async (id) => {
     //window.alert("Home display");
     
     $("#categorypage").show();
+   
     $("#productpage").hide();
 
     $('#boxscroll').empty();
@@ -200,6 +201,48 @@ trackProduct :async (id) => {
     App.medicine = await App.contracts.Medicine.deployed()
     App.listenForEvents();
   },
+  searchMedicineByEndUser :async () =>{
+    $("#close").show();
+    var mednamesearch=$("#medicinesearchbyEndUser").val();    
+      // window.alert("Home display");
+      $("#displaysearchedmedicine").empty();
+      await App.loadContract1();
+      var count=await App.medicine.medicineforendusersCount();
+      for(var i=1;i<=count;i++){
+        var medicine=await App.medicine.medicineforendusers(i);
+        var med=await App.medicine.medicines(parseInt(medicine.medicineid));
+        var price=med.price;
+        var medicinename=med[1];
+        var descdire= await App.medicine.meddescdirections(parseInt(medicine.medicineid));
+        var description=descdire.description;
+        var direction=descdire.direction;
+        var str="";
+        console.log(medicinename+" "+mednamesearch);
+        if(medicinename.toLowerCase().localeCompare(mednamesearch.toLowerCase())==0){
+
+          console.log("search");
+         
+           str=`<div class="col-md-4 col-sm-6 searchimg"><div class="product-grid2"><div class="product-image2"> <a href="#"> <img class="pic-1" id="pic-1" src="https://res.cloudinary.com/dxfq3iotg/image/upload/v1561643954/img-1.jpg"></a><ul class="social"><li><a href="javascript:void(0)" onclick="App.LoadSearch()" data-tip="Quick View"><i class="fa fa-eye"></i></a></li></ul></div><div class="product-content"><h3 class="title"><a href="">${medicine.medicinename}</a></h3> <span class="price">${price}</span></div></div></div>`
+          
+          }  
+          console.log(str);
+
+        //var description=med.description       
+        $("#displaysearchedmedicine").append(str);
+      }
+      // $("#displaycategories").hide();
+      $("#displaysearchedmedicine").show();
+      //await App.render();
+  },
+
+  clearSearch :async () =>{
+    $('#displaysearchedmedicine').hide();
+    document.getElementById('medicinesearchbyEndUser').value = '';
+    $("#close").hide();
+
+    await App.loadContract1();
+  },
+  
   render: async () => {
     // Prevent double render
     if (App.loading) {
@@ -313,6 +356,7 @@ $(function () {
        App.loadHome();
   })
 });
+
 
 
 function loginClick(){

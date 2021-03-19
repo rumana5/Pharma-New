@@ -63,20 +63,14 @@
                          <div class="row height d-flex justify-content-center align-items-center">
                             <div class="col-sm-3 col-md-2 "></div>
                              <div class="col-sm-6 col-md-8 ">
-                                 <div class="search"> <i class="fa fa-search"></i> <input type="text" class="form-control" placeholder="Medicine Name"> <button class="btn btn-primary">Search</button> </div>
+                              <div class="search"> <i class="fa fa-search"></i> <input type="text" class="form-control" placeholder="Medicine Name" id="medicinesearchbyEndUser"> <i class="fa fa-window-close" onclick="App.clearSearch()" style = "display:none;" id="close"></i> <button class="btn btn-primary" onclick="App.searchMedicineByEndUser()">Search</button> </div>
                              </div>
                              <div class="col-sm-3 col-md-2 "></div>
                          </div>
-                     
+                        
                     </div>
       
-         <div id="sidebar" class="top-nav">
-         <ul id="sidebar-nav" class="sidebar-nav">
-            <!-- <li><a href="#">Help</a></li>
-            <li><a href="#">How it works</a></li>
-            <li><a href="#">Chamb for Business</a></li> -->
-         </ul>
-         </div>
+        
           
          <div class="furniture-box">
          <div class="terms-title">
@@ -89,10 +83,20 @@
                </div>
             </div>
          </div>
+        
          </div>
+         
+      
           
          <div class="furniture-box">
          <div class="container">
+            <div class="row">
+               <div class="col-md-5 col-lg-8">
+                  <div  id="displaysearchedmedicine" style="display: none;">
+                 <h1>Searched Products</h1>
+            </div></div>
+
+            </div>
             <div class="row">
                <div class="furniture-main">
                   <h2>Antibiotics</h2>

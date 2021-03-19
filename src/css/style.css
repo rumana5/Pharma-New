@@ -818,6 +818,12 @@ body {
     left: 16px;
 	
 }
+.search .fa-window-close {
+    position: absolute;
+    top: 20px;
+    right: 120px;
+	
+}
 
 .search button {
     position: absolute;
@@ -831,6 +837,14 @@ body {
 .search button:hover{
 	background: #007dea;
 }
+
+#displaysearchedmedicine{
+	margin: 0 0 -25px 0;
+	
+}
+
+
+
 
 
 /* .product-sh {} */
@@ -2566,7 +2580,10 @@ body {
 
 .furniture-box {
 	background: #f4f9fd;
+	
 }
+
+
 
 .furniture-main h2 {
 	color: #333333;
@@ -3702,8 +3719,18 @@ html .ui-button.ui-state-disabled:active {
 	line-height: 24px;
 }
 
+
 .dex-a {
-	padding-bottom: 25px;
+    padding-bottom: 25px;
+}
+
+.dex-a .viewBtn{
+    margin-top: 5px;
+}
+
+.dex-a .des{
+    margin-top: 8px;
+
 }
 
 .description-box h5 {
@@ -3975,9 +4002,9 @@ h3.h3 {
     transition: all .5s
 }
 
-.product-grid2:hover .product-image2 .pic-1 {
+/* .product-grid2:hover .product-image2 .pic-1 {
     opacity: 0
-}
+} */
 
 .product-image2 .pic-2 {
     width: 100%;

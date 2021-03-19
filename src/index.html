@@ -64,12 +64,20 @@
                          <div class="row height d-flex justify-content-center align-items-center">
                             <div class="col-sm-3 col-md-2 "></div>
                              <div class="col-sm-6 col-md-8 ">
-                                 <div class="search"> <i class="fa fa-search"></i> <input type="text" class="form-control" placeholder="Medicine Name"> <button class="btn btn-primary">Search</button> </div>
+                              <div class="search"> <i class="fa fa-search"></i> <input type="text" class="form-control" placeholder="Medicine Name" id="medicinesearchbyEndUser"> <i class="fa fa-window-close" onclick="App.clearSearch()" style = "display:none;" id="close"></i> <button class="btn btn-primary" onclick="App.searchMedicineByEndUser()">Search</button> </div>
                              </div>
                              <div class="col-sm-3 col-md-2 "></div>
                          </div>
                      
                     </div>
+                      <div class="col-md-5 col-lg-8">
+                         <div  id="displaysearchedmedicine" style="display: none;">
+                        <h1>Searched Products</h1>
+                   </div></div>
+                     
+
+                  
+                   
                  </div>
                  <div class="row clearfix">
                     <div class="col-lg-3 col-sm-6 col-md-3 category ">
@@ -113,6 +121,7 @@
               </div>
            </div>
         </div>
+        
         
      <!-- ======= Featured Services Section ======= -->
      <div id="featured-services" class="featured-services">
