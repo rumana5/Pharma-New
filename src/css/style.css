@@ -1024,16 +1024,16 @@ body {
 
 }
 
-.categories_link a {
+.categories_link div {
 	color: #000;
 	font-size: 22px;
 	font-weight: 800;
 	
 }
 
-.categories_link a:hover {
+/* .categories_link div:hover {
 	color: #080f63;
-}
+} */
 
 /*--------------------------------------------------------------
 # Featured Services
@@ -2675,7 +2675,7 @@ html .ui-button.ui-state-disabled:active {
 
 #boxscroll {
 	padding: 12px 10px;
-	height: 280px;
+	height: 100%;
 	width: 100%;
 	border: none;
 	overflow: auto;

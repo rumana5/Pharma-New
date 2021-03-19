@@ -6,10 +6,10 @@
       <meta http-equiv="X-UA-Compatible" content="IE=edge">
       
        <!--enable mobile device-->
-       <meta name="viewport" content="width=device-width, initial-scale=1">
-       <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
-   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+      <meta name="viewport" content="width=device-width, initial-scale=1">
+      <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+      <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
       <!--fontawesome css-->
       <link rel="stylesheet" href="css/font-awesome.min.css">
       <!--bootstrap css-->
@@ -99,7 +99,7 @@
             </div>
             <div class="row">
                <div class="furniture-main">
-                  <h2>Antibiotics</h2>
+                  <h2 id="nameCategory"></h2>
                   <div class="col-md-3 col-sm-4">
                      <div class="furniture-left">
                         <h3>Filter Products</h3>
@@ -114,42 +114,6 @@
                            <h5>By company</h5>
                            <div class="list-b">
                               <div id="boxscroll">
-                                 <div class="form-check">
-                                    <input id="checkbox1" class="filled-in chk-col-blue" type="checkbox">
-                                    <label for="checkbox1">
-                                    Manufacturer 1
-                                    </label>
-                                 </div>
-                                 <div class="form-check">
-                                    <input id="checkbox2" class="filled-in chk-col-blue" type="checkbox">
-                                    <label for="checkbox2">
-                                       Manufacturer 2
-                                    </label>
-                                 </div>
-                                 <div class="form-check">
-                                    <input id="checkbox3" class="filled-in chk-col-blue" type="checkbox">
-                                    <label for="checkbox3">
-                                       Manufacturer 3
-                                    </label>
-                                 </div>
-                                 <div class="form-check">
-                                    <input id="checkbox4" class="filled-in chk-col-blue" type="checkbox">
-                                    <label for="checkbox4">
-                                       Manufacturer 4
-                                    </label>
-                                 </div>
-                                 <div class="form-check">
-                                    <input id="checkbox4" class="filled-in chk-col-blue" type="checkbox">
-                                    <label for="checkbox4">
-                                       Manufacturer 5
-                                    </label>
-                                 </div>
-                                 <div class="form-check">
-                                    <input id="checkbox4" class="filled-in chk-col-blue" type="checkbox">
-                                    <label for="checkbox4">
-                                       Manufacturer 5
-                                    </label>
-                                 </div>
                                  
                               </div>
                            </div>
@@ -333,26 +297,23 @@
       <header id="header">
          <nav class="navbar navbar-default">
             <div class="container-fluid">
-           
-               
+ 
                <a href="index.html" class="navbar-brand">
                   <img src="images/product/logo.png" alt="pharmaCare" />
    
-            </a>
-            
-           
-               
-                  <nav id="nav-menu-container">
-                     <ul class="nav-menu">
+               </a>
+
+               <nav id="nav-menu-container">
+                  <ul class="nav-menu">
                           
-                        <li><a href="index.html">Home</a></li>
-                        <li><a href="category.html">Categories</a></li>
-                        <li><a href="https://triwotech.de/">About Us</a></li>
-                        <li><a href="index.html">Contact Us</a></li>
+                     <li><a href="index.html">Home</a></li>
+                     <li><a href="category.html">Categories</a></li>
+                     <li><a href="https://triwotech.de/">About Us</a></li>
+                     <li><a href="index.html">Contact Us</a></li>
                         
-                        <li><a><button class="btn btn-primary" onclick="loginClick()" >Sign in / Sign up</button></a></li>
-                     </ul>
-                   </nav>
+                     <li><a><button class="btn btn-primary" onclick="loginClick()" >Sign in / Sign up</button></a></li>
+                  </ul>
+               </nav>
                </div>
          </nav>
          
@@ -451,83 +412,15 @@
       <div class="similar-box">
              <h2>Similiar products</h2>
              <div class="row cat-pd">
-                <div class="col-md-3">
-                   <div class="small-box-c">
-                      <div class="small-img-b">
-                         <img class="img-responsive" src="images/tr1.jpg" alt="#" />
-                      </div>
-                      <div class="dit-t clearfix">
-                         <div class="left-ti">
-                            <h4>Product</h4>
-                            <p>By <span>Beko</span> under <span>Lights</span></p>
-                         </div>
-                         <a href="#" tabindex="0">$1220</a>
-                      </div>
-                      <div class="prod-btn">
-                         <a href="#"><i class="fa fa-star" aria-hidden="true"></i> Save to wishlist</a>
-                         <a href="#"><i class="fa fa-thumbs-up" aria-hidden="true"></i> Like this</a>
-                         <p>23 likes</p>
-                      </div>
-                   </div>
+                <div class="col-md-4 col-lg-6">
+                  <div id="displaymedicines">
+                      
+                  </div>
+
                 </div>
-                <div class="col-md-3">
-                   <div class="small-box-c">
-                      <div class="small-img-b">
-                         <img class="img-responsive" src="images/tr2.jpg" alt="#" />
-                      </div>
-                      <div class="dit-t clearfix">
-                         <div class="left-ti">
-                            <h4>Product</h4>
-                            <p>By <span>Beko</span> under <span>Chairs</span></p>
-                         </div>
-                         <a href="#" tabindex="0">$1220</a>
-                      </div>
-                      <div class="prod-btn">
-                         <a href="#"><i class="fa fa-star" aria-hidden="true"></i> Save to wishlist</a>
-                         <a href="#"><i class="fa fa-thumbs-up" aria-hidden="true"></i> Like this</a>
-                         <p>23 likes</p>
-                      </div>
-                   </div>
-                </div>
-             
-                <div class="col-md-3">
-                   <div class="small-box-c">
-                      <div class="small-img-b">
-                         <img class="img-responsive" src="images/tr3.jpg" alt="#" />
-                      </div>
-                      <div class="dit-t clearfix">
-                         <div class="left-ti">
-                            <h4>Product</h4>
-                            <p>By <span>Beko</span> under <span>Lights</span></p>
-                         </div>
-                         <a href="#" tabindex="0">$1220</a>
-                      </div>
-                      <div class="prod-btn">
-                         <a href="#"><i class="fa fa-star" aria-hidden="true"></i> Save to wishlist</a>
-                         <a href="#"><i class="fa fa-thumbs-up" aria-hidden="true"></i> Like this</a>
-                         <p>23 likes</p>
-                      </div>
-                   </div>
-                </div>
-                <div class="col-md-3">
-                   <div class="small-box-c">
-                      <div class="small-img-b">
-                         <img class="img-responsive" src="images/tr4.png" alt="#" />
-                      </div>
-                      <div class="dit-t clearfix">
-                         <div class="left-ti">
-                            <h4>Product</h4>
-                            <p>By <span>Beko</span> under <span>Chairs</span></p>
-                         </div>
-                         <a href="#" tabindex="0">$1220</a>
-                      </div>
-                      <div class="prod-btn">
-                         <a href="#"><i class="fa fa-star" aria-hidden="true"></i> Save to wishlist</a>
-                         <a href="#"><i class="fa fa-thumbs-up" aria-hidden="true"></i> Like this</a>
-                         <p>23 likes</p>
-                      </div>
-                   </div>
-                </div>
+               
+               
+               
              
           </div>
        </div>
