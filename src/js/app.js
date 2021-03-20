@@ -22,10 +22,15 @@ App = {
     var direction=descdire.direction;    
     var price="€ "+ med.price;
     var qty=med.quantity;
+    var user=await App.medicine.users(med.manufaname);
+    var username=user.name;
+    console.log(username);
 
     $("#displayprice").html(price.toString());
     $("#displayquantity").html(qty.toString());
     $("#productName").html(med.medname); 
+    $("#manufacturerName").html(username); 
+
     $("#displaydescription").html(description);
     $("#displaydirections").html(direction);  
 
@@ -33,7 +38,9 @@ App = {
 
     $("#displaytrackbutton").html(str);
     $("#categorypage").hide();
+    
     $("#productpage").show();
+
 
     await App.showsimilarproducts(id);
   },
@@ -68,12 +75,14 @@ listenForEvents:async  function() {
       filter: {}, // Using an array means OR: e.g. 20 or 23
       fromBlock: 0,
       toBlock: 'latest'
-  }, function(error, event){ //console.log(event); 
+  }, function(error, event){ 
+    //console.log(event); 
   })
   .on('data', function(event){
       //console.log(event); // same results as the optional callback above
       //window.alert("event cPTURD");
       App.allblocks.push(event); 
+      
   })
   .on('changed', function(event){
       // remove event from local database
@@ -95,7 +104,7 @@ trackProduct :async (id) => {
     for(var i=0;i<App.allblocks[0].length;i++){
       
       var block= App.allblocks[0][i];
-      //window.alert(block);
+      console.log(block);
       //console.log("Tracking");
       //.log(block.args[0].toNumber());
       if(block.args[0].toNumber()==id)
@@ -103,7 +112,10 @@ trackProduct :async (id) => {
         var user=await App.medicine.users(block.args[2].toString());
         var userName=user.name; 
         var roleName, roleAddress;
-
+        var link="https://kovan.etherscan.io/tx/"+block.transactionHash;
+        // var add="https://kovan.etherscan.io/address/0xa1ce9e5c627c8e06d55a169972d7c1a370bbf7fd";
+        console.log(block.transactionHash);
+        
         var role = user.role;
          if(role == 4){
            roleName = "Manufacturer Name";
@@ -116,7 +128,7 @@ trackProduct :async (id) => {
          }
         console.log(userName);
         
-        var str="<table class='table table-bordered' width='100%' cellspacing='0'><tr><th>Medicine Name</th><td>"+block.args[1].toString()+"</td></tr><tr><th>"+roleName+"</th><td>"+userName+"</td></tr> <tr><th>"+roleAddress+"</th><td>"+block.args[2].toString()+"</td></tr><tr><th>Batch No</th><td>"+block.args[3].toString()+"</td></tr><tr><th>Manufacture Date</th><td>"+block.args[4].toString()+"</td></tr><tr><th>Expiry Date</th><td>"+block.args[5].toString()+"</td></tr><tr><th>Category</th><td>"+block.args[6].toString()+"</td></tr><tr><th>Qty</th><td>"+block.args[7].toNumber().toString()+"</td> </table>";
+        var str="<a class='btn btn-success' href='"+link+"' target=_blank style='margin-bottom:15px; float:right'>View on Etherscan</a><table class='tableTrack table-striped table-borderless' width='100%' cellspacing='0'><tr><th>Medicine Name</th><td>"+block.args[1].toString()+"</td></tr><tr><th>"+roleName+"</th><td>"+userName+"</td></tr> <tr><th>"+roleAddress+"</th><td>"+block.args[2].toString()+"</td></tr><tr><th>Batch No</th><td>"+block.args[3].toString()+"</td></tr><tr><th>Manufacture Date</th><td>"+block.args[4].toString()+"</td></tr><tr><th>Expiry Date</th><td>"+block.args[5].toString()+"</td></tr><tr><th>Category</th><td>"+block.args[6].toString()+"</td></tr><tr><th>Qty</th><td>"+block.args[7].toNumber().toString()+"</td> </table>";
           console.log("Tracking") ;
           $("#trackdisplayenduser").append(str);                                                    
       } 
@@ -182,14 +194,14 @@ trackProduct :async (id) => {
         if (o.name === username) {
           if(category == clickedCategory){
             if(o.status){
-              var str=`<div class="col-md-4 col-sm-6"><div class="product-grid2"><div class="product-image2"> <a href="#"> <img class="pic-1" src="https://res.cloudinary.com/dxfq3iotg/image/upload/v1561643954/img-1.jpg"> <img class="pic-2" src="https://res.cloudinary.com/dxfq3iotg/image/upload/v1561643955/img1.2.jpg"> </a><ul class="social"><li><a href="javascript:void(0)" onclick="App.showProductPage('`+medicine.medicineid+`')" data-tip="Quick View"><i class="fa fa-eye"></i></a></li></ul></div><div class="product-content"><h3 class="title"><a href="">${medicine.medicinename}</a></h3> <span class="price">${username}</span><span class="price">${price}</span></div></div></div>`
+              var str=`<div class="col-md-4 col-sm-6"><div class="product-grid2"><div class="product-image2"> <a href="#"> <img class="pic-1" src="https://res.cloudinary.com/dxfq3iotg/image/upload/v1561643954/img-1.jpg"> <img class="pic-2" src="https://res.cloudinary.com/dxfq3iotg/image/upload/v1561643955/img1.2.jpg"> </a><ul class="social"><li><a href="javascript:void(0)" onclick="App.showProductPage('`+medicine.medicineid+`')" data-tip="Quick View"><i class="fa fa-eye"></i></a></li></ul></div><div class="product-content"><h3 class="title"><a href="">${medicine.medicinename}</a></h3> <span class="price"></span><span class="price">${price}</span></div></div></div>`
               $("#displaymedicinesofdistributer").append(str);
             }
             return true;
 
           }else if(clickedCategory == "All"){
             if(o.status){
-            var str=`<div class="col-md-4 col-sm-6"><div class="product-grid2"><div class="product-image2"> <a href="#"> <img class="pic-1" src="https://res.cloudinary.com/dxfq3iotg/image/upload/v1561643954/img-1.jpg"> <img class="pic-2" src="https://res.cloudinary.com/dxfq3iotg/image/upload/v1561643955/img1.2.jpg"> </a><ul class="social"><li><a href="javascript:void(0)" onclick="App.showProductPage('`+medicine.medicineid+`')" data-tip="Quick View"><i class="fa fa-eye"></i></a></li></ul></div><div class="product-content"><h3 class="title"><a href="">${medicine.medicinename}</a></h3> <span class="price">${username}</span><span class="price">${price}</span></div></div></div>`
+            var str=`<div class="col-md-4 col-sm-6"><div class="product-grid2"><div class="product-image2"> <a href="#"> <img class="pic-1" src="https://res.cloudinary.com/dxfq3iotg/image/upload/v1561643954/img-1.jpg"> <img class="pic-2" src="https://res.cloudinary.com/dxfq3iotg/image/upload/v1561643955/img1.2.jpg"> </a><ul class="social"><li><a href="javascript:void(0)" onclick="App.showProductPage('`+medicine.medicineid+`')" data-tip="Quick View"><i class="fa fa-eye"></i></a></li></ul></div><div class="product-content"><h3 class="title"><a href="">${medicine.medicinename}</a></h3> <span class="price"></span><span class="price">${price}</span></div></div></div>`
             $("#displaymedicinesofdistributer").append(str);
             }
           }
@@ -268,7 +280,7 @@ trackProduct :async (id) => {
     App.contracts.Medicine = TruffleContract(Medicine);
 
     //if hosted in kovan or rinkeby then use  "https://rinkeby.infura.io/v3/..." istead of localhost
-    web3 = new Web3(new Web3.providers.HttpProvider("http://localhost:7545"));
+    web3 = new Web3(new Web3.providers.HttpProvider("https://kovan.infura.io/v3/84f14847ade746d6a1265dcb3c518972"));
     App.contracts.Medicine.setProvider(web3.currentProvider)
 
     // Hydrate the smart contract with values from the blockchain
@@ -325,7 +337,7 @@ trackProduct :async (id) => {
 
           console.log("search");
          
-           str=`<div class="col-md-4 col-sm-6 searchimg"><div class="product-grid2"><div class="product-image2"> <a href="#"> <img class="pic-1" id="pic-1" src="https://res.cloudinary.com/dxfq3iotg/image/upload/v1561643954/img-1.jpg"></a><ul class="social"><li><a href="javascript:void(0)" onclick="App.LoadSearch()" data-tip="Quick View"><i class="fa fa-eye"></i></a></li></ul></div><div class="product-content"><h3 class="title"><a href="">${medicine.medicinename}</a></h3> <span class="price">${price}</span></div></div></div>`
+           str=`<div class="col-md-4 col-sm-6 searchimg"><div class="product-grid2"><div class="product-image2"> <a href="#"> <img class="pic-1" id="pic-1" src="https://res.cloudinary.com/dxfq3iotg/image/upload/v1561643954/img-1.jpg"></a><ul class="social"><li><a href="javascript:void(0)" onclick="App.showProduct()" data-tip="Quick View"><i class="fa fa-eye"></i></a></li></ul></div><div class="product-content"><h3 class="title"><a href="">${medicine.medicinename}</a></h3> <span class="price">${price}</span></div></div></div>`
           
           }  
           console.log(str);
@@ -345,12 +357,51 @@ trackProduct :async (id) => {
 
     await App.loadContract1();
   },
+
+  
+
+  
+
+  showAllMedicines :async () => {
+    //window.alert("Home display");
+    
+   
+
+    $("#showAllMedicines").empty();
+    await App.loadContract1();
+    
+    var count=await App.medicine.medicineforendusersCount();
+    
+    for(var i=1;i<=count;i++){
+      var medicine=await App.medicine.medicineforendusers(i);
+      var med=await App.medicine.medicines(parseInt(medicine.medicineid));
+
+      var manufactName = med.manufaname;
+      var user=await App.medicine.users(manufactName);
+      var username=user.name;
+      var price=med.price + " €";
+      var descdire= await App.medicine.meddescdirections(parseInt(medicine.medicineid));
+      var description=descdire.description;
+      var direction=descdire.direction;
+
+     
+      //var description=med.description
+      //var str=`<div class="big-box col-md-5"><div class="big-img-box"><img src="images/product/2.jpg" alt="#" /></div><div class="big-dit-b clearfix"><div class="col-md-6"><div class="left-big"><h3>${medicine.medicinename}</h3><p>${description}</p><div class="prod-btn"><a href="#"><i class="fa fa-star" aria-hidden="true"></i> Save to wishlist</a></div></div></div><div class="col-md-6"><div class="right-big-b"><div class="tight-btn-b clearfix"><button class="btn btn-primary" onclick="App.showProductPage('`+medicine.medicineid+`')">View</button><a href="#">${price}</a></div></div></div></div></div>`
+      var str=`<div class="col-md-4 col-sm-6"><div class="product-grid2"><div class="product-image2"> <a href="#"> <img class="pic-1" src="https://res.cloudinary.com/dxfq3iotg/image/upload/v1561643954/img-1.jpg"> <img class="pic-2" src="https://res.cloudinary.com/dxfq3iotg/image/upload/v1561643955/img1.2.jpg"> </a><ul class="social"><li><a href="javascript:void(0)" onclick="App.showProductPage('`+medicine.medicineid+`')" data-tip="Quick View"><i class="fa fa-eye"></i></a></li><li><a href="#" data-tip="Add to Cart"><i class="fa fa-shopping-cart"></i></a></li></ul></div><div class="product-content"><h3 class="title"><a href="">${medicine.medicinename}</a></h3> <span class="price">${price}</span></div></div></div>`
+      $("#showAllMedicines").append(str);
+
+      
+    $("#showAllMedicines").show();
+    }
+},
+  
   
   render: async () => {
     // Prevent double render
     if (App.loading) {
       return
     }
+
     // Update app loading state
       App.setLoading(true)      
       var home = $("#home");  
@@ -456,6 +507,16 @@ $(function () {
   })
 });
 
+$(function () {
+  $(window).load(function () {
+      
+       App.showAllMedicines();
+  })
+});
+
+  
+
+
 function clicked(item) {
   console.log($(item).attr("id"));
 
@@ -469,4 +530,6 @@ function clicked(item) {
 function loginClick(){
   //alert("MetaMask Connection clicked");
   App.load();
+  
+
 }
