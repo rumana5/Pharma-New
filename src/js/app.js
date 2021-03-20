@@ -38,7 +38,9 @@ App = {
 
     $("#displaytrackbutton").html(str);
     $("#categorypage").hide();
+    
     $("#productpage").show();
+
 
     await App.showsimilarproducts(id);
   },
@@ -73,12 +75,14 @@ listenForEvents:async  function() {
       filter: {}, // Using an array means OR: e.g. 20 or 23
       fromBlock: 0,
       toBlock: 'latest'
-  }, function(error, event){ //console.log(event); 
+  }, function(error, event){ 
+    //console.log(event); 
   })
   .on('data', function(event){
       //console.log(event); // same results as the optional callback above
       //window.alert("event cPTURD");
       App.allblocks.push(event); 
+      
   })
   .on('changed', function(event){
       // remove event from local database
@@ -100,7 +104,7 @@ trackProduct :async (id) => {
     for(var i=0;i<App.allblocks[0].length;i++){
       
       var block= App.allblocks[0][i];
-      //window.alert(block);
+      console.log(block);
       //console.log("Tracking");
       //.log(block.args[0].toNumber());
       if(block.args[0].toNumber()==id)
@@ -108,7 +112,10 @@ trackProduct :async (id) => {
         var user=await App.medicine.users(block.args[2].toString());
         var userName=user.name; 
         var roleName, roleAddress;
-
+        var link="https://kovan.etherscan.io/tx/"+block.transactionHash;
+        // var add="https://kovan.etherscan.io/address/0xa1ce9e5c627c8e06d55a169972d7c1a370bbf7fd";
+        console.log(block.transactionHash);
+        
         var role = user.role;
          if(role == 4){
            roleName = "Manufacturer Name";
@@ -121,7 +128,7 @@ trackProduct :async (id) => {
          }
         console.log(userName);
         
-        var str="<table class='table table-bordered' width='100%' cellspacing='0'><tr><th>Medicine Name</th><td>"+block.args[1].toString()+"</td></tr><tr><th>"+roleName+"</th><td>"+userName+"</td></tr> <tr><th>"+roleAddress+"</th><td>"+block.args[2].toString()+"</td></tr><tr><th>Batch No</th><td>"+block.args[3].toString()+"</td></tr><tr><th>Manufacture Date</th><td>"+block.args[4].toString()+"</td></tr><tr><th>Expiry Date</th><td>"+block.args[5].toString()+"</td></tr><tr><th>Category</th><td>"+block.args[6].toString()+"</td></tr><tr><th>Qty</th><td>"+block.args[7].toNumber().toString()+"</td> </table>";
+        var str="<a class='btn btn-success' href='"+link+"' target=_blank style='margin-bottom:15px; float:right'>View on Etherscan</a><table class='tableTrack table-striped table-borderless' width='100%' cellspacing='0'><tr><th>Medicine Name</th><td>"+block.args[1].toString()+"</td></tr><tr><th>"+roleName+"</th><td>"+userName+"</td></tr> <tr><th>"+roleAddress+"</th><td>"+block.args[2].toString()+"</td></tr><tr><th>Batch No</th><td>"+block.args[3].toString()+"</td></tr><tr><th>Manufacture Date</th><td>"+block.args[4].toString()+"</td></tr><tr><th>Expiry Date</th><td>"+block.args[5].toString()+"</td></tr><tr><th>Category</th><td>"+block.args[6].toString()+"</td></tr><tr><th>Qty</th><td>"+block.args[7].toNumber().toString()+"</td> </table>";
           console.log("Tracking") ;
           $("#trackdisplayenduser").append(str);                                                    
       } 
@@ -273,7 +280,7 @@ trackProduct :async (id) => {
     App.contracts.Medicine = TruffleContract(Medicine);
 
     //if hosted in kovan or rinkeby then use  "https://rinkeby.infura.io/v3/..." istead of localhost
-    web3 = new Web3(new Web3.providers.HttpProvider("http://localhost:7545"));
+    web3 = new Web3(new Web3.providers.HttpProvider("https://kovan.infura.io/v3/84f14847ade746d6a1265dcb3c518972"));
     App.contracts.Medicine.setProvider(web3.currentProvider)
 
     // Hydrate the smart contract with values from the blockchain
@@ -330,7 +337,7 @@ trackProduct :async (id) => {
 
           console.log("search");
          
-           str=`<div class="col-md-4 col-sm-6 searchimg"><div class="product-grid2"><div class="product-image2"> <a href="#"> <img class="pic-1" id="pic-1" src="https://res.cloudinary.com/dxfq3iotg/image/upload/v1561643954/img-1.jpg"></a><ul class="social"><li><a href="javascript:void(0)" onclick="App.loadHome()" data-tip="Quick View"><i class="fa fa-eye"></i></a></li></ul></div><div class="product-content"><h3 class="title"><a href="">${medicine.medicinename}</a></h3> <span class="price">${price}</span></div></div></div>`
+           str=`<div class="col-md-4 col-sm-6 searchimg"><div class="product-grid2"><div class="product-image2"> <a href="#"> <img class="pic-1" id="pic-1" src="https://res.cloudinary.com/dxfq3iotg/image/upload/v1561643954/img-1.jpg"></a><ul class="social"><li><a href="javascript:void(0)" onclick="App.showProduct()" data-tip="Quick View"><i class="fa fa-eye"></i></a></li></ul></div><div class="product-content"><h3 class="title"><a href="">${medicine.medicinename}</a></h3> <span class="price">${price}</span></div></div></div>`
           
           }  
           console.log(str);
@@ -350,6 +357,10 @@ trackProduct :async (id) => {
 
     await App.loadContract1();
   },
+
+  
+
+  
 
   showAllMedicines :async () => {
     //window.alert("Home display");

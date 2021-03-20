@@ -231,6 +231,7 @@ App = {
       $("#addprice").val('');
       $("#adddescription").val('');
       $("#adddirection").val('');
+      $("#addquantity").val('');
       alert("Product Added successfully"); 
     },
 
