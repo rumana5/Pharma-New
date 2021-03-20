@@ -4,6 +4,9 @@ App = {
   manfdisplay:0,
   admindisplay:1,
   allblocks:[],
+  displayData:0,
+  arr:[],
+  similarArr:[],
 
   load: async () => {
     await App.loadWeb3()
@@ -13,17 +16,12 @@ App = {
   },
 
   showProductPage :async (id) => {
-    // window.alert("clicked view page" +id);
     var med=await App.medicine.medicines(parseInt(id));
     var descdire= await App.medicine.meddescdirections(parseInt(id));
     var description=descdire.description;
     var direction=descdire.direction;    
-     //console.log(med);
     var price="€ "+ med.price;
     var qty=med.quantity;
-    
-    //window.alert(price);
-    //window.alert(price);
 
     $("#displayprice").html(price.toString());
     $("#displayquantity").html(qty.toString());
@@ -32,10 +30,30 @@ App = {
     $("#displaydirections").html(direction);  
 
     var str=`<div class="col-md-4 col-lg-3 viewBtn"><button type="button" class="btn btn-primary btn-block" data-toggle='modal' data-target='#exampleModalLong' onclick="App.trackProduct('`+id+`')">Track Product</button></div>`+" "+`<div class="col-md-4 col-lg-3 viewBtn"><button type="button" class="btn btn-primary btn-block" data-toggle='modal' data-target='#exampleModalLong1' onclick="App.viewCertificate()">View Certificate</button></div>`;
-    // console.log(str);
+
     $("#displaytrackbutton").html(str);
     $("#categorypage").hide();
     $("#productpage").show();
+
+    await App.showsimilarproducts(id);
+  },
+
+  showsimilarproducts : async(id) => {
+    var Category = App.similarArr[id].categoryName;
+
+    $("#displaymedicines").empty();
+
+    for (var i in App.similarArr) 
+    {
+      if(App.similarArr[i].id != id){
+
+        if(App.similarArr[i].categoryName==Category){
+
+          var str=`<div class="col-md-4 col-sm-6"><div class="product-grid2"><div class="product-image2"> <a> <img class="pic-1" src="https://res.cloudinary.com/dxfq3iotg/image/upload/v1561643954/img-1.jpg"> <img class="pic-2" src="https://res.cloudinary.com/dxfq3iotg/image/upload/v1561643955/img1.2.jpg"> </a><ul class="social"><li><a href="javascript:void(0)" onclick="App.showProductPage('`+App.similarArr[i].id+`')" data-tip="Quick View"><i class="fa fa-eye"></i></a></li></ul></div><div class="product-content"><h3 class="title"><a>${App.similarArr[i].name}</a></h3> <span class="price">${App.similarArr[i].price}</span></div></div></div>`
+          $("#displaymedicines").append(str);
+        }
+      }
+    }
   },
 
   //Listen for events emitted from the contract
@@ -107,34 +125,90 @@ trackProduct :async (id) => {
   },
 
   loadHome :async () => {
-    //window.alert("Home display");
+
+    var clickedCategory = localStorage.getItem("categoryName");
+
+    if(clickedCategory!="All")
+
+      $("[id='nameCategory']").html(clickedCategory);
+    
+    var options = '';
     
     $("#categorypage").show();
-   
     $("#productpage").hide();
-
     $('#boxscroll').empty();
-
     $("#displaymedicinesofdistributer").empty();
+
     await App.loadContract1();
     var count=await App.medicine.medicineforendusersCount();
     for(var i=1;i<=count;i++){
       var medicine=await App.medicine.medicineforendusers(i);
       var med=await App.medicine.medicines(parseInt(medicine.medicineid));
+      var category = await med.category;
 
       var manufactName = med.manufaname;
       var user=await App.medicine.users(manufactName);
       var username=user.name;
       var price=med.price + " €";
-      var descdire= await App.medicine.meddescdirections(parseInt(medicine.medicineid));
-      var description=descdire.description;
-      var direction=descdire.direction;
 
-     
-      //var description=med.description
-      //var str=`<div class="big-box col-md-5"><div class="big-img-box"><img src="images/product/2.jpg" alt="#" /></div><div class="big-dit-b clearfix"><div class="col-md-6"><div class="left-big"><h3>${medicine.medicinename}</h3><p>${description}</p><div class="prod-btn"><a href="#"><i class="fa fa-star" aria-hidden="true"></i> Save to wishlist</a></div></div></div><div class="col-md-6"><div class="right-big-b"><div class="tight-btn-b clearfix"><button class="btn btn-primary" onclick="App.showProductPage('`+medicine.medicineid+`')">View</button><a href="#">${price}</a></div></div></div></div></div>`
-      var str=`<div class="col-md-4 col-sm-6"><div class="product-grid2"><div class="product-image2"> <a href="#"> <img class="pic-1" src="https://res.cloudinary.com/dxfq3iotg/image/upload/v1561643954/img-1.jpg"> <img class="pic-2" src="https://res.cloudinary.com/dxfq3iotg/image/upload/v1561643955/img1.2.jpg"> </a><ul class="social"><li><a href="javascript:void(0)" onclick="App.showProductPage('`+medicine.medicineid+`')" data-tip="Quick View"><i class="fa fa-eye"></i></a></li><li><a href="#" data-tip="Add to Cart"><i class="fa fa-shopping-cart"></i></a></li></ul></div><div class="product-content"><h3 class="title"><a href="">${medicine.medicinename}</a></h3> <span class="price">${price}</span></div></div></div>`
-      $("#displaymedicinesofdistributer").append(str);
+      if(App.displayData==0){
+
+        var found = App.arr.some(el => el.name === username);
+  
+        if(category==clickedCategory){
+          
+          App.similarArr.push({ id: medicine.medicineid,name: medicine.medicinename, price: price, categoryName: category });
+
+          if(found){
+        
+          } else {
+           App.arr.push({ id: App.arr.length + 1,name: username, status: true });
+          } 
+
+        } else if(clickedCategory=="All"){
+
+          App.similarArr.push({ id: medicine.medicineid,name: medicine.medicinename, price: price, categoryName: category });
+         
+          if(found){
+        
+          } else {
+           App.arr.push({ id: App.arr.length + 1,name: username, status: true });
+          } 
+        }
+
+      }
+
+      let obj = App.arr.find((o) => {
+        if (o.name === username) {
+          if(category == clickedCategory){
+            if(o.status){
+              var str=`<div class="col-md-4 col-sm-6"><div class="product-grid2"><div class="product-image2"> <a href="#"> <img class="pic-1" src="https://res.cloudinary.com/dxfq3iotg/image/upload/v1561643954/img-1.jpg"> <img class="pic-2" src="https://res.cloudinary.com/dxfq3iotg/image/upload/v1561643955/img1.2.jpg"> </a><ul class="social"><li><a href="javascript:void(0)" onclick="App.showProductPage('`+medicine.medicineid+`')" data-tip="Quick View"><i class="fa fa-eye"></i></a></li></ul></div><div class="product-content"><h3 class="title"><a href="">${medicine.medicinename}</a></h3> <span class="price">${username}</span><span class="price">${price}</span></div></div></div>`
+              $("#displaymedicinesofdistributer").append(str);
+            }
+            return true;
+
+          }else if(clickedCategory == "All"){
+            if(o.status){
+            var str=`<div class="col-md-4 col-sm-6"><div class="product-grid2"><div class="product-image2"> <a href="#"> <img class="pic-1" src="https://res.cloudinary.com/dxfq3iotg/image/upload/v1561643954/img-1.jpg"> <img class="pic-2" src="https://res.cloudinary.com/dxfq3iotg/image/upload/v1561643955/img1.2.jpg"> </a><ul class="social"><li><a href="javascript:void(0)" onclick="App.showProductPage('`+medicine.medicineid+`')" data-tip="Quick View"><i class="fa fa-eye"></i></a></li></ul></div><div class="product-content"><h3 class="title"><a href="">${medicine.medicinename}</a></h3> <span class="price">${username}</span><span class="price">${price}</span></div></div></div>`
+            $("#displaymedicinesofdistributer").append(str);
+            }
+          }
+        }
+      });
+    }
+
+    for (var i in App.arr) 
+    {
+      if(App.arr[i].status)
+          options += '<input type="checkbox" class="filled-in chk-col-blue" name="checkbox" id="checkbox-' + i + '" value="' + i + '" class="custom" checked="true" onchange="App.myFunction(this);" />';
+      else
+          options += '<input type="checkbox" class="filled-in chk-col-blue" name="checkbox" id="checkbox-' + i + '" value="' + i + '" class="custom" onchange="App.myFunction(this);" />';
+           
+      options += '<label for="checkbox-' + i + '">' + App.arr[i].name + '</label>';
+      options += '<br>';
+
+      $('#boxscroll').append(options);      
+      options = '';   
     }
 },
   // https://medium.com/metamask/https-medium-com-metamask-breaking-change-injecting-web3-7722797916a8
@@ -201,6 +275,35 @@ trackProduct :async (id) => {
     App.medicine = await App.contracts.Medicine.deployed()
     App.listenForEvents();
   },
+  myFunction:async(elem)=>{
+
+    App.displayData=1;
+
+    var manuName = $("#"+elem.id).next().text();
+    
+    if (elem.checked)
+    {
+      console.log("checked");
+      for (var i in App.arr) {
+        if (App.arr[i].name == manuName) {
+          App.arr[i].status = true;
+          break; 
+        }
+      }
+    }
+    else
+    {
+      console.log("unchecked");
+      for (var i in App.arr) {
+        if (App.arr[i].name == manuName) {
+         App.arr[i].status = false;
+         break;
+        }
+      }
+    }
+    await App.loadHome();
+  },
+
   searchMedicineByEndUser :async () =>{
     $("#close").show();
     var mednamesearch=$("#medicinesearchbyEndUser").val();    
@@ -284,11 +387,7 @@ trackProduct :async (id) => {
         else if(role=="4"){
           // crudOperation.show();
           //Manufacturer
-
-          window.location.replace('Manufacturer/index.html');
-          
-          
-          
+          window.location.replace('Manufacturer/index.html'); 
         }
         else{
 
@@ -357,7 +456,15 @@ $(function () {
   })
 });
 
+function clicked(item) {
+  console.log($(item).attr("id"));
 
+  localStorage.setItem("categoryName",$(item).attr("id"));
+
+  window.location.replace('./category.html');
+
+
+ }
 
 function loginClick(){
   //alert("MetaMask Connection clicked");
