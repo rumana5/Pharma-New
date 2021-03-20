@@ -34,7 +34,7 @@ App = {
     $("#displaydescription").html(description);
     $("#displaydirections").html(direction);  
 
-    var str=`<div class="col-md-4 col-lg-3 viewBtn"><button type="button" class="btn btn-primary btn-block" data-toggle='modal' data-target='#exampleModalLong' onclick="App.trackProduct('`+id+`')">Track Product</button></div>`+" "+`<div class="col-md-4 col-lg-3 viewBtn"><button type="button" class="btn btn-primary btn-block" data-toggle='modal' data-target='#exampleModalLong1' onclick="App.viewCertificate()">View Certificate</button></div>`;
+    var str=`<div class="col-md-4 col-lg-3 viewBtn"><button type="button" class="btn btn-primary btn-block" data-toggle='modal' data-target='#exampleModalLong' onclick="App.trackProduct('`+id+`')">Track Product</button></div>`+" "+`<div class="col-md-4 col-lg-3 viewBtn"><button type="button" class="btn btn-primary btn-block" data-toggle='modal' data-target='#exampleModalLong1' onclick="App.viewCertificate('`+med.medname+`')">View Certificate</button></div>`;
 
     $("#displaytrackbutton").html(str);
     $("#categorypage").hide();
@@ -280,7 +280,8 @@ trackProduct :async (id) => {
     App.contracts.Medicine = TruffleContract(Medicine);
 
     //if hosted in kovan or rinkeby then use  "https://rinkeby.infura.io/v3/..." istead of localhost
-    web3 = new Web3(new Web3.providers.HttpProvider("https://kovan.infura.io/v3/84f14847ade746d6a1265dcb3c518972"));
+    // web3 = new Web3(new Web3.providers.HttpProvider("https://kovan.infura.io/v3/84f14847ade746d6a1265dcb3c518972"));
+    web3 = new Web3(new Web3.providers.HttpProvider("http://localhost:7545"));
     App.contracts.Medicine.setProvider(web3.currentProvider)
 
     // Hydrate the smart contract with values from the blockchain
@@ -466,21 +467,46 @@ trackProduct :async (id) => {
       App.setLoading(false)
     },
 
-    viewCertificate:async ()=>{
-      var certificateAddress= "0xaF7eD4e8e423F81d1F543eC5eFc382943121129e";
+    viewCertificate:async (name)=>{
+      var certificateAddress='';
+      console.log(name);
+
+      if(name.localeCompare("Dolonex Disp 20MG Tabs")==0 || name.localeCompare("DISP 20MG TABS")==0){
+        certificateAddress="0x089f03b202470b872b7e2c84c7a6815033382140";
+        console.log("enter");
+      }else if(name.localeCompare("Aspirin")==0 || name.localeCompare("Aspirin 500 mg Tabs")==0){
+        certificateAddress="0x4C21bb8b30DBd4aFBC7Ea0e4F52a0aF90c50082C";
+        console.log(certificateAddress);
+      }else if(name.localeCompare("ATPARK 25MG")==0 || name.localeCompare("ATPARK")==0){
+        certificateAddress ="0x0AB8F188F7F950e91c6dB8f745B124A15B0B5d5F";
+      }else if(name.localeCompare("Anacin Tabs")==0){
+        certificateAddress="0x7A4D996385985A39a245786aB7524C1a9ca0fE98";
+      }
+
+      //certificateAddress= "0x089f03b202470b872b7e2c84c7a6815033382140";
       var baseURL = "https://app.certificateok.de/api/certificate/";
+      var certOk = "https://www.certificateok.de/wp-content/uploads/2016/04/certificate_ok_black_Zeichenfläche-1.png";
     
       $.ajax({
     
-          url: "https://app.certificateok.de/api/certificate/0x2fcd5be391Beb9Ce874b117fD3D50cCBA172C2bB",
+          url: baseURL + certificateAddress,
           method:"GET"
       
         }).done(function(data){
-          $('#viewCert').empty();
-          for (const [key, value] of Object.entries(data)) {
-          $("#viewCert").append("<div>" + `${key}: ${value}` + "</div>");
-       
-        }
+           $('#viewCert').empty();
+
+          document.getElementById("logoProp").src = `${certOk}`;
+
+          var jsonData = '';
+          if(data.valid)
+          
+            jsonData=`<table class='tableCert table-borderless' width='100%' cellspacing='0'><colgroup><col span="1" style="width: 40%;"><col span="1" style="width: 60%;"></colgroup><tr><th>Holder of Certificate:</th><td>${data.holder}</td></tr><tr><th>Certification Mark:</th><td><img alt="" src="${data.cbLogo}" height="100" width="100"></td></tr><tr><th>Certificate Number:</th><td>${data.number}</td></tr><tr><th>Product Name:</th><td>${data.model}</td></tr><tr><th>Product Category:</th><td>${data.product}</td></tr><tr><th>Standards:</th><td>${data.standard}</td></tr><tr><th>Issued Date:</th><td>${data.issued}</td></tr><tr><th>Expired Date:</th><td>${data.expired}</td></tr><tr><th>Valid:</th><td><i class="fa fa-check-circle fa-2x" style="color:green;"></i></i></td></tr> </table>`;
+
+          else
+            jsonData=`<table class='tableCert table-borderless' width='100%' cellspacing='0'><colgroup><col span="1" style="width: 40%;"><col span="1" style="width: 60%;"></colgroup><tr><th>Holder of Certificate:</th><td>${data.holder}</td></tr><tr><th>Certification Mark:</th><td><img alt="" src="${data.cbLogo}" height="100" width="100"></td></tr><tr><th>Certificate Number:</th><td>${data.number}</td></tr><tr><th>Product Name:</th><td>${data.model}</td></tr><tr><th>Product Category:</th><td>${data.product}</td></tr><tr><th>Standards:</th><td>${data.standard}</td></tr><tr><th>Issued Date:</th><td>${data.issued}</td></tr><tr><th>Expired Date:</th><td>${data.expired}</td></tr><tr><th>Valid:</th><td><i class="fa fa-times-circle fa-2x" style="color:red;"></i></i></td></tr> </table>`;
+             
+          $("#viewCert").append(jsonData);
+
         }).fail(function(err){
           console.log({err});
     });
