@@ -1021,6 +1021,7 @@ body {
 
 	text-align: center;
 	clear: both;
+	cursor: pointer;
 
 }
 
@@ -3765,13 +3766,16 @@ html .ui-button.ui-state-disabled:active {
 
 .similar-box {
 	padding: 40px 0px;
+	background-color: #FFF;
 }
 
 .similar-box h2 {
 	font-size: 18px;
-	color: #343331;
+	color: #000;
 	font-weight: 700;
+	text-align: center;
 }
+
 
 .price-box-right h4 {
 	font-size: 16px;
