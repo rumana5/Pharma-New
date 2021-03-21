@@ -548,7 +548,8 @@ function clicked(item) {
 
   localStorage.setItem("categoryName",$(item).attr("id"));
 
-  window.location.replace('./category.html');
+  //window.location.replace('./category.html');
+  $("a").prop("href", "./category.html");
 
 
  }
@@ -556,6 +557,4 @@ function clicked(item) {
 function loginClick(){
   //alert("MetaMask Connection clicked");
   App.load();
-  
-
 }
