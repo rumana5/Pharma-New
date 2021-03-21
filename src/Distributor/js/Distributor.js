@@ -323,12 +323,31 @@ trackMedicineByDistributer:async (id)=>{
     for(var i=0;i<App.allblocks[0].length;i++){
       
       var block= App.allblocks[0][i];
-      //window.alert(block);
+      console.log(block);
       //console.log("Tracking");
       //.log(block.args[0].toNumber());
       if(block.args[0].toNumber()==id)
       {    
-        var str="<table class='table table-bordered' width='100%' cellspacing='0'><tr><th>Medicine Name</th><td>"+block.args[1].toString()+"</td></tr><tr><th>Manufacturer Name</th><td>"+manfact+"</td></tr> <tr><th>Manufacturer Address</th><td>"+block.args[2].toString()+"</td></tr><tr><th>Batch No</th><td>"+block.args[3].toString()+"</td></tr><tr><th>Manufacture Date</th><td>"+block.args[4].toString()+"</td></tr><tr><th>Expiry Date</th><td>"+block.args[5].toString()+"</td></tr><tr><th>Category</th><td>"+block.args[6].toString()+"</td></tr><tr><th>Qty</th><td>"+block.args[7].toNumber().toString()+"</td> </table>";
+        var user=await App.medicine.users(block.args[2].toString());
+        var userName=user.name; 
+        var roleName, roleAddress;
+        var link="https://kovan.etherscan.io/tx/"+block.transactionHash;
+        // var add="https://kovan.etherscan.io/address/0xa1ce9e5c627c8e06d55a169972d7c1a370bbf7fd";
+        console.log(block.transactionHash);
+        
+        var role = user.role;
+         if(role == 4){
+           roleName = "Manufacturer Name";
+           roleAddress = "Manufacturer Address";
+
+         }
+         else{
+          roleName = "Distributor Name";
+          roleAddress = "Distributor Address";
+         }
+        console.log(userName);
+        
+        var str="<a class='btn btn-success' href='"+link+"' target=_blank style='margin-bottom:15px; float:right'>View on Etherscan</a><table class='tableTrack table-striped table-borderless' width='100%' cellspacing='0'><tr><th>Medicine Name</th><td>"+block.args[1].toString()+"</td></tr><tr><th>"+roleName+"</th><td>"+userName+"</td></tr> <tr><th>"+roleAddress+"</th><td>"+block.args[2].toString()+"</td></tr><tr><th>Batch No</th><td>"+block.args[3].toString()+"</td></tr><tr><th>Manufacture Date</th><td>"+block.args[4].toString()+"</td></tr><tr><th>Expiry Date</th><td>"+block.args[5].toString()+"</td></tr><tr><th>Category</th><td>"+block.args[6].toString()+"</td></tr><tr><th>Qty</th><td>"+block.args[7].toNumber().toString()+"</td> </table>";
           console.log("Tracking") ;
           $("#trackdisplay").append(str);                                                    
       } 
