@@ -9,6 +9,9 @@ App = {
   similarArr:[],
   minPrice:1,
   maxPrice:100,
+  medicineIdforendUserBuy:0,
+  medicineforendusersID:0,
+  qtyselectedbyenduser:0,
 
   load: async () => {
     await App.loadWeb3()
@@ -17,34 +20,38 @@ App = {
     await App.render()
   },
 
-  showProductPage :async (id) => {
+  showProductPage :async (id,i) => {
+    //window.alert("clicked view page" +id);
     var med=await App.medicine.medicines(parseInt(id));
+    
     var descdire= await App.medicine.meddescdirections(parseInt(id));
     var description=descdire.description;
-    var direction=descdire.direction;    
-    var price="€ "+ med.price;
-    var qty=med.quantity;
+    var direction=descdire.direction;   
     var user=await App.medicine.users(med.manufaname);
-    var username=user.name;
-    console.log(username);
+    var username=user.name; 
+     //console.log(med);
+    var price="€ "+ med.price;
+    var medicineforenduser=await App.medicine.medicineforendusers(parseInt(i));
+    var qty=medicineforenduser.qty;
+    App.medicineIdforendUserBuy=id;
+    App.medicineforendusersID=i;
+    //window.alert(price);
+    //window.alert(price);
 
     $("#displayprice").html(price.toString());
     $("#displayquantity").html(qty.toString());
     $("#productName").html(med.medname); 
-    $("#manufacturerName").html(username); 
-
+    $("#distributername").html(medicineforenduser.distributer); 
+    $("#manufacturerName").html(username);
+    
     $("#displaydescription").html(description);
     $("#displaydirections").html(direction);  
 
-    var str=`<div class="col-md-4 col-lg-3 viewBtn"><button type="button" class="btn btn-primary btn-block" data-toggle='modal' data-target='#exampleModalLong' onclick="App.trackProduct('`+id+`')">Track Product</button></div>`+" "+`<div class="col-md-4 col-lg-3 viewBtn"><button type="button" class="btn btn-primary btn-block" data-toggle='modal' data-target='#exampleModalLong1' onclick="App.viewCertificate('`+med.medname+`')">View Certificate</button></div>`;
-
+    var str=`<div class="col-md-4 col-lg-3 viewBtn"><button type="button" class="btn btn-primary btn-block" data-toggle='modal' data-target='#exampleModalLong' onclick="App.trackProduct('`+id+`')">Track Product</button></div>`+" "+`<div class="col-md-4 col-lg-3 viewBtn"><button type="button" class="btn btn-primary btn-block" data-toggle='modal' data-target='#exampleModalLong1' onclick="App.viewCertificate()">View Certificate</button></div>`;
+    
     $("#displaytrackbutton").html(str);
     $("#categorypage").hide();
-    
     $("#productpage").show();
-
-
-    await App.showsimilarproducts(id);
   },
 
   showsimilarproducts : async(id) => {
@@ -196,7 +203,7 @@ trackProduct :async (id) => {
           if(category == clickedCategory){
             if(o.status){
               if(Number(price)>=Number(App.minPrice) && Number(price)<=Number(App.maxPrice)){
-                var str=`<div class="col-md-4 col-sm-6"><div class="product-grid2"><div class="product-image2"> <a href=""> <img class="pic-1" src="https://res.cloudinary.com/dxfq3iotg/image/upload/v1561643954/img-1.jpg"> <img class="pic-2" src="https://res.cloudinary.com/dxfq3iotg/image/upload/v1561643955/img1.2.jpg"> </a><ul class="social"><li><a href="javascript:void(0)" onclick="App.showProductPage('`+medicine.medicineid+`')" data-tip="Quick View"><i class="fa fa-eye"></i></a></li></ul></div><div class="product-content"><h3 class="title"><a href="">${medicine.medicinename}</a></h3> <span class="price"></span><span class="price">${price}</span></div></div></div>`
+                var str=`<div class="col-md-4 col-sm-6"><div class="product-grid2"><div class="product-image2"> <a href=""> <img class="pic-1" src="https://res.cloudinary.com/dxfq3iotg/image/upload/v1561643954/img-1.jpg"> <img class="pic-2" src="https://res.cloudinary.com/dxfq3iotg/image/upload/v1561643955/img1.2.jpg"> </a><ul class="social"><li><a href="javascript:void(0)" onclick="App.showProductPage('`+medicine.medicineid+`','`+i+`')" data-tip="Quick View"><i class="fa fa-eye"></i></a></li></ul></div><div class="product-content"><h3 class="title"><a href="">${medicine.medicinename}</a></h3> <span class="price"></span><span class="price">${price}</span></div></div></div>`
                 $("#displaymedicinesofdistributer").append(str);
               }
             }
@@ -205,7 +212,7 @@ trackProduct :async (id) => {
           }else if(clickedCategory == "All"){
             if(o.status){
               if(Number(price)>=Number(App.minPrice) && Number(price)<=Number(App.maxPrice)){
-                var str=`<div class="col-md-4 col-sm-6"><div class="product-grid2"><div class="product-image2"> <a href="#"> <img class="pic-1" src="https://res.cloudinary.com/dxfq3iotg/image/upload/v1561643954/img-1.jpg"> <img class="pic-2" src="https://res.cloudinary.com/dxfq3iotg/image/upload/v1561643955/img1.2.jpg"> </a><ul class="social"><li><a href="javascript:void(0)" onclick="App.showProductPage('`+medicine.medicineid+`')" data-tip="Quick View"><i class="fa fa-eye"></i></a></li></ul></div><div class="product-content"><h3 class="title"><a href="">${medicine.medicinename}</a></h3> <span class="price"></span><span class="price">${price}</span></div></div></div>`
+                var str=`<div class="col-md-4 col-sm-6"><div class="product-grid2"><div class="product-image2"> <a href="#"> <img class="pic-1" src="https://res.cloudinary.com/dxfq3iotg/image/upload/v1561643954/img-1.jpg"> <img class="pic-2" src="https://res.cloudinary.com/dxfq3iotg/image/upload/v1561643955/img1.2.jpg"> </a><ul class="social"><li><a href="javascript:void(0)" onclick="App.showProductPage('`+medicine.medicineid+`','`+i+`')" data-tip="Quick View"><i class="fa fa-eye"></i></a></li></ul></div><div class="product-content"><h3 class="title"><a href="">${medicine.medicinename}</a></h3> <span class="price"></span><span class="price">${price}</span></div></div></div>`
                 $("#displaymedicinesofdistributer").append(str);
               }
             }
@@ -376,12 +383,7 @@ trackProduct :async (id) => {
     
     for(var i=1;i<=count;i++){
       var medicine=await App.medicine.medicineforendusers(i);
-
-      console.log(parseInt(medicine.medicineid));
-   
       var med=await App.medicine.medicines(parseInt(medicine.medicineid));
-
-      if(med.medname!=''){
 
       var manufactName = med.manufaname;
       var user=await App.medicine.users(manufactName);
@@ -391,15 +393,54 @@ trackProduct :async (id) => {
       var description=descdire.description;
       var direction=descdire.direction;
 
+     
+      //var description=med.description
+      //var str=`<div class="big-box col-md-5"><div class="big-img-box"><img src="images/product/2.jpg" alt="#" /></div><div class="big-dit-b clearfix"><div class="col-md-6"><div class="left-big"><h3>${medicine.medicinename}</h3><p>${description}</p><div class="prod-btn"><a href="#"><i class="fa fa-star" aria-hidden="true"></i> Save to wishlist</a></div></div></div><div class="col-md-6"><div class="right-big-b"><div class="tight-btn-b clearfix"><button class="btn btn-primary" onclick="App.showProductPage('`+medicine.medicineid+`')">View</button><a href="#">${price}</a></div></div></div></div></div>`
       var str=`<div class="col-md-4 col-sm-6"><div class="product-grid2"><div class="product-image2"> <a href="#"> <img class="pic-1" src="https://res.cloudinary.com/dxfq3iotg/image/upload/v1561643954/img-1.jpg"> <img class="pic-2" src="https://res.cloudinary.com/dxfq3iotg/image/upload/v1561643955/img1.2.jpg"> </a><ul class="social"><li><a href="javascript:void(0)" onclick="App.showProductPage('`+medicine.medicineid+`')" data-tip="Quick View"><i class="fa fa-eye"></i></a></li><li><a href="#" data-tip="Add to Cart"><i class="fa fa-shopping-cart"></i></a></li></ul></div><div class="product-content"><h3 class="title"><a href="">${medicine.medicinename}</a></h3> <span class="price">${price}</span></div></div></div>`
       $("#showAllMedicines").append(str);
-    }
 
       
     $("#showAllMedicines").show();
     }
 },
-  
+
+showBuyPage :async () =>{
+  //window.alert(App.medicineIdforendUserBuy);
+  console.log("payment");
+  var medicine=await App.medicine.medicines(parseInt(App.medicineIdforendUserBuy));
+  var medprice=medicine[7];       
+  var qty=$("#qtyselect").val();
+  console.log(medprice+"---"+qty);
+  //window.alert(qty)
+  App.qtyselectedbyenduser=parseInt(qty);
+  var totalprice=parseInt(qty)*parseInt(medprice);
+  console.log(totalprice);
+  //window.alert(totalprice)
+  $("#totalamountforcreditcard").append(totalprice);
+  $("#categorypage").hide();
+  $("#productpage").hide();
+  $("#paymentpage").show();
+  $("#categorypagetwo").hide();
+  $("#categorytwopagemain").hide();
+  $("#enduserorder").hide();
+},
+completepaymentbyEndUser : async()=>{
+  //window.alert("buying ny end user");
+  //await App.loadWeb3();
+  var medicine=await App.medicine.medicineforendusers(parseInt(App.medicineforendusersID));
+   //console.log(medicine);
+  //window.alert(price);
+  //window.alert(price);
+  var availableqty=medicine[4];
+  if(parseInt(App.qtyselectedbyenduser)>parseInt(availableqty)){
+    window.alert("Quantiy Not Available")
+  }
+  else{
+    //await App.loadAccount();
+    await App.medicine.buyMedicineByEndUser(parseInt(App.medicineforendusersID),parseInt(App.qtyselectedbyenduser),{from:App.account})       
+  }
+ 
+},
   
   render: async () => {
     // Prevent double render
