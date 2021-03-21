@@ -103,20 +103,48 @@
                   <div class="col-md-3 col-sm-4">
                      <div class="furniture-left">
                         <h3>Filter Products</h3>
-                        <div class="by-box">
-                           <h5>By price</h5>
-                           <div id="slider-range"></div>
-                           <p>
-                              <input type="text" id="amount" readonly >
-                           </p>
+
+                        <div class="by-com" style="margin-top:5px; ">
+                           <h5>By Price</h5>
+                           <div class="list-b">
+                              <div id="boxscroll1">
+                                 <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1" checked>
+                                    <label class="form-check-label" for="flexRadioDefault1">
+                                      All Prices
+                                    </label>
+                                  </div>
+                                  <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault2" >
+                                    <label class="form-check-label" for="flexRadioDefault2">
+                                      0-20 EUR
+                                    </label>
+                                  </div>
+                                  <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault3" >
+                                    <label class="form-check-label" for="flexRadioDefault3">
+                                      20-50 EUR
+                                    </label>
+                                  </div>
+                                  <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault4">
+                                    <label class="form-check-label" for="flexRadioDefault4">
+                                      50-100 EUR
+                                    </label>
+                                  </div>
+                              </div>
+                           </div>
                         </div>
-                        <div class="by-com">
-                           <h5>By company</h5>
+
+                        
+                        <div class="by-com" style="margin-top:5px; ">
+                           <h5>By Manufacturer</h5>
                            <div class="list-b">
                               <div id="boxscroll">
                                  
                               </div>
                            </div>
+                        
                         </div>
                         
                      </div>
@@ -640,7 +668,7 @@
       <script src="https://cdn.jsdelivr.net/gh/ethereum/web3.js/dist/web3.min.js"></script>
       <script src="js/custom.js"></script>
       <script src="js/truffle-contract.js"></script>
-      <script>
+      <!-- <script>
          $( function() {
          	$( "#slider-range" ).slider({
          		range: true,
@@ -654,7 +682,7 @@
          	$( "#amount" ).val( "$" + $( "#slider-range" ).slider( "values", 0 ) +
          		" - $" + $( "#slider-range" ).slider( "values", 1 ) );
          } );
-      </script>
+      </script> -->
       <script src="js/jquery.nicescroll.min.js"></script> 
       
       <script>

@@ -2683,6 +2683,15 @@ html .ui-button.ui-state-disabled:active {
 	margin-bottom: 20px;
 }
 
+#boxscroll1{
+	padding: 12px 10px;
+	height: 100%;
+	width: 100%;
+	border: none;
+	overflow: auto;
+	margin-bottom: 20px;
+}
+
 [type="checkbox"]:not(:checked),
 [type="checkbox"]:checked {
 	position: absolute;
