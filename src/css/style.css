@@ -1025,16 +1025,16 @@ body {
 
 }
 
-.categories_link div {
+.categories_link a {
 	color: #000;
 	font-size: 22px;
 	font-weight: 800;
 	
 }
 
-/* .categories_link div:hover {
+.categories_link a:hover {
 	color: #080f63;
-} */
+}
 
 /*--------------------------------------------------------------
 # Featured Services
@@ -4247,10 +4247,6 @@ h3.h3 {
 .header-large{
     font-size: 200%;
     font-weight: 600;
-}
-.light-bold {
-    font-weight: 500;
-    font-size: 13px;
 }
 
 .tableCert td, .tableCert th{

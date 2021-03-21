@@ -74,9 +74,6 @@ App = {
 
   render: async () => {
 
-    var distributorpage=$('#distributorpage');
-    var distributorBuypage=$('#distributorBuypage');
-
     $("#displayMedicine").empty();
     var count= await App.medicine.medicineCount();
     var user=await App.medicine.users(App.account);
@@ -84,11 +81,13 @@ App = {
     $("[id='user']").html(username);
     console.log(App.distributordisplay);
     if(App.distributordisplay==1){
+      console.log(count);
       for (var i = 1; i <= count; i++) {
         var medicine=await App.medicine.medicines(i);
         var accountaddrees=medicine[2];
          var id=medicine[0];
-          var medname=medicine[1];  
+          var medname=medicine[1]; 
+          console.log(medname); 
           //Display name of manufacturer from ethereum address    
           var user=await App.medicine.users(medicine[2]);
           var manfact=user.name;      
@@ -99,12 +98,13 @@ App = {
          //  var str = "<tr><td>" + id +"</td><td>"+medname+"</td><td>"+manfact+"</td><td>"+expdate+"</td><td>"+category+"</td><td>"+price+"</td><td>"+available_Qty+"</td><td><a href='../Cart/index.html'><button class='btn btn-info'>Add</button></a></td><td><button class='btn btn-info' data-toggle='modal' data-target='#exampleModalLong' onclick='App.trackMedicineByDistributer(`"+id+"`)'>Track</button></td><td><button class='btn btn-info' data-toggle='modal' data-target='#exampleModalLong1' onclick='App.viewCertificate()'>View</button></td></tr>";
          //  $("#displayMedicine").append(str); 
          var btn=`<a href='#0' class='cd-add-to-cart js-cd-add-to-cart btn btn-info' data-price=${price} med-name=${medname} med-id=${id}>Add</a>  <div class='cd-cart cd-cart--empty js-cd-cart'><a href='#0' class='cd-cart__trigger text-replace'> Cart  <ul class='cd-cart__count'> <li>0</li><li>0</li> </ul> </a><div class='cd-cart__content'> <div class='cd-cart__layout'><header class='cd-cart__header'> <h2>Cart</h2> <span class='cd-cart__undo'>Item removed. <a href='#0'>Undo</a></span>  </header>  <div class='cd-cart__body'> <ul>  </ul>  </div>   <footer class='cd-cart__footer'>  <a style='cursor: pointer;' onclick='App.proceedToBuyByDistributer()' class='cd-cart__checkout'><em>Checkout - $<span>0</span> <svg class='icon icon--sm' viewBox='0 0 24 24'><g fill='none' stroke='currentColor'><line stroke-width='2' stroke-linecap='round' stroke-linejoin='round' x1='3' y1='12' x2='21' y2='12'/><polyline stroke-width='2' stroke-linecap='round' stroke-linejoin='round' points='15,6 21,12 15,18 '/></g>  </svg>  </em>  </a> </footer>  </div></div>  </div> `;
-          var str = "<tr><td>" + id +"</td><td>"+medname+"</td><td>"+manfact+"</td><td>"+expdate+"</td><td>"+category+"</td><td>"+price+"</td><td>"+available_Qty+"</td><td>"+btn+"</td><td><button class='btn btn-info' data-toggle='modal' data-target='#exampleModalLong' onclick='App.trackMedicineByDistributer(`"+id+"`)'>TRACK</button></td><td><button class='btn btn-info' data-toggle='modal' data-target='#exampleModalLong1' onclick='App.viewCertificate()'>VIEW</button></td></tr>";
+          var str = "<tr><td>" + id +"</td><td>"+medname+"</td><td>"+manfact+"</td><td>"+expdate+"</td><td>"+category+"</td><td>"+price+"</td><td>"+available_Qty+"</td><td>"+btn+"</td><td><button class='btn btn-info' data-toggle='modal' data-target='#exampleModalLong' onclick='App.trackMedicineByDistributer(`"+id+"`)'>TRACK</button></td><td><button class='btn btn-info' data-toggle='modal' data-target='#exampleModalLong1' onclick='App.viewCertificate(`"+medname+"`)'>VIEW</button></td></tr>";
           $("#displayMedicine").append(str); 
      }      
-     $("#distributorpage").show(); 
+    $("#distributorpage").show(); 
     $("#payemtsuccesspage").hide();
     $('#displaypurcahsedmedicine').hide();
+    $("#distributermainpage").show(); 
     $("#ordermanagement").hide(); 
 
     }else if(App.distributordisplay==2){
@@ -384,21 +384,48 @@ var total_amount=0;
     await App.render();
 },
 
-viewCertificate:async ()=>{
-  var certificateAddress= "0xaF7eD4e8e423F81d1F543eC5eFc382943121129e";
-  var baseURL = "https://app.certificateok.de/api/certificate/";
+viewCertificate:async (name)=>{
+  var certificateAddress='';
+      console.log(name);
+
+      if(name.localeCompare("Dolonex Disp 20MG Tabs")==0 || name.localeCompare("DISP 20MG TABS")==0){
+        certificateAddress="0x089f03b202470b872b7e2c84c7a6815033382140";
+        console.log("enter");
+      }else if(name.localeCompare("Aspirin")==0 || name.localeCompare("Aspirin 500 mg Tabs")==0){
+        certificateAddress="0x4C21bb8b30DBd4aFBC7Ea0e4F52a0aF90c50082C";
+        console.log(certificateAddress);
+      }else if(name.localeCompare("ATPARK 25MG")==0 || name.localeCompare("ATPARK")==0){
+        certificateAddress ="0x0AB8F188F7F950e91c6dB8f745B124A15B0B5d5F";
+      }else if(name.localeCompare("Anacin Tabs")==0){
+        certificateAddress="0x7A4D996385985A39a245786aB7524C1a9ca0fE98";
+      }
+
+      //certificateAddress= "0x089f03b202470b872b7e2c84c7a6815033382140";
+      var baseURL = "https://app.certificateok.de/api/certificate/";
+      var certOk = "https://www.certificateok.de/wp-content/uploads/2016/04/certificate_ok_black_Zeichenfläche-1.png";
+    
 
   $.ajax({
 
-      url: "https://app.certificateok.de/api/certificate/0x2fcd5be391Beb9Ce874b117fD3D50cCBA172C2bB",
-      method:"GET"
+    url: baseURL + certificateAddress,
+    method:"GET"
   
     }).done(function(data){
-      $('#main').empty();
-      for (const [key, value] of Object.entries(data)) {
-      $("#main").append("<div>" + `${key}: ${value}` + "</div>");
+      $('#viewCert').empty();
+
+          document.getElementById("logoProp").src = `${certOk}`;
+
+          var jsonData = '';
+          if(data.valid)
+          
+            jsonData=`<table class='tableCert table-borderless' width='100%' cellspacing='0'><colgroup><col span="1" style="width: 40%;"><col span="1" style="width: 60%;"></colgroup><tr><th>Holder of Certificate:</th><td>${data.holder}</td></tr><tr><th>Certification Mark:</th><td><img alt="" src="${data.cbLogo}" height="100" width="100"></td></tr><tr><th>Certificate Number:</th><td>${data.number}</td></tr><tr><th>Product Name:</th><td>${data.model}</td></tr><tr><th>Product Category:</th><td>${data.product}</td></tr><tr><th>Standards:</th><td>${data.standard}</td></tr><tr><th>Issued Date:</th><td>${data.issued}</td></tr><tr><th>Expired Date:</th><td>${data.expired}</td></tr><tr><th>Valid:</th><td><i class="fa fa-check-circle fa-2x" style="color:green;"></i></i></td></tr> </table>`;
+
+          else
+            jsonData=`<table class='tableCert table-borderless' width='100%' cellspacing='0'><colgroup><col span="1" style="width: 40%;"><col span="1" style="width: 60%;"></colgroup><tr><th>Holder of Certificate:</th><td>${data.holder}</td></tr><tr><th>Certification Mark:</th><td><img alt="" src="${data.cbLogo}" height="100" width="100"></td></tr><tr><th>Certificate Number:</th><td>${data.number}</td></tr><tr><th>Product Name:</th><td>${data.model}</td></tr><tr><th>Product Category:</th><td>${data.product}</td></tr><tr><th>Standards:</th><td>${data.standard}</td></tr><tr><th>Issued Date:</th><td>${data.issued}</td></tr><tr><th>Expired Date:</th><td>${data.expired}</td></tr><tr><th>Valid:</th><td><i class="fa fa-times-circle fa-2x" style="color:red;"></i></i></td></tr> </table>`;
+             
+          $("#viewCert").append(jsonData);
    
-    }
+    
     }).fail(function(err){
       console.log({err});
 });
