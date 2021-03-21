@@ -138,7 +138,7 @@ header .navbar-default .navbar-header {
   }
   
   a:hover, a:active, a:focus{
-	  color:#E1286E;
+	  color:#007dea;
 	  outline: none;
 	  text-decoration: none;
   }
@@ -178,6 +178,12 @@ header .navbar-default .navbar-header {
     
 	margin-top: -8px;
 	padding: 6px 12px;
+	color:#FFF;
+	background: #09284B;
+}
+
+.nav-menu a button:hover{
+	background: #007dea;
 }
 /* Nav Menu Arrows */
 .sf-arrows .sf-with-ul {
@@ -205,7 +211,7 @@ header .navbar-default .navbar-header {
   
   @media (min-width: 1024px) {
 	#nav-menu-container {
-	  padding-right: 60px;
+	  padding-right: 30px;
 	}
   }
   
@@ -390,6 +396,7 @@ header .navbar-default .navbar-header {
 	line-height: 20px;
 	height: 66px;
 	border-right: 1px solid #e8e8e8;
+	margin-left: 5px;
 }
 
 
@@ -690,7 +697,18 @@ header .navbar-default .navbar-header {
 	4. PAGE CONTENT PRODUCT
 -------------------------------------------------------------*/
 
-/* .page-content-product {} */
+.page-content-product {
+
+	background-image: url('../images/background.jpg');
+
+	width: 100%;
+	
+	background-size: cover;
+	background-position: center;
+	background-repeat: no-repeat;
+	
+}
+
 
 .featuredBtn.active {
 	background-color: burlywood;
@@ -711,11 +729,25 @@ header .navbar-default .navbar-header {
   }
 
 .main-product {
-	background-color: #09284b;
-	background-image: url('../images/pharmacy2.jpg');
-	padding-bottom: 180px;
-	background-position: center center;
 	
+	
+	/* background-image: url('../images/background.jpg'); */
+	padding-bottom: 20px;
+	width: 100%;
+	
+	/* background-size: cover;
+	background-position: center;
+	background-repeat: no-repeat; */
+	
+	
+}
+
+.find-box-cat{
+	max-width: 780px;
+	margin: 0 auto;
+	width: 100%;
+	padding: 92px 0px 15px 0px;
+
 }
 
 .find-box {
@@ -727,11 +759,14 @@ header .navbar-default .navbar-header {
 
 .find-box h1 {
 	font-family: 'Raleway', sans-serif;
-	font-weight: 500;
-	color: #fff;
-	font-size: 48px;
+	font-weight: 1000;
+	color: #000;
+	font-size: 38px;
 	text-align: center;
 	padding-bottom: 22px;
+	padding-top: 22px;
+	margin-top: 15px;
+	margin-bottom: 30px;
 }
 
 .find-box h4 {
@@ -742,6 +777,75 @@ header .navbar-default .navbar-header {
 	text-align: center;
 	padding-bottom: 22px;
 }
+
+#search-box{
+	margin: 0 auto;
+}
+
+@import url("https://fonts.googleapis.com/css2?family=Poppins:weight@100;200;300;400;500;600;700;800&display=swap");
+
+body {
+    background-color: #eee;
+    font-family: "Poppins", sans-serif;
+    font-weight: 300
+}
+
+.height {
+    height: 10vh
+}
+
+.search {
+    position: relative;
+    box-shadow: 0 0 40px rgba(51, 51, 51, .1)
+}
+
+.search input {
+    height: 60px;
+    text-indent: 25px;
+    border: 2px solid #d6d4d4;
+	
+	
+}
+
+.search input:focus {
+    box-shadow: none;
+    border: 2px solid blue
+}
+
+.search .fa-search {
+    position: absolute;
+    top: 20px;
+    left: 16px;
+	
+}
+.search .fa-window-close {
+    position: absolute;
+    top: 20px;
+    right: 120px;
+	
+}
+
+.search button {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    height: 50px;
+    width: 110px;
+    background: #09284B;
+}
+
+.search button:hover{
+	background: #007dea;
+}
+
+#displaysearchedmedicine{
+	margin: 0 0 -25px 0;
+	
+}
+
+
+
+
 
 /* .product-sh {} */
 
@@ -879,7 +983,7 @@ header .navbar-default .navbar-header {
 .box-img {
 	background: #051d36;
 	text-align: center;
-	padding-bottom: 30px;
+	padding-bottom: 0px;
 	min-height: 280px;
 	margin-bottom: 30px;
 	position: relative;
@@ -909,20 +1013,128 @@ header .navbar-default .navbar-header {
 	top: 40%;
 }
 
+.category{
+	margin-bottom: 30px;
+}
+
 .categories_link {
+
 	text-align: center;
 	clear: both;
+	cursor: pointer;
+
 }
 
 .categories_link a {
-	color: #fff;
+	color: #000;
 	font-size: 22px;
-	font-weight: 300;
+	font-weight: 800;
+	
 }
 
 .categories_link a:hover {
-	color: #1d99ff;
+	color: #080f63;
 }
+
+/*--------------------------------------------------------------
+# Featured Services
+--------------------------------------------------------------*/
+.section-header h3 {
+	font-family: 'Raleway', sans-serif;
+	font-weight: 500;
+	color: #000;
+	font-size: 38px;
+	text-align: center;
+	padding-bottom: 22px;
+	padding-top: 22px;
+	/* margin-top: 15px; */
+	margin-bottom: 30px;
+  }
+  
+  
+  
+  
+.featured-services {
+    margin-top: 30px;
+    font-family:  "Montserrat", sans-serif;
+	margin-bottom: 30px;
+}
+.featured-services .icon-box {
+	height: 300px;
+  padding: 30px;
+  position: relative;
+  overflow: hidden;
+  background: #fff;
+  box-shadow: 0 0 29px 0 rgba(68, 88, 144, 0.12);
+  transition: all 0.3s ease-in-out;
+  border-radius: 8px;
+  z-index: 1;
+  margin-bottom: 20px;
+}
+
+.featured-services .icon-box::before {
+  content: '';
+  position: absolute;
+  background: #d9f1f2;
+  right: 0;
+  left: 0;
+  bottom: 0;
+  top: 100%;
+  transition: all 0.3s;
+  z-index: -1;
+}
+/*
+
+.featured-services .icon-box:hover::before {
+  background: #3fbbc0;
+  top: 0;
+  border-radius: 0px;
+}
+*/
+
+
+.featured-services .icon {
+  margin-bottom: 15px;
+}
+
+.featured-services .icon i {
+  font-size: 48px;
+  line-height: 1;
+  color: #3fbbc0;
+  transition: all 0.3s ease-in-out;
+}
+
+.featured-services .title {
+  font-weight: 700;
+  margin-bottom: 15px;
+  font-size: 18px;
+  text-align: center;
+    font-family:  "Montserrat", sans-serif;
+    height: 60px;
+}
+
+.featured-services .title a {
+  color: #111;
+}
+
+.featured-services .description {
+  font-size: 15px;
+  line-height: 28px;
+  margin-bottom: 0;
+    text-align: center;
+    font-family:  "Montserrat", sans-serif;
+}
+
+/*
+.featured-services .icon-box:hover .title a, .featured-services .icon-box:hover .description {
+  color: #fff;
+}
+
+.featured-services .icon-box:hover .icon i {
+  color: #fff;
+}
+*/
+
 
 /*------------------------------------------------------------- 
 	5. SECTION
@@ -1196,7 +1408,13 @@ header .navbar-default .navbar-header {
 	background: #fff;
 	position: relative;
 }
+.btn-block{
+ background: #09284B;
+}
 
+.btn-block:hover{
+	background: #007dea;
+}
 /* .main-products {} */
 
 .main-products h2 {
@@ -2182,6 +2400,7 @@ header .navbar-default .navbar-header {
 .terms-title {
 	border-bottom: 1px solid #e8edf3;
 	padding: 15px 0 10px;
+	
 }
 
 .terms-title .breadcrumb {
@@ -2362,7 +2581,10 @@ header .navbar-default .navbar-header {
 
 .furniture-box {
 	background: #f4f9fd;
+	
 }
+
+
 
 .furniture-main h2 {
 	color: #333333;
@@ -3481,7 +3703,7 @@ html .ui-button.ui-state-disabled:active {
 	padding-top: 22px;
 	padding-left: 11px;
 	padding-right: 11px;
-	padding-bottom: 22px;
+	padding-bottom: 10px;
 	background: #fff;
 }
 
@@ -3498,16 +3720,17 @@ html .ui-button.ui-state-disabled:active {
 	line-height: 24px;
 }
 
+
 .dex-a {
-	padding-bottom: 25px;
+    padding-bottom: 25px;
 }
 
 .dex-a .viewBtn{
-	margin-top: 5px;
+    margin-top: 5px;
 }
 
 .dex-a .des{
-	margin-top: 8px;
+    margin-top: 8px;
 
 }
 
@@ -3543,13 +3766,16 @@ html .ui-button.ui-state-disabled:active {
 
 .similar-box {
 	padding: 40px 0px;
+	background-color: #FFF;
 }
 
 .similar-box h2 {
 	font-size: 18px;
-	color: #343331;
+	color: #000;
 	font-weight: 700;
+	text-align: center;
 }
+
 
 .price-box-right h4 {
 	font-size: 16px;
@@ -3578,11 +3804,7 @@ html .ui-button.ui-state-disabled:active {
 .price-box-right {
 	-webkit-box-shadow: 0 6px 10px -5px rgba(0, 0, 0, 0.1);
 	box-shadow: 0 6px 10px -5px rgba(0, 0, 0, 0.1);
-	padding-top: 22px;
-	padding-left: 11px;
-	padding-right: 11px;
-	padding-bottom: 22px;
-	margin-top: 1em;
+	padding: 23px;
 	background: #fff;
 }
 
@@ -3709,7 +3931,7 @@ html .ui-button.ui-state-disabled:active {
 	opacity: 0.8;
     background-color: #fff;
     max-width: 600px;
-    margin: auto;
+    margin: 50px auto;
     padding: 50px 70px;
     border-top-left-radius: 30px;
     border-top-right-radius: 30px;
@@ -3784,9 +4006,9 @@ h3.h3 {
     transition: all .5s
 }
 
-.product-grid2:hover .product-image2 .pic-1 {
+/* .product-grid2:hover .product-image2 .pic-1 {
     opacity: 0
-}
+} */
 
 .product-image2 .pic-2 {
     width: 100%;
@@ -3946,4 +4168,88 @@ h3.h3 {
     .product-grid2 {
         margin-bottom: 30px
     }
+}
+
+.agileinfo_single{
+	margin: 5px;
+	background-color: white;
+}
+
+.agileinfo_single_left {
+    padding: 2em;
+    box-shadow: 0px 0px 5px #b2afaf;
+    width: 40%;
+    margin-bottom: 2em;
+}
+
+#example{
+	display: block;
+	margin-left: auto;
+  margin-right: auto;
+}
+
+.agileinfo_single h2{
+	font-size: 1.8em;
+    color: #212121;
+    line-height: 1.5em;
+    text-transform: uppercase;
+    margin-bottom: 1em;
+}
+
+.agileinfo_single_right {
+    padding-left: 5em;
+    float: left;
+    width: 60%;
+}
+
+.w3agile_description h4{
+	font-size:1em;
+	color:#212121;
+	text-transform:uppercase;
+}
+.w3agile_description p{
+	font-size:14px;
+	color:#999;
+	line-height:2em;
+	margin:.5em 0 0;
+	width:100%;
+}
+.w3agile_description {
+    margin: 2em 0;
+}
+
+.agileinfo_single_right_snipcart{
+	margin:0 0 2em;
+}
+
+.agileinfo_single_right_snipcart h4 {
+    font-size: 0.9em;
+	font-weight:600;
+	color:#212121;
+}
+
+.tableTrack td, .tableTrack th{
+	padding:5px;
+	margin:8px;
+}
+
+#bannerProp {
+    width: 100%;
+    height: 100%;
+	object-fit: cover;
+}
+
+#logoProp {
+    width: 200px;
+    height: 85px;
+}
+
+.header-large{
+    font-size: 200%;
+    font-weight: 600;
+}
+
+.tableCert td, .tableCert th{
+	padding: 8px;
+	margin: 10px;
 }
