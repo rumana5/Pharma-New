@@ -419,16 +419,16 @@
                    <h4>Price</h4>
                    <h3><div id="displayprice"></div> <span>per item</span></h3>
                   
-                   <select class="form-control select2">
-                      <option value="" selected disabled hidden>Select Quantity</option>
-                      <option value="AK">1</option>
-                      <option value="HI">2</option>
-                      <option value="CA">3</option>
-                      <option value="NV">4</option>
-                      <option value="OR">5</option>
-                      
-                   </select>
-                   <a href="">Add to Cart</a>
+                   <select class="form-control select2" id="qtyselect">
+                     <option value="" selected disabled hidden>Select Quantity</option>
+                     <option value="1">1</option>
+                     <option value="2">2</option>
+                     <option value="3">3</option>
+                     <option value="4">4</option>
+                     <option value="5">5</option>
+                     
+                  </select>
+                   <a style="cursor: pointer;" onclick="App.showBuyPage()">Proceed To Buy</a>
                    <h5> Available Stock:<strong> <span id="displayquantity">50</span>  </strong></h5>
                 </div>
                 
@@ -454,6 +454,8 @@
              
           </div>
        </div>
+      
+             
       
        <!-- dispaly tracking detils -->
        <div class="modal fade" id="exampleModalLong" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
@@ -653,6 +655,178 @@
       </footer>
       <!-- product page ends -->
  </div>
+  <!--Payment Page-->
+  <div id="paymentpage" style="display: none;">   
+   <header id="header">
+      <nav class="navbar navbar-default">
+         <div class="container-fluid">
+        
+            
+            <a href="index.html" class="navbar-brand">
+               <img src="images/product/logo.png" alt="pharmaCare" />
+
+         </a>
+         
+        
+            
+               <nav id="nav-menu-container">
+                  <ul class="nav-menu">
+                       
+                     <li><a href="index.html">Home</a></li>
+                     <li><a href="#">Categories</a></li>
+                     <li><a href="https://triwotech.de/">About Us</a></li>
+                     <li><a href="index.html">Contact Us</a></li>
+                     
+                     
+                  </ul>
+                </nav>
+            </div>
+      </nav>
+      
+    </header>   
+           
+   <div >          
+       <div class="container paymentbox">              
+           <div class="col-md-12 col-sm-12">
+             <div >  
+               <article class="card">
+                 <div class="card-body p-5">
+                 
+                 <ul class="nav bg-light nav-pills rounded nav-fill mb-3" role="tablist">
+                     <li class="nav-item">
+                         <a class="nav-link active" data-toggle="pill" href="#nav-tab-card">
+                         <i class="fa fa-credit-card"></i> Credit Card</a></li>
+                     <li class="nav-item">
+                         <a class="nav-link" data-toggle="pill" href="#nav-tab-paypal">
+                         <i class="fa fa-cc-paypal"></i>  Paypal</a></li>
+                     <li class="nav-item">
+                         <a class="nav-link" data-toggle="pill" href="#nav-tab-bank">
+                         <i class="fa fa-university"></i>  Bank Transfer</a></li>
+                 </ul>
+                 
+                 <div class="tab-content">
+                 <div class="tab-pane fade in active" id="nav-tab-card">
+                     <p class="alert alert-success" id="totalamountforcreditcard">Total Amount </p>
+                     <form role="form">
+                     <div class="form-group">
+                         <label for="username">Full Name (on the card)</label>
+                         <input type="text" class="form-control" name="username" placeholder="Name" required>
+                     </div> <!-- form-group.// -->
+                 
+                     <div class="form-group">
+                         <label for="cardNumber">Card number</label>
+                         <div class="input-group" >
+                             <input type="text" class="form-control" name="cardNumber" placeholder="XXXX XXXX XXXX XXXX"  maxlength="12" onkeypress="return isNumberKey(event);" required>
+                             <div class="input-group-append" >
+                                 <span class="input-group-text text-muted">
+                                     <i class="fa fa-cc-visa"></i>   <i class="fa fa-cc-amex"></i>   
+                                     <i class="fa fa-cc-mastercard"></i> 
+                                 </span>
+                             </div>
+                         </div>
+                     </div> <!-- form-group.// -->
+                 
+                     <div class="row">
+                         <div class="col-sm-8">
+                             <div class="form-group">
+                                 <label><span class="hidden-xs">Expiration</span> </label>
+                                 <div class="input-group">
+                                     <input type="number" class="form-control" placeholder="MM" name="" maxlength="2" min="1" max="12" required>
+                                     <input type="number" class="form-control" placeholder="YYYY" name="" maxlength="4" min="2000" max="2030"required>
+                                 </div>
+                             </div>
+                         </div>
+                         <div class="col-sm-4">
+                             <div class="form-group">
+                                 <label data-toggle="tooltip" title="3 digits code on back side of the card">CVV <i class="fa fa-question-circle"></i></label>
+                                 <input type="password" class="form-control"  maxlength="3" onkeypress="return isNumberKey(event);" required>
+                             </div> <!-- form-group.// -->
+                         </div>
+                     </div> <!-- row.// -->
+                     <button class="subscribe btn btn-primary btn-block" type="button" onclick="App.completepaymentbyDistributer();"> Confirm  </button>
+                     </form>
+                 </div> <!-- tab-pane.// -->
+                 <div class="tab-pane fade" id="nav-tab-paypal">
+                 <p>Paypal is easiest way to pay online</p>
+                 <p>
+                 <button type="button" class="btn btn-primary"> <i class="fa fa-cc-paypal"></i> Log in to Paypal </button>
+                 </p>
+                 <p><strong>Note:</strong> Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+                 tempor incididunt ut labore et dolore magna aliqua. </p>
+                 </div>
+                 <div class="tab-pane fade" id="nav-tab-bank">
+                 <p>Bank Account details</p>
+                 <dl class="param">
+                   <dt>BANK: </dt>
+                   <dd> THE WORLD BANK</dd>
+                 </dl>
+                 <dl class="param">
+                   <dt>Account number: </dt>
+                   <dd> 12345678912345</dd>
+                 </dl>
+                 <dl class="param">
+                   <dt>IBAN: </dt>
+                   <dd> 123456789</dd>
+                 </dl>
+                 <p><strong>Note:</strong> Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+                 tempor incididunt ut labore et dolore magna aliqua. </p>
+                 </div> <!-- tab-pane.// -->
+                 </div> <!-- tab-content .// -->
+                 
+                 </div> <!-- card-body.// -->
+                 </article> 
+             </div>                
+          </div> 
+       </div>
+   </div>
+   <script>
+      // Mobile Navigation
+if ($('#nav-menu-container').length) {
+ var $mobile_nav = $('#nav-menu-container').clone().prop({
+   id: 'mobile-nav'
+ });
+ $mobile_nav.find('> ul').attr({
+   'class': '',
+   'id': ''
+ });
+ $('body').append($mobile_nav);
+ $('body').prepend('<button type="button" id="mobile-nav-toggle"><i class="fa fa-bars"></i></button>');
+ $('body').append('<div id="mobile-body-overly"></div>');
+ $('#mobile-nav').find('.menu-has-children').prepend('<i class="fa fa-chevron-down"></i>');
+
+ $(document).on('click', '.menu-has-children i', function(e) {
+   $(this).next().toggleClass('menu-item-active');
+   $(this).nextAll('ul').eq(0).slideToggle();
+   $(this).toggleClass("fa-chevron-up fa-chevron-down");
+ });
+
+ $(document).on('click', '#mobile-nav-toggle', function(e) {
+   $('body').toggleClass('mobile-nav-active');
+   $('#mobile-nav-toggle i').toggleClass('fa-times fa-bars');
+   $('#mobile-body-overly').toggle();
+ });
+
+ $(document).click(function(e) {
+   var container = $("#mobile-nav, #mobile-nav-toggle");
+   if (!container.is(e.target) && container.has(e.target).length === 0) {
+     if ($('body').hasClass('mobile-nav-active')) {
+       $('body').removeClass('mobile-nav-active');
+       $('#mobile-nav-toggle i').toggleClass('fa-times fa-bars');
+       $('#mobile-body-overly').fadeOut();
+     }
+   }
+ });
+} else if ($("#mobile-nav, #mobile-nav-toggle").length) {
+ $("#mobile-nav, #mobile-nav-toggle").hide();
+}
+
+
+   </script>
+   
+            
+            
+          
+       </div>
      
       <!--main js--> 
       <script src="js/jquery-1.12.4.min.js"></script> 
