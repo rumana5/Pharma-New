@@ -7,6 +7,8 @@ App = {
   displayData:0,
   arr:[],
   similarArr:[],
+  minPrice:1,
+  maxPrice:100,
 
   load: async () => {
     await App.loadWeb3()
@@ -161,8 +163,7 @@ trackProduct :async (id) => {
       var manufactName = med.manufaname;
       var user=await App.medicine.users(manufactName);
       var username=user.name;
-      var price=med.price + " €";
-
+      var price=med.price;
       if(App.displayData==0){
 
         var found = App.arr.some(el => el.name === username);
@@ -194,15 +195,19 @@ trackProduct :async (id) => {
         if (o.name === username) {
           if(category == clickedCategory){
             if(o.status){
-              var str=`<div class="col-md-4 col-sm-6"><div class="product-grid2"><div class="product-image2"> <a href="#"> <img class="pic-1" src="https://res.cloudinary.com/dxfq3iotg/image/upload/v1561643954/img-1.jpg"> <img class="pic-2" src="https://res.cloudinary.com/dxfq3iotg/image/upload/v1561643955/img1.2.jpg"> </a><ul class="social"><li><a href="javascript:void(0)" onclick="App.showProductPage('`+medicine.medicineid+`')" data-tip="Quick View"><i class="fa fa-eye"></i></a></li></ul></div><div class="product-content"><h3 class="title"><a href="">${medicine.medicinename}</a></h3> <span class="price"></span><span class="price">${price}</span></div></div></div>`
-              $("#displaymedicinesofdistributer").append(str);
+              if(Number(price)>=Number(App.minPrice) && Number(price)<=Number(App.maxPrice)){
+                var str=`<div class="col-md-4 col-sm-6"><div class="product-grid2"><div class="product-image2"> <a href=""> <img class="pic-1" src="https://res.cloudinary.com/dxfq3iotg/image/upload/v1561643954/img-1.jpg"> <img class="pic-2" src="https://res.cloudinary.com/dxfq3iotg/image/upload/v1561643955/img1.2.jpg"> </a><ul class="social"><li><a href="javascript:void(0)" onclick="App.showProductPage('`+medicine.medicineid+`')" data-tip="Quick View"><i class="fa fa-eye"></i></a></li></ul></div><div class="product-content"><h3 class="title"><a href="">${medicine.medicinename}</a></h3> <span class="price"></span><span class="price">${price}</span></div></div></div>`
+                $("#displaymedicinesofdistributer").append(str);
+              }
             }
             return true;
 
           }else if(clickedCategory == "All"){
             if(o.status){
-            var str=`<div class="col-md-4 col-sm-6"><div class="product-grid2"><div class="product-image2"> <a href="#"> <img class="pic-1" src="https://res.cloudinary.com/dxfq3iotg/image/upload/v1561643954/img-1.jpg"> <img class="pic-2" src="https://res.cloudinary.com/dxfq3iotg/image/upload/v1561643955/img1.2.jpg"> </a><ul class="social"><li><a href="javascript:void(0)" onclick="App.showProductPage('`+medicine.medicineid+`')" data-tip="Quick View"><i class="fa fa-eye"></i></a></li></ul></div><div class="product-content"><h3 class="title"><a href="">${medicine.medicinename}</a></h3> <span class="price"></span><span class="price">${price}</span></div></div></div>`
-            $("#displaymedicinesofdistributer").append(str);
+              if(Number(price)>=Number(App.minPrice) && Number(price)<=Number(App.maxPrice)){
+                var str=`<div class="col-md-4 col-sm-6"><div class="product-grid2"><div class="product-image2"> <a href="#"> <img class="pic-1" src="https://res.cloudinary.com/dxfq3iotg/image/upload/v1561643954/img-1.jpg"> <img class="pic-2" src="https://res.cloudinary.com/dxfq3iotg/image/upload/v1561643955/img1.2.jpg"> </a><ul class="social"><li><a href="javascript:void(0)" onclick="App.showProductPage('`+medicine.medicineid+`')" data-tip="Quick View"><i class="fa fa-eye"></i></a></li></ul></div><div class="product-content"><h3 class="title"><a href="">${medicine.medicinename}</a></h3> <span class="price"></span><span class="price">${price}</span></div></div></div>`
+                $("#displaymedicinesofdistributer").append(str);
+              }
             }
           }
         }
@@ -359,10 +364,6 @@ trackProduct :async (id) => {
     await App.loadContract1();
   },
 
-  
-
-  
-
   showAllMedicines :async () => {
     //window.alert("Home display");
     
@@ -375,7 +376,12 @@ trackProduct :async (id) => {
     
     for(var i=1;i<=count;i++){
       var medicine=await App.medicine.medicineforendusers(i);
+
+      console.log(parseInt(medicine.medicineid));
+   
       var med=await App.medicine.medicines(parseInt(medicine.medicineid));
+
+      if(med.medname!=''){
 
       var manufactName = med.manufaname;
       var user=await App.medicine.users(manufactName);
@@ -385,11 +391,9 @@ trackProduct :async (id) => {
       var description=descdire.description;
       var direction=descdire.direction;
 
-     
-      //var description=med.description
-      //var str=`<div class="big-box col-md-5"><div class="big-img-box"><img src="images/product/2.jpg" alt="#" /></div><div class="big-dit-b clearfix"><div class="col-md-6"><div class="left-big"><h3>${medicine.medicinename}</h3><p>${description}</p><div class="prod-btn"><a href="#"><i class="fa fa-star" aria-hidden="true"></i> Save to wishlist</a></div></div></div><div class="col-md-6"><div class="right-big-b"><div class="tight-btn-b clearfix"><button class="btn btn-primary" onclick="App.showProductPage('`+medicine.medicineid+`')">View</button><a href="#">${price}</a></div></div></div></div></div>`
       var str=`<div class="col-md-4 col-sm-6"><div class="product-grid2"><div class="product-image2"> <a href="#"> <img class="pic-1" src="https://res.cloudinary.com/dxfq3iotg/image/upload/v1561643954/img-1.jpg"> <img class="pic-2" src="https://res.cloudinary.com/dxfq3iotg/image/upload/v1561643955/img1.2.jpg"> </a><ul class="social"><li><a href="javascript:void(0)" onclick="App.showProductPage('`+medicine.medicineid+`')" data-tip="Quick View"><i class="fa fa-eye"></i></a></li><li><a href="#" data-tip="Add to Cart"><i class="fa fa-shopping-cart"></i></a></li></ul></div><div class="product-content"><h3 class="title"><a href="">${medicine.medicinename}</a></h3> <span class="price">${price}</span></div></div></div>`
       $("#showAllMedicines").append(str);
+    }
 
       
     $("#showAllMedicines").show();
@@ -471,15 +475,14 @@ trackProduct :async (id) => {
       var certificateAddress='';
       console.log(name);
 
-      if(name.localeCompare("Dolonex Disp 20MG Tabs")==0 || name.localeCompare("DISP 20MG TABS")==0){
+      if(name.trim().localeCompare("Dolonex Disp 20MG Tabs")==0 || name.trim().localeCompare("DISP 20MG TABS")==0){
         certificateAddress="0x089f03b202470b872b7e2c84c7a6815033382140";
-        console.log("enter");
-      }else if(name.localeCompare("Aspirin")==0 || name.localeCompare("Aspirin 500 mg Tabs")==0){
+      }else if(name.trim().localeCompare("Aspirin")==0 || name.trim().localeCompare("Aspirin 500 mg Tabs")==0){
         certificateAddress="0x4C21bb8b30DBd4aFBC7Ea0e4F52a0aF90c50082C";
         console.log(certificateAddress);
-      }else if(name.localeCompare("ATPARK 25MG")==0 || name.localeCompare("ATPARK")==0){
+      }else if(name.trim().localeCompare("ATPARK 25MG")==0 || name.trim().localeCompare("ATPARK")==0){
         certificateAddress ="0x0AB8F188F7F950e91c6dB8f745B124A15B0B5d5F";
-      }else if(name.localeCompare("Anacin Tabs")==0){
+      }else if(name.trim().localeCompare("Anacin Tabs")==0){
         certificateAddress="0x7A4D996385985A39a245786aB7524C1a9ca0fE98";
       }
 
@@ -540,9 +543,6 @@ $(function () {
   })
 });
 
-  
-
-
 function clicked(item) {
   console.log($(item).attr("id"));
 
@@ -558,3 +558,33 @@ function loginClick(){
   //alert("MetaMask Connection clicked");
   App.load();
 }
+
+$(document).ready(function () {
+  $("input[type='radio']").on("change", function(){        
+      changedbyPrice(this);
+  });
+});
+
+function changedbyPrice(obj) {
+  App.displayData=1;
+  if (obj.id == "flexRadioDefault1") {
+    App.minPrice=1;
+    App.maxPrice=100;
+  }
+  else if (obj.id == "flexRadioDefault2")
+  {
+    App.minPrice=1;
+    App.maxPrice=20;
+  }else if (obj.id == "flexRadioDefault3")
+  {
+    App.minPrice=20;
+    App.maxPrice=50;
+  }else if (obj.id == "flexRadioDefault4")
+  {
+    App.minPrice=50;
+    App.maxPrice=100;
+  }
+
+ App.loadHome();
+}
+

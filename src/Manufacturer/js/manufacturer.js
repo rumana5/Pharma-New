@@ -156,6 +156,8 @@ App = {
       for (var i = 1; i <= totalstatuses; i++) {      
         var orderstatus=await App.medicine.orderstatuses(i);     
         var medid=orderstatus[1];
+        var med=await App.medicine.medicines(parseInt(medid));
+        if(med.medname!=''){
         var qty=orderstatus[2];
         var manufacturer=orderstatus[3];
         var distributer=orderstatus[4];
@@ -167,34 +169,35 @@ App = {
           //found 
           var str="";
           if(status=="0"){
-            str = "<tr><td>" + medid +"</td><td>"+distributer+"</td><td>"+username+"</td><td>"+qty+"</td><tr>"                 
+            str = "<tr><td>" + medid +"</td><td>"+med.medname+"</td><td>"+distributer+"</td><td>"+username+"</td><td>"+qty+"</td><tr>"                 
           }
           if(status=="1"){
             //purchased by distributer Need to accept
-            str = "<tr><td>" + medid +"</td><td>"+distributer+"</td><td>"+username+"</td><td>"+qty+"</td><td><button class='btn btn-info' onclick='App.markSatusAsAccept(`"+i+"`)'>Mark As Accept</button></td><tr>"  
+            str = "<tr><td>" + medid +"</td><td>"+med.medname+"</td><td>"+distributer+"</td><td>"+username+"</td><td>"+qty+"</td><td><button class='btn btn-info' onclick='App.markSatusAsAccept(`"+i+"`)'>Mark As Accept</button></td><tr>"  
            
           }
           if(status=="2"){
             //Accepted the order Need to ship
-            str = "<tr><td>" + medid +"</td><td>"+distributer+"</td><td>"+username+"</td><td>"+qty+"</td><td><button class='btn btn-info' onclick='App.markSatusAsShipped(`"+i+"`)'>Mark As Shipped</button></td><tr>"  
+            str = "<tr><td>" + medid +"</td><td>"+med.medname+"</td><td>"+distributer+"</td><td>"+username+"</td><td>"+qty+"</td><td><button class='btn btn-info' onclick='App.markSatusAsShipped(`"+i+"`)'>Mark As Shipped</button></td><tr>"  
            
           }
           if(status=="3"){
             //Product Shipped MArk as wating for Deleivery confirmation
-            str = "<tr><td>" + medid +"</td><td>"+distributer+"</td><td>"+username+"</td><td>"+qty+"</td><td>Waiting Delivery Confirmation</td><tr>"  
+            str = "<tr><td>" + medid+"</td><td>"+med.medname +"</td><td>"+distributer+"</td><td>"+username+"</td><td>"+qty+"</td><td>Waiting Delivery Confirmation</td><tr>"  
            
           }
           if(status=="4"){
             //Product Shipped MArk as wating for Deleivery confirmation
-            str = "<tr><td>" + medid +"</td><td>"+distributer+"</td><td>"+username+"</td><td>"+qty+"</td><td>Waiting Delivery Confirmation</td><tr>"  
+            str = "<tr><td>" + medid+"</td><td>"+med.medname +"</td><td>"+distributer+"</td><td>"+username+"</td><td>"+qty+"</td><td>Waiting Delivery Confirmation</td><tr>"  
            
           }
           if(status=="5"){
             //Product Delivered by the Distributer
-            str = "<tr><td>" + medid +"</td><td>"+distributer+"</td><td>"+username+"</td><td>"+qty+"</td><td>Product Delivered</td><tr>"  
+            str = "<tr><td>" + medid +"</td><td>"+med.medname+"</td><td>"+distributer+"</td><td>"+username+"</td><td>"+qty+"</td><td>Product Delivered</td><tr>"  
            
           }   
-          $("#displayOrders").append(str);       
+          $("#displayOrders").append(str);    
+        }   
         }      
       }
         } 
