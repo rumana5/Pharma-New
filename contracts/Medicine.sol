@@ -5,6 +5,7 @@ contract Medicine {
  uint public medicineCount = 0;
  uint public usersCount = 0;
  uint public orderStatusCount=0;
+ uint public orderStatusCountEndUser=0;
  uint public medicineforendusersCount = 0;
  address public admin;
   struct Med {
@@ -52,6 +53,17 @@ contract Medicine {
   }  
   mapping(uint => MedicineForEndUser) public medicineforendusers;
   address[] public addresses;
+
+  struct OrderStatusEndUser{
+    uint id;
+    uint medid;
+    uint qty;
+    address distributer;
+    address enduser;
+    string status;
+    //"1" means initiated "2" means accepted "3" means shipped "4" completed
+  }
+  mapping(uint => OrderStatusEndUser ) public orderstatusesofenderusers;
 
    // event 
     event updatedMedicine (
@@ -143,5 +155,23 @@ contract Medicine {
       orderStatusCount++;
       orderstatuses[orderStatusCount]=OrderStatus(orderStatusCount,_id,_qty,_manufact,msg.sender,"1");     
       
+    }
+
+    function buyMedicineByEndUser(uint _id,uint _qty) public  {      
+          uint _medicineid=medicineforendusers[_id].medicineid;
+          string memory _medicinename=medicineforendusers[_id].medicinename;
+          address _distributer=medicineforendusers[_id].distributer;     
+          uint _newqty=medicineforendusers[_id].qty-_qty;
+          medicineforendusers[_id]=MedicineForEndUser(_id,_medicineid,_medicinename,_distributer,_newqty);
+          //status update of end user       
+          orderStatusCountEndUser++;
+          orderstatusesofenderusers[orderStatusCountEndUser]=OrderStatusEndUser(orderStatusCountEndUser,_medicineid,_qty,_distributer,msg.sender,"1");
+    }
+     function updateOrderStatusEndUser(uint _id,string memory _status) public { 
+        uint _medid=orderstatusesofenderusers[_id].medid;
+        uint _qty=orderstatusesofenderusers[_id].qty;         
+        address _distributer=orderstatusesofenderusers[_id].distributer; 
+        address _enduser=orderstatusesofenderusers[_id].enduser;       
+        orderstatusesofenderusers[_id]=OrderStatusEndUser(_id,_medid,_qty,_distributer,_enduser,_status);        
     }
 }

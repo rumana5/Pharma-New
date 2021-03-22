@@ -14,6 +14,7 @@ App = {
   qtyselectedbyenduser:0,
   quantity:0,
   qty:0,
+  puchasethroughcart:0,
 
   load: async () => {
     await App.loadWeb3()
@@ -51,9 +52,13 @@ App = {
     $("#displaydescription").html(description);
     $("#displaydirections").html(direction);  
 
-    var btn= `<a href="javascript:void(0)" onclick="App.showCard(this)" class='add-to-cart btn btn-primary' data-price=${price} data-name=${med.medname}>Add to Cart</a> `;
+    var btn= `<a href="javascript:void(0)" onclick="App.showCard(this)" class='add-to-cart btn btn-primary' data-price=${price} data-name=${med.medname} data-id=${i}>Add to Cart</a> `;
+    var btn1= `<a href="javascript:void(0)" onclick="App.showBuyPage()" class='add-to-cart btn btn-primary' data-price=${price} data-name=${med.medname}>Buy Now</a> `;
 
     $("#addtocart1").append(btn);
+    
+    $("#buynow").append(btn1);
+
     var str=`<div class="col-md-4 col-lg-3 viewBtn"><button type="button" class="btn btn-primary btn-block" data-toggle='modal' data-target='#exampleModalLong' onclick="App.trackProduct('`+id+`')">Track Product</button></div>`+" "+`<div class="col-md-4 col-lg-3 viewBtn"><button type="button" class="btn btn-primary btn-block" data-toggle='modal' data-target='#exampleModalLong1' onclick="App.viewCertificate()">View Certificate</button></div>`;
     
     $("#displaytrackbutton").html(str);
@@ -413,16 +418,21 @@ trackProduct :async (id) => {
 
 showBuyPage :async () =>{
   //window.alert(App.medicineIdforendUserBuy);
-  console.log("payment");
+  //console.log("payment");
   $("#cart").modal('hide');
   var medicine=await App.medicine.medicines(parseInt(App.medicineIdforendUserBuy));
   var medprice=medicine[7];       
-  App.qty=$("#qtyselect").val();
-  console.log(medprice+"---"+App.qty);
+  //App.qty=$("#qtyselect").val();
+  //console.log(medprice+"---"+App.qty);
+  var cartArray = shoppingCart.listCart();
+  if(cartArray.length==0){
+
+    alert("Please first add to cart");
+  }else{
   //window.alert(qty)
   App.qtyselectedbyenduser=parseInt(App.qty);
-  var totalprice=parseInt(App.qty)*parseInt(medprice);
-  console.log(totalprice);
+  var totalprice=shoppingCart.totalCart();
+  //console.log(totalprice);
   //window.alert(totalprice)
   $("#totalamountforcreditcard").append(totalprice);
   $("#categorypage").hide();
@@ -431,22 +441,75 @@ showBuyPage :async () =>{
   $("#categorypagetwo").hide();
   $("#categorytwopagemain").hide();
   $("#enduserorder").hide();
+  }
 },
 completepaymentbyEndUser : async()=>{
   //window.alert("buying ny end user");
-  //await App.loadWeb3();
-  var medicine=await App.medicine.medicineforendusers(parseInt(App.medicineforendusersID));
-   //console.log(medicine);
-  //window.alert(price);
-  //window.alert(price);
-  var availableqty=medicine[4];
-  if(parseInt(App.qtyselectedbyenduser)>parseInt(availableqty)){
-    window.alert("Quantiy Not Available")
-  }
-  else{
-    //await App.loadAccount();
-    await App.medicine.buyMedicineByEndUser(parseInt(App.medicineforendusersID),parseInt(App.qtyselectedbyenduser),{from:App.account})       
-  }
+      //await App.loadWeb3();
+     // if(parseInt(App.puchasethroughcart)==1){
+        //reached here through add to cart 
+            // var cart = document.getElementsByClassName('js-cd-cart');
+            // if(cart.length > 0) {
+            //   var cartAddBtns = document.getElementsByClassName('js-cd-add-to-cart'),
+            //   cartBody = cart[0].getElementsByClassName('cd-cart__body')[0],
+            //   cartList = cartBody.getElementsByTagName('ul')[0],
+            //   cartListItems = cartList.getElementsByClassName('cd-cart__product'),
+            //   cartTotal = cart[0].getElementsByClassName('cd-cart__checkout')[0].getElementsByTagName('span')[0],
+            //   cartCount = cart[0].getElementsByClassName('cd-cart__count')[0],
+            //   cartCountItems = cartCount.getElementsByTagName('li'),
+            //   cartUndo = cart[0].getElementsByClassName('cd-cart__undo')[0];
+            // }
+            // var products = cartList.getElementsByClassName('cd-cart__body');
+            
+            //console.log(cartListItems);
+            var total_amount=0;
+            var cartArray = shoppingCart.listCart();
+            for(var i = 0; i < cartArray.length; i++) {         
+                var Quantity = cartArray[i].count;
+                console.log("quantiy="+Quantity);            
+               var  price1 =cartArray[i].price;
+               console.log("price="+price1);       
+               var  medicineId =cartArray[i].id;
+               console.log("Medicine Id="+medicineId); 
+                var medicine=await App.medicine.medicineforendusers(parseInt(medicineId)); 
+                var inputqty=parseInt(Quantity)  
+                var price=parseInt(price1) ;
+                
+                var available_Qty=parseInt(medicine[4]);
+                console.log(available_Qty);
+                if(inputqty>available_Qty){
+                  window.alert("Quatity Not Avilable To Buy");
+                }
+                else{
+                  window.alert("Transaction for amount= "+inputqty*price);
+                  total_amount+=inputqty*price;
+                  await App.loadWeb3();
+    await App.loadAccount();
+    await App.loadContract();
+
+                  console.log(App.account);
+                  await App.medicine.buyMedicineByEndUser(parseInt(medicineId),inputqty, { from: App.account });               
+                  shoppingCart.clearCart();
+
+                } 
+            }
+            window.alert("Completed successfully");
+            //await App.render();
+
+      // }
+      // else{
+      //   //reached here through quick view and purchase
+      //   var medicine=await App.medicine.medicineforendusers(parseInt(App.medicineforendusersID));       
+      //   var availableqty=medicine[4];
+      //   if(parseInt(App.qtyselectedbyenduser)>parseInt(availableqty)){
+      //     window.alert("Quantiy Not Available")
+      //   }
+      //   else{
+      //     //await App.loadAccount();
+      //     await App.medicine.buyMedicineByEndUser(parseInt(App.medicineforendusersID),parseInt(App.qtyselectedbyenduser),{from:App.account})       
+      //   }
+      // }
+     
  
 },
   
@@ -583,7 +646,8 @@ completepaymentbyEndUser : async()=>{
   
   var name = $(elem).data('name');
   var price = Number($(elem).data('price'));
-  shoppingCart.addItemToCart(name, price, 1);
+  var id = Number($(elem).data('id'));
+  shoppingCart.addItemToCart(name, price,id, 1);
   displayCart();
   }
 
@@ -653,9 +717,10 @@ var shoppingCart = (function() {
   cart = [];
   
   // Constructor
-  function Item(name, price, count) {
+  function Item(name, price,id, count) {
     this.name = name;
     this.price = price;
+    this.id=id;
     this.count = count;
   }
   
@@ -679,7 +744,7 @@ var shoppingCart = (function() {
   var obj = {};
   
   // Add to cart
-  obj.addItemToCart = function(name, price, count) {
+  obj.addItemToCart = function(name, price,id, count) {
     console.log("item added in to cart");
     for(var item in cart) {
       if(cart[item].name === name) {
@@ -688,7 +753,7 @@ var shoppingCart = (function() {
         return;
       }
     }
-    var item = new Item(name, price, count);
+    var item = new Item(name, price, id, count);
     cart.push(item);
     saveCart();
   }
@@ -778,7 +843,8 @@ $('.add-to-cart').click(function(event) {
   event.preventDefault();
   var name = $(this).data('name');
   var price = Number($(this).data('price'));
-  shoppingCart.addItemToCart(name, price, 1);
+  var id = Number($(this).data('id'));
+  shoppingCart.addItemToCart(name, price, id, 1);
   displayCart();
 });
 

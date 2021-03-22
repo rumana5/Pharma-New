@@ -398,8 +398,16 @@
               <div class="col-md-8 col-sm-12">
                 <div class="description-box">
                    <div class="dex-a">
-                     <h3 ><strong id="productName"></strong></h3></br>
-                     <h4 >Manufacturer : <strong  id="manufacturerName"></strong></h3>
+                      <div>
+                         <h3 ><strong id="productName"></strong></h3></br>
+                         <h4 >Manufacturer : <strong  id="manufacturerName"></strong></h3>
+                           <div class="col cartbox">
+                              <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#cart">Cart (<span class="total-count"></span>)</button></div>
+                        </div>
+                     
+                      
+                          
+                      
                      
                      <hr>
                       <h4 class="des"> Product Description</h4>
@@ -434,14 +442,15 @@
                   <div class="col-md-6" id="addtocart1">
 
                   </div>
+                  <div class="col-md-6" id="buynow">
 
-                  <div class="row" class="col-md-6">
-                     <div class="col">
-                       <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#cart">Cart (<span class="total-count"></span>)</button><button class="clear-cart btn btn-danger">Clear Cart</button></div>
-                 </div>
+                  </div>
+
+                  
                </div>
                    <!-- <a style="cursor: pointer;" onclick="App.showBuyPage()">Proceed To Buy</a> -->
                    <h5> Available Stock:<strong> <span id="displayquantity">50</span>  </strong></h5>
+                   
                 </div>
                 
              </div>
@@ -503,7 +512,7 @@
                <div>Total price: $<span class="total-cart"></span></div>
              </div>
              <div class="modal-footer">
-               <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+               <button type="button" class="btn btn-secondary" data-dismiss="modal" id="modalclose">Close</button>
                <button type="button" class="btn btn-primary" onclick="App.showBuyPage()">Order now</button>
              </div>
            </div>
@@ -590,6 +599,9 @@
   } else if ($("#mobile-nav, #mobile-nav-toggle").length) {
     $("#mobile-nav, #mobile-nav-toggle").hide();
   }
+
+  
+
   
 
       </script>
@@ -778,7 +790,7 @@
                              </div> <!-- form-group.// -->
                          </div>
                      </div> <!-- row.// -->
-                     <button class="subscribe btn btn-primary btn-block" type="button" onclick="App.completepaymentbyDistributer();"> Confirm  </button>
+                     <button class="subscribe btn btn-primary btn-block" type="button" onclick="App.completepaymentbyEndUser();"> Confirm  </button>
                      </form>
                  </div> <!-- tab-pane.// -->
                  <div class="tab-pane fade" id="nav-tab-paypal">
