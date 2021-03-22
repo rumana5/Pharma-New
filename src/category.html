@@ -332,15 +332,17 @@
                </a>
 
                <nav id="nav-menu-container">
+
+                  
                   <ul class="nav-menu">
                           
                      <li><a href="index.html">Home</a></li>
                      <li><a href="category.html">Categories</a></li>
                      <li><a href="https://triwotech.de/">About Us</a></li>
                      <li><a href="index.html">Contact Us</a></li>
-                        
                      <li><a><button class="btn btn-primary" onclick="loginClick()" >Sign in / Sign up</button></a></li>
                   </ul>
+                  
                </nav>
                </div>
          </nav>
@@ -369,7 +371,7 @@
           </div>
        </div>
     </div>
-      
+   
       <div class="product-page-main">
           
           <div class="container">
@@ -419,7 +421,7 @@
                    <h4>Price</h4>
                    <h3><div id="displayprice"></div> <span>per item</span></h3>
                   
-                   <select class="form-control select2" id="qtyselect">
+                   <!-- <select class="form-control select2" id="qtyselect">
                      <option value="" selected disabled hidden>Select Quantity</option>
                      <option value="1">1</option>
                      <option value="2">2</option>
@@ -427,8 +429,18 @@
                      <option value="4">4</option>
                      <option value="5">5</option>
                      
-                  </select>
-                   <a style="cursor: pointer;" onclick="App.showBuyPage()">Proceed To Buy</a>
+                  </select> -->
+                  <div>
+                  <div class="col-md-6" id="addtocart1">
+
+                  </div>
+
+                  <div class="row" class="col-md-6">
+                     <div class="col">
+                       <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#cart">Cart (<span class="total-count"></span>)</button><button class="clear-cart btn btn-danger">Clear Cart</button></div>
+                 </div>
+               </div>
+                   <!-- <a style="cursor: pointer;" onclick="App.showBuyPage()">Proceed To Buy</a> -->
                    <h5> Available Stock:<strong> <span id="displayquantity">50</span>  </strong></h5>
                 </div>
                 
@@ -474,6 +486,29 @@
                </div>
             </div>
       </div>
+
+      <div class="modal fade" id="cart" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+         <div class="modal-dialog modal-lg" role="document">
+           <div class="modal-content">
+             <div class="modal-header">
+               <h5 class="modal-title" id="exampleModalLabel">Cart</h5>
+               <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                 <span aria-hidden="true">&times;</span>
+               </button>
+             </div>
+             <div class="modal-body">
+               <table class="show-cart table">
+                 
+               </table>
+               <div>Total price: $<span class="total-cart"></span></div>
+             </div>
+             <div class="modal-footer">
+               <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+               <button type="button" class="btn btn-primary" onclick="App.showBuyPage()">Order now</button>
+             </div>
+           </div>
+         </div>
+       </div> 
       
       <!-- dispaly tracking ends -->
 
