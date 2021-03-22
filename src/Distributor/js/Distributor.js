@@ -86,8 +86,8 @@ App = {
         var medicine=await App.medicine.medicines(i);
         var accountaddrees=medicine[2];
          var id=medicine[0];
+         if(id!=0){
           var medname=medicine[1]; 
-          console.log(medname); 
           //Display name of manufacturer from ethereum address    
           var user=await App.medicine.users(medicine[2]);
           var manfact=user.name;      
@@ -101,20 +101,25 @@ App = {
           var str = "<tr><td>" + id +"</td><td>"+medname+"</td><td>"+manfact+"</td><td>"+expdate+"</td><td>"+category+"</td><td>"+price+"</td><td>"+available_Qty+"</td><td>"+btn+"</td><td><button class='btn btn-info' data-toggle='modal' data-target='#exampleModalLong' onclick='App.trackMedicineByDistributer(`"+id+"`)'>TRACK</button></td><td><button class='btn btn-info' data-toggle='modal' data-target='#exampleModalLong1' onclick='App.viewCertificate(`"+medname+"`)'>VIEW</button></td></tr>";
           $("#displayMedicine").append(str); 
      }      
+    }
     $("#distributorpage").show(); 
     $("#payemtsuccesspage").hide();
     $('#displaypurcahsedmedicine').hide();
     $("#distributermainpage").show(); 
     $("#ordermanagement").hide(); 
+    $("#enduserordermanagement").hide();
 
     }else if(App.distributordisplay==2){
       $("#displayItem").empty();
+      var count=await App.medicine.medicineforendusersCount();
       for(var i=1;i<=count;i++){
         var medicine=await App.medicine.medicineforendusers(i);
+        //console.log(medicine.distributer);
+        if(medicine.distributer.toUpperCase().localeCompare(App.account.toUpperCase())==0){  
         var med=await App.medicine.medicines(parseInt(medicine.medicineid));
         var price=med.price;
         var accountaddrees=med.manufaname;
-        console.log(accountaddrees);
+
         var id=med.id;
         var medname=med.medname;  
         //Display name of manufacturer from ethereum address    
@@ -132,18 +137,22 @@ App = {
           var str = "<tr><td>" + id +"</td><td>"+medname+"</td><td>"+manfact+"</td><td>"+expdate+"</td><td>"+category+"</td><td>"+price+"</td><td>"+available_Qty+"</td></tr>";
           console.log(str);
          $("#displayItem").append(str); 
-          //$("#checking").append(chk); 
+          //$("#checking").append(chk);
+        } 
      }
      $("#distributorpage").hide(); 
      $("#payemtsuccesspage").hide();
      $('#displaypurcahsedmedicine').show();
      $("#ordermanagement").hide(); 
-    }else{
+     $("#enduserordermanagement").hide();
+    }else if(App.distributordisplay==3){
       $("#displayOrders").empty();
     var totalstatuses=await App.medicine.orderStatusCount();       
     for (var i = 1; i <= totalstatuses; i++) {      
       var orderstatus=await App.medicine.orderstatuses(i);     
       var medid=orderstatus[1];
+      var med=await App.medicine.medicines(parseInt(medid));
+      if(med.medname!=''){
       var qty=orderstatus[2];
       var manufacturer=orderstatus[3];
       var distributer=orderstatus[4];
@@ -154,45 +163,109 @@ App = {
         //found 
         var str="";
         if(status=="0"){
-          str = "<tr><td>" + medid +"</td><td>"+manufacturer+"</td><td>"+username+"</td><td>"+qty+"</td><tr>"                 
+          str = "<tr><td>" + medid +"</td><td>"+med.medname+"</td><td>"+manufacturer+"</td><td>"+username+"</td><td>"+qty+"</td><tr>"                 
         }
         if(status=="1"){
           //purchased by distributer Need to accept
-          str = "<tr><td>" + medid +"</td><td>"+manufacturer+"</td><td>"+username+"</td><td>"+qty+"</td><td>Waiting For Order Accepted</td><tr>"  
+          str = "<tr><td>" + medid +"</td><td>"+med.medname+"</td><td>"+manufacturer+"</td><td>"+username+"</td><td>"+qty+"</td><td>Waiting For Order Accepted</td><tr>"  
          
         }
         if(status=="2"){
           //Accepted the order Need to ship
-          str = "<tr><td>" + medid +"</td><td>"+manufacturer+"</td><td>"+username+"</td><td>"+qty+"</td><td>Order Accepted.Waiting For Shipping</td><tr>"  
+          str = "<tr><td>" + medid +"</td><td>"+med.medname+"</td><td>"+manufacturer+"</td><td>"+username+"</td><td>"+qty+"</td><td>Order Accepted.Waiting For Shipping</td><tr>"  
          
         }
         if(status=="3"){
           //Product Shipped MArk as wating for Delivery confirmation
-          str = "<tr><td>" + medid +"</td><td>"+manufacturer+"</td><td>"+username+"</td><td>"+qty+"</td><td>Shipped</td><td><button class='btn btn-info' onclick='App.markSatusAsCompleted(`"+i+"`)'>Mark as Delivered</button></td><tr>"  
+          str = "<tr><td>" + medid +"</td><td>"+med.medname+"</td><td>"+manufacturer+"</td><td>"+username+"</td><td>"+qty+"</td><td>Shipped</td><td><button class='btn btn-info' onclick='App.markSatusAsCompleted(`"+i+"`)'>Mark as Delivered</button></td><tr>"  
          
         }
         if(status=="4"){
           //Product Shipped MArk as wating for Delivery confirmation
-          str = "<tr><td>" + medid +"</td><td>"+manufacturer+"</td><td>"+username+"</td><td>"+qty+"</td><td>Waiting Delivery Confirmation</td><tr>"  
+          str = "<tr><td>" + medid +"</td><td>"+med.medname+"</td><td>"+manufacturer+"</td><td>"+username+"</td><td>"+qty+"</td><td>Waiting Delivery Confirmation</td><tr>"  
          
         }
         if(status=="5"){
           //Product Delivered by the Distributer
-          str = "<tr><td>" + medid +"</td><td>"+manufacturer+"</td><td>"+username+"</td><td>"+qty+"</td><td>Product Delivered</td><tr>"  
+          str = "<tr><td>" + medid +"</td><td>"+med.medname+"</td><td>"+manufacturer+"</td><td>"+username+"</td><td>"+qty+"</td><td>Product Delivered</td><tr>"  
          
         }   
-        $("#displayOrders").append(str);       
+        $("#displayOrders").append(str); 
+      }      
       }      
     }
     $("#distributorpage").hide(); 
      $("#payemtsuccesspage").hide();
      $('#displaypurcahsedmedicine').hide();
      $("#ordermanagement").show(); 
+     $("#enduserordermanagement").hide();
+    }else{
+      //display end users order
+      $("#displayendUserOrders").empty();  
+      var orderStatusCountEndUser=await App.medicine.orderStatusCountEndUser();       
+      for (var i = 1; i <= orderStatusCountEndUser; i++) {      
+        var OrderStatusEndUser=await App.medicine.orderstatusesofenderusers(i);           
+        var medid=OrderStatusEndUser[1];
+        var qty=OrderStatusEndUser[2];
+        var distributer=OrderStatusEndUser[3];
+        var enduser=OrderStatusEndUser[4];
+        var user=await App.medicine.users(enduser);
+        var username=user.name;
+        var status=OrderStatusEndUser[5]; 
+        if(distributer.toUpperCase().localeCompare(App.account.toUpperCase())==0){
+          //order found
+          var str="";
+          if(status=="0"){
+            str = "<tr><td>" + medid +"</td><td>"+enduser+"</td><td>"+username+"</td><td>"+qty+"</td><tr>"                 
+          }
+          if(status=="1"){
+            //purchased by distributer Need to accept
+            str = "<tr><td>" + medid +"</td><td>"+enduser+"</td><td>"+username+"</td><td>"+qty+"</td><td>Waiting For Order Accepted</td><td><button class='btn btn-info' onclick='App.markSatusAsAcceptedByDist(`"+i+"`)'>Mark as Accepted</button></td><tr>"  
+           
+          }
+          if(status=="2"){
+            //Accepted the order Need to ship
+            str = "<tr><td>" + medid +"</td><td>"+enduser+"</td><td>"+username+"</td><td>"+qty+"</td><td>Waiting For Shipping</td><td><button class='btn btn-info' onclick='App.markSatusAsShippedByDist(`"+i+"`)'>Mark as Shipped</button></td><tr>"  
+           
+          }
+          if(status=="3"){
+            //Product Shipped MArk as wating for Delivery confirmation
+            str = "<tr><td>" + medid +"</td><td>"+enduser+"</td><td>"+username+"</td><td>"+qty+"</td><td>Shipped..Waiting for Delivery Confirmation</td><tr>"  
+           
+          }
+          if(status=="4"){
+            //Product Shipped MArk as wating for Delivery confirmation
+            str = "<tr><td>" + medid +"</td><td>"+enduser+"</td><td>"+username+"</td><td>"+qty+"</td><td>Product Delivered</td><tr>"  
+           
+          }
+          if(status=="5"){
+            //Product Delivered by the Distributer
+            str = "<tr><td>" + medid +"</td><td>"+enduser+"</td><td>"+username+"</td><td>"+qty+"</td><td>Product Delivered</td><tr>"  
+           
+          }   
+          $("#displayendUserOrders").append(str);  
+        }
+      }
+
+      $("#distributorpage").hide(); 
+      $("#payemtsuccesspage").hide();
+      $('#displaypurcahsedmedicine').hide();
+      $("#ordermanagement").hide(); 
+      $("#enduserordermanagement").show(); 
+      
     }
       
   },
   markSatusAsCompleted :async (id)=>{
     await App.medicine.updateOrderStatus(parseInt(id),"5",{from:App.account});
+    await App.render();
+  },
+  markSatusAsAcceptedByDist :async (id)=>{
+    await App.medicine.updateOrderStatusEndUser(parseInt(id),"2",{from:App.account});
+    await App.render();
+  },
+  markSatusAsShippedByDist :async (id)=>{
+    await App.medicine.updateOrderStatusEndUser(parseInt(id),"3",{from:App.account});
     await App.render();
   },
   showOrderManagementPage :async ()=>{
@@ -249,6 +322,11 @@ App = {
       // $("#distributorBuypage").hide();
       // $("#ordermanagement").show();
       // $("#payemtsuccesspage").hide();
+  },
+
+  showOrdersOfEndUsersbyDistributer :async ()=>{
+    App.distributordisplay = 4;
+    await App.render();
   },
 
   buyMedicineByDistributer:async (id)=>{
@@ -407,15 +485,15 @@ viewCertificate:async (name)=>{
   var certificateAddress='';
       console.log(name);
 
-      if(name.localeCompare("Dolonex Disp 20MG Tabs")==0 || name.localeCompare("DISP 20MG TABS")==0){
+      if(name.trim().localeCompare("Dolonex Disp 20MG Tabs")==0 || name.trim().localeCompare("DISP 20MG TABS")==0){
         certificateAddress="0x089f03b202470b872b7e2c84c7a6815033382140";
         console.log("enter");
-      }else if(name.localeCompare("Aspirin")==0 || name.localeCompare("Aspirin 500 mg Tabs")==0){
+      }else if(name.trim().localeCompare("Aspirin")==0 || name.trim().localeCompare("Aspirin 500 mg Tabs")==0){
         certificateAddress="0x4C21bb8b30DBd4aFBC7Ea0e4F52a0aF90c50082C";
         console.log(certificateAddress);
-      }else if(name.localeCompare("ATPARK 25MG")==0 || name.localeCompare("ATPARK")==0){
+      }else if(name.trim().localeCompare("ATPARK 25MG")==0 || name.trim().localeCompare("ATPARK")==0){
         certificateAddress ="0x0AB8F188F7F950e91c6dB8f745B124A15B0B5d5F";
-      }else if(name.localeCompare("Anacin Tabs")==0){
+      }else if(name.trim().localeCompare("Anacin Tabs")==0){
         certificateAddress="0x7A4D996385985A39a245786aB7524C1a9ca0fE98";
       }
 

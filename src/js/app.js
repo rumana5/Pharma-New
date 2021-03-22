@@ -7,6 +7,14 @@ App = {
   displayData:0,
   arr:[],
   similarArr:[],
+  minPrice:1,
+  maxPrice:100,
+  medicineIdforendUserBuy:0,
+  medicineforendusersID:0,
+  qtyselectedbyenduser:0,
+  quantity:0,
+  qty:0,
+  puchasethroughcart:0,
 
   load: async () => {
     await App.loadWeb3()
@@ -15,34 +23,47 @@ App = {
     await App.render()
   },
 
-  showProductPage :async (id) => {
+  showProductPage :async (id,i) => {
+    //window.alert("clicked view page" +id);
     var med=await App.medicine.medicines(parseInt(id));
+    
     var descdire= await App.medicine.meddescdirections(parseInt(id));
     var description=descdire.description;
-    var direction=descdire.direction;    
-    var price="€ "+ med.price;
-    var qty=med.quantity;
+    var direction=descdire.direction;   
     var user=await App.medicine.users(med.manufaname);
-    var username=user.name;
-    console.log(username);
+    var username=user.name; 
+     //console.log(med);
+    var price=med.price;
+    var medicineforenduser=await App.medicine.medicineforendusers(parseInt(i));
+    var qty=medicineforenduser.qty;
+   
+    App.quantity=parseInt(qty);
+    App.medicineIdforendUserBuy=id;
+    App.medicineforendusersID=i;
+    //window.alert(price);
+    //window.alert(price);
 
     $("#displayprice").html(price.toString());
     $("#displayquantity").html(qty.toString());
     $("#productName").html(med.medname); 
-    $("#manufacturerName").html(username); 
-
+    $("#distributername").html(medicineforenduser.distributer); 
+    $("#manufacturerName").html(username);
+    
     $("#displaydescription").html(description);
     $("#displaydirections").html(direction);  
 
-    var str=`<div class="col-md-4 col-lg-3 viewBtn"><button type="button" class="btn btn-primary btn-block" data-toggle='modal' data-target='#exampleModalLong' onclick="App.trackProduct('`+id+`')">Track Product</button></div>`+" "+`<div class="col-md-4 col-lg-3 viewBtn"><button type="button" class="btn btn-primary btn-block" data-toggle='modal' data-target='#exampleModalLong1' onclick="App.viewCertificate('`+med.medname+`')">View Certificate</button></div>`;
+    var btn= `<a href="javascript:void(0)" onclick="App.showCard(this)" class='add-to-cart btn btn-primary' data-price=${price} data-name=${med.medname} data-id=${i}>Add to Cart</a> `;
+    var btn1= `<a href="javascript:void(0)" onclick="App.showBuyPage()" class='add-to-cart btn btn-primary' data-price=${price} data-name=${med.medname}>Buy Now</a> `;
 
+    $("#addtocart1").append(btn);
+    
+    $("#buynow").append(btn1);
+
+    var str=`<div class="col-md-4 col-lg-3 viewBtn"><button type="button" class="btn btn-primary btn-block" data-toggle='modal' data-target='#exampleModalLong' onclick="App.trackProduct('`+id+`')">Track Product</button></div>`+" "+`<div class="col-md-4 col-lg-3 viewBtn"><button type="button" class="btn btn-primary btn-block" data-toggle='modal' data-target='#exampleModalLong1' onclick="App.viewCertificate()">View Certificate</button></div>`;
+    
     $("#displaytrackbutton").html(str);
     $("#categorypage").hide();
-    
     $("#productpage").show();
-
-
-    await App.showsimilarproducts(id);
   },
 
   showsimilarproducts : async(id) => {
@@ -161,8 +182,7 @@ trackProduct :async (id) => {
       var manufactName = med.manufaname;
       var user=await App.medicine.users(manufactName);
       var username=user.name;
-      var price=med.price + " €";
-
+      var price=med.price;
       if(App.displayData==0){
 
         var found = App.arr.some(el => el.name === username);
@@ -194,15 +214,19 @@ trackProduct :async (id) => {
         if (o.name === username) {
           if(category == clickedCategory){
             if(o.status){
-              var str=`<div class="col-md-4 col-sm-6"><div class="product-grid2"><div class="product-image2"> <a href="#"> <img class="pic-1" src="https://res.cloudinary.com/dxfq3iotg/image/upload/v1561643954/img-1.jpg"> <img class="pic-2" src="https://res.cloudinary.com/dxfq3iotg/image/upload/v1561643955/img1.2.jpg"> </a><ul class="social"><li><a href="javascript:void(0)" onclick="App.showProductPage('`+medicine.medicineid+`')" data-tip="Quick View"><i class="fa fa-eye"></i></a></li></ul></div><div class="product-content"><h3 class="title"><a href="">${medicine.medicinename}</a></h3> <span class="price"></span><span class="price">${price}</span></div></div></div>`
-              $("#displaymedicinesofdistributer").append(str);
+              if(Number(price)>=Number(App.minPrice) && Number(price)<=Number(App.maxPrice)){
+                var str=`<div class="col-md-4 col-sm-6"><div class="product-grid2"><div class="product-image2"> <a href=""> <img class="pic-1" src="https://res.cloudinary.com/dxfq3iotg/image/upload/v1561643954/img-1.jpg"> <img class="pic-2" src="https://res.cloudinary.com/dxfq3iotg/image/upload/v1561643955/img1.2.jpg"> </a><ul class="social"><li><a href="javascript:void(0)" onclick="App.showProductPage('`+medicine.medicineid+`','`+i+`')" data-tip="Quick View"><i class="fa fa-eye"></i></a></li></ul></div><div class="product-content"><h3 class="title"><a href="">${medicine.medicinename}</a></h3> <span class="price"></span><span class="price">${price}</span></div></div></div>`
+                $("#displaymedicinesofdistributer").append(str);
+              }
             }
             return true;
 
           }else if(clickedCategory == "All"){
             if(o.status){
-            var str=`<div class="col-md-4 col-sm-6"><div class="product-grid2"><div class="product-image2"> <a href="#"> <img class="pic-1" src="https://res.cloudinary.com/dxfq3iotg/image/upload/v1561643954/img-1.jpg"> <img class="pic-2" src="https://res.cloudinary.com/dxfq3iotg/image/upload/v1561643955/img1.2.jpg"> </a><ul class="social"><li><a href="javascript:void(0)" onclick="App.showProductPage('`+medicine.medicineid+`')" data-tip="Quick View"><i class="fa fa-eye"></i></a></li></ul></div><div class="product-content"><h3 class="title"><a href="">${medicine.medicinename}</a></h3> <span class="price"></span><span class="price">${price}</span></div></div></div>`
-            $("#displaymedicinesofdistributer").append(str);
+              if(Number(price)>=Number(App.minPrice) && Number(price)<=Number(App.maxPrice)){
+                var str=`<div class="col-md-4 col-sm-6"><div class="product-grid2"><div class="product-image2"> <a href="#"> <img class="pic-1" src="https://res.cloudinary.com/dxfq3iotg/image/upload/v1561643954/img-1.jpg"> <img class="pic-2" src="https://res.cloudinary.com/dxfq3iotg/image/upload/v1561643955/img1.2.jpg"> </a><ul class="social"><li><a href="javascript:void(0)" onclick="App.showProductPage('`+medicine.medicineid+`','`+i+`')" data-tip="Quick View"><i class="fa fa-eye"></i></a></li></ul></div><div class="product-content"><h3 class="title"><a href="">${medicine.medicinename}</a></h3> <span class="price"></span><span class="price">${price}</span></div></div></div>`
+                $("#displaymedicinesofdistributer").append(str);
+              }
             }
           }
         }
@@ -359,10 +383,6 @@ trackProduct :async (id) => {
     await App.loadContract1();
   },
 
-  
-
-  
-
   showAllMedicines :async () => {
     //window.alert("Home display");
     
@@ -395,7 +415,103 @@ trackProduct :async (id) => {
     $("#showAllMedicines").show();
     }
 },
-  
+
+showBuyPage :async () =>{
+  //window.alert(App.medicineIdforendUserBuy);
+  //console.log("payment");
+  $("#cart").modal('hide');
+  var medicine=await App.medicine.medicines(parseInt(App.medicineIdforendUserBuy));
+  var medprice=medicine[7];       
+  //App.qty=$("#qtyselect").val();
+  //console.log(medprice+"---"+App.qty);
+  var cartArray = shoppingCart.listCart();
+  if(cartArray.length==0){
+
+    alert("Please first add to cart");
+  }else{
+  //window.alert(qty)
+  App.qtyselectedbyenduser=parseInt(App.qty);
+  var totalprice=shoppingCart.totalCart();
+  //console.log(totalprice);
+  //window.alert(totalprice)
+  $("#totalamountforcreditcard").append(totalprice);
+  $("#categorypage").hide();
+  $("#productpage").hide();
+  $("#paymentpage").show();
+  $("#categorypagetwo").hide();
+  $("#categorytwopagemain").hide();
+  $("#enduserorder").hide();
+  }
+},
+completepaymentbyEndUser : async()=>{
+  //window.alert("buying ny end user");
+      //await App.loadWeb3();
+     // if(parseInt(App.puchasethroughcart)==1){
+        //reached here through add to cart 
+            // var cart = document.getElementsByClassName('js-cd-cart');
+            // if(cart.length > 0) {
+            //   var cartAddBtns = document.getElementsByClassName('js-cd-add-to-cart'),
+            //   cartBody = cart[0].getElementsByClassName('cd-cart__body')[0],
+            //   cartList = cartBody.getElementsByTagName('ul')[0],
+            //   cartListItems = cartList.getElementsByClassName('cd-cart__product'),
+            //   cartTotal = cart[0].getElementsByClassName('cd-cart__checkout')[0].getElementsByTagName('span')[0],
+            //   cartCount = cart[0].getElementsByClassName('cd-cart__count')[0],
+            //   cartCountItems = cartCount.getElementsByTagName('li'),
+            //   cartUndo = cart[0].getElementsByClassName('cd-cart__undo')[0];
+            // }
+            // var products = cartList.getElementsByClassName('cd-cart__body');
+            
+            //console.log(cartListItems);
+            var total_amount=0;
+            var cartArray = shoppingCart.listCart();
+            for(var i = 0; i < cartArray.length; i++) {         
+                var Quantity = cartArray[i].count;
+                console.log("quantiy="+Quantity);            
+               var  price1 =cartArray[i].price;
+               console.log("price="+price1);       
+               var  medicineId =cartArray[i].id;
+               console.log("Medicine Id="+medicineId); 
+                var medicine=await App.medicine.medicineforendusers(parseInt(medicineId)); 
+                var inputqty=parseInt(Quantity)  
+                var price=parseInt(price1) ;
+                
+                var available_Qty=parseInt(medicine[4]);
+                console.log(available_Qty);
+                if(inputqty>available_Qty){
+                  window.alert("Quatity Not Avilable To Buy");
+                }
+                else{
+                  window.alert("Transaction for amount= "+inputqty*price);
+                  total_amount+=inputqty*price;
+                  await App.loadWeb3();
+    await App.loadAccount();
+    await App.loadContract();
+
+                  console.log(App.account);
+                  await App.medicine.buyMedicineByEndUser(parseInt(medicineId),inputqty, { from: App.account });               
+                  shoppingCart.clearCart();
+
+                } 
+            }
+            window.alert("Completed successfully");
+            //await App.render();
+
+      // }
+      // else{
+      //   //reached here through quick view and purchase
+      //   var medicine=await App.medicine.medicineforendusers(parseInt(App.medicineforendusersID));       
+      //   var availableqty=medicine[4];
+      //   if(parseInt(App.qtyselectedbyenduser)>parseInt(availableqty)){
+      //     window.alert("Quantiy Not Available")
+      //   }
+      //   else{
+      //     //await App.loadAccount();
+      //     await App.medicine.buyMedicineByEndUser(parseInt(App.medicineforendusersID),parseInt(App.qtyselectedbyenduser),{from:App.account})       
+      //   }
+      // }
+     
+ 
+},
   
   render: async () => {
     // Prevent double render
@@ -471,15 +587,14 @@ trackProduct :async (id) => {
       var certificateAddress='';
       console.log(name);
 
-      if(name.localeCompare("Dolonex Disp 20MG Tabs")==0 || name.localeCompare("DISP 20MG TABS")==0){
+      if(name.trim().localeCompare("Dolonex Disp 20MG Tabs")==0 || name.trim().localeCompare("DISP 20MG TABS")==0){
         certificateAddress="0x089f03b202470b872b7e2c84c7a6815033382140";
-        console.log("enter");
-      }else if(name.localeCompare("Aspirin")==0 || name.localeCompare("Aspirin 500 mg Tabs")==0){
+      }else if(name.trim().localeCompare("Aspirin")==0 || name.trim().localeCompare("Aspirin 500 mg Tabs")==0){
         certificateAddress="0x4C21bb8b30DBd4aFBC7Ea0e4F52a0aF90c50082C";
         console.log(certificateAddress);
-      }else if(name.localeCompare("ATPARK 25MG")==0 || name.localeCompare("ATPARK")==0){
+      }else if(name.trim().localeCompare("ATPARK 25MG")==0 || name.trim().localeCompare("ATPARK")==0){
         certificateAddress ="0x0AB8F188F7F950e91c6dB8f745B124A15B0B5d5F";
-      }else if(name.localeCompare("Anacin Tabs")==0){
+      }else if(name.trim().localeCompare("Anacin Tabs")==0){
         certificateAddress="0x7A4D996385985A39a245786aB7524C1a9ca0fE98";
       }
 
@@ -526,6 +641,16 @@ trackProduct :async (id) => {
     }
   },
 
+  showCard:async(elem)=>{
+    console.log("clicked");
+  
+  var name = $(elem).data('name');
+  var price = Number($(elem).data('price'));
+  var id = Number($(elem).data('id'));
+  shoppingCart.addItemToCart(name, price,id, 1);
+  displayCart();
+  }
+
 }
 $(function () {
   $(window).load(function () {
@@ -539,9 +664,6 @@ $(function () {
        App.showAllMedicines();
   })
 });
-
-  
-
 
 function clicked(item) {
   console.log($(item).attr("id"));
@@ -558,3 +680,231 @@ function loginClick(){
   //alert("MetaMask Connection clicked");
   App.load();
 }
+
+$(document).ready(function () {
+  $("input[type='radio']").on("change", function(){        
+      changedbyPrice(this);
+  });
+});
+
+function changedbyPrice(obj) {
+  App.displayData=1;
+  if (obj.id == "flexRadioDefault1") {
+    App.minPrice=1;
+    App.maxPrice=100;
+  }
+  else if (obj.id == "flexRadioDefault2")
+  {
+    App.minPrice=1;
+    App.maxPrice=20;
+  }else if (obj.id == "flexRadioDefault3")
+  {
+    App.minPrice=20;
+    App.maxPrice=50;
+  }else if (obj.id == "flexRadioDefault4")
+  {
+    App.minPrice=50;
+    App.maxPrice=100;
+  }
+
+ App.loadHome();
+}
+
+var shoppingCart = (function() {
+  // =============================
+  // Private methods and propeties
+  // =============================
+  cart = [];
+  
+  // Constructor
+  function Item(name, price,id, count) {
+    this.name = name;
+    this.price = price;
+    this.id=id;
+    this.count = count;
+  }
+  
+  // Save cart
+  function saveCart() {
+    sessionStorage.setItem('shoppingCart', JSON.stringify(cart));
+  }
+  
+    // Load cart
+  function loadCart() {
+    cart = JSON.parse(sessionStorage.getItem('shoppingCart'));
+  }
+  if (sessionStorage.getItem("shoppingCart") != null) {
+    loadCart();
+  }
+  
+
+  // =============================
+  // Public methods and propeties
+  // =============================
+  var obj = {};
+  
+  // Add to cart
+  obj.addItemToCart = function(name, price,id, count) {
+    console.log("item added in to cart");
+    for(var item in cart) {
+      if(cart[item].name === name) {
+        cart[item].count ++;
+        saveCart();
+        return;
+      }
+    }
+    var item = new Item(name, price, id, count);
+    cart.push(item);
+    saveCart();
+  }
+  // Set count from item
+  obj.setCountForItem = function(name, count) {
+    for(var i in cart) {
+      if (cart[i].name === name) {
+        cart[i].count = count;
+        break;
+      }
+    }
+  };
+  // Remove item from cart
+  obj.removeItemFromCart = function(name) {
+      for(var item in cart) {
+        if(cart[item].name === name) {
+          cart[item].count --;
+          if(cart[item].count === 0) {
+            cart.splice(item, 1);
+          }
+          break;
+        }
+    }
+    saveCart();
+  }
+
+  // Remove all items from cart
+  obj.removeItemFromCartAll = function(name) {
+    for(var item in cart) {
+      if(cart[item].name === name) {
+        cart.splice(item, 1);
+        break;
+      }
+    }
+    saveCart();
+  }
+
+  // Clear cart
+  obj.clearCart = function() {
+    cart = [];
+    saveCart();
+  }
+
+  // Count cart 
+  obj.totalCount = function() {
+    var totalCount = 0;
+    for(var item in cart) {
+      totalCount += cart[item].count;
+    }
+    return totalCount;
+  }
+
+  // Total cart
+  obj.totalCart = function() {
+    var totalCart = 0;
+    for(var item in cart) {
+      totalCart += cart[item].price * cart[item].count;
+    }
+    return Number(totalCart.toFixed(2));
+  }
+
+  // List cart
+  obj.listCart = function() {
+    var cartCopy = [];
+    for(i in cart) {
+      item = cart[i];
+      itemCopy = {};
+      for(p in item) {
+        itemCopy[p] = item[p];
+
+      }
+      itemCopy.total = Number(item.price * item.count).toFixed(2);
+      cartCopy.push(itemCopy)
+    }
+    return cartCopy;
+  }
+
+  return obj;
+})();
+
+
+// *****************************************
+// Triggers / Events
+// ***************************************** 
+// Add item
+$('.add-to-cart').click(function(event) {
+  event.preventDefault();
+  var name = $(this).data('name');
+  var price = Number($(this).data('price'));
+  var id = Number($(this).data('id'));
+  shoppingCart.addItemToCart(name, price, id, 1);
+  displayCart();
+});
+
+// Clear items
+$('.clear-cart').click(function() {
+  shoppingCart.clearCart();
+  displayCart();
+});
+
+
+function displayCart() {
+  var cartArray = shoppingCart.listCart();
+  var output = "";
+  for(var i in cartArray) {
+    output += "<tr>"
+      + "<td>" + cartArray[i].name + "</td>" 
+      + "<td>(" + cartArray[i].price + ")</td>"
+      + "<td><div class='input-group'><button class='minus-item input-group-addon btn btn-primary' data-name=" + cartArray[i].name + ">-</button>"
+      + "<input type='number' class='item-count form-control' data-name='" + cartArray[i].name + "' value='" + cartArray[i].count + "'>"
+      + "<button class='plus-item btn btn-primary input-group-addon' data-name=" + cartArray[i].name + ">+</button></div></td>"
+      + "<td><button class='delete-item btn btn-danger' data-name=" + cartArray[i].name + ">X</button></td>"
+      + " = " 
+      + "<td>" + cartArray[i].total + "</td>" 
+      +  "</tr>";
+  }
+  $('.show-cart').html(output);
+  $('.total-cart').html(shoppingCart.totalCart());
+  $('.total-count').html(shoppingCart.totalCount());
+}
+
+// Delete item button
+
+$('.show-cart').on("click", ".delete-item", function(event) {
+  var name = $(this).data('name')
+  shoppingCart.removeItemFromCartAll(name);
+  displayCart();
+})
+
+
+// -1
+$('.show-cart').on("click", ".minus-item", function(event) {
+  var name = $(this).data('name')
+  shoppingCart.removeItemFromCart(name);
+  displayCart();
+})
+// +1
+$('.show-cart').on("click", ".plus-item", function(event) {
+  var name = $(this).data('name')
+  shoppingCart.addItemToCart(name);
+  displayCart();
+})
+
+// Item count input
+$('.show-cart').on("change", ".item-count", function(event) {
+   var name = $(this).data('name');
+   var count = Number($(this).val());
+  shoppingCart.setCountForItem(name, count);
+  displayCart();
+});
+
+displayCart();
+
+
