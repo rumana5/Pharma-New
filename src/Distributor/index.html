@@ -56,7 +56,8 @@
                             <!-- <button type="button" class="btn btn-dark featuredBtn" id= "btn6" onclick="App.displayManufecturertoapprove()">Pending requests</button>
 
                             <button type="button" class=" btn btn-dark featuredBtn" id= "btn7" onclick="App.displayRejectedManufacturer()">Rejected Users</button> -->
-                            <button type="button" class=" btn btn-dark featuredBtn" id= "btn6" onclick="App.showOrderManagementPage()">Order Management</button>
+                            <button type="button" class=" btn btn-dark featuredBtn" id= "btn6" onclick="App.showOrderManagementPage()">My Orders</button>
+                            <button type="button" class=" btn btn-dark featuredBtn" id= "btn6" onclick="App.showOrdersOfEndUsersbyDistributer()">End User Orders</button>
                             
 
                         </div>
@@ -232,6 +233,22 @@
 
 <!-- Order Management Ends-->
 
+<div id="enduserordermanagement" style="display: none;"> 
+    <div class="container">  
+        <table class="table table-bordered" width="100%" cellspacing="0"> 
+        <tr>
+            <th>ID</th>                                    
+            <th>EndUser</th>
+            <th>Medicine Name</th>
+            <th>Quantity</th>
+            <th>Status</th> 
+        </tr>  
+            <tbody id="displayendUserOrders">            
+            </tbody>
+        </table> 
+    </div>                      
+</div>
+
   <div class="modal fade" id="exampleModalLong" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
       <div class="modal-content">
@@ -301,33 +318,7 @@
 
                 <div id="payemtsuccesspage" style="display: none;">
                   <!-- payment page begins -->
-                  <header id="header">
-         <nav class="navbar navbar-default">
-            <div class="container-fluid">
-           
-               
-               <a href="index.html" class="navbar-brand">
-                  <img src="images/product/logo.png" alt="pharmaCare" />
-   
-            </a>
-            
-           
-               
-                  <nav id="nav-menu-container">
-                     <ul class="nav-menu">
-                          
-                        <li><a href="index.html">Home</a></li>
-                        <li><a href="#">Categories</a></li>
-                        <li><a href="https://triwotech.de/">About Us</a></li>
-                        <li><a href="index.html">Contact Us</a></li>
-                        
-                        <li><a><button class="btn btn-primary" onclick="loginClick()" >Sign in / Sign up</button></a></li>
-                     </ul>
-                   </nav>
-               </div>
-         </nav>
-         
-       </header>
+                  
                   <article class="card">
                     <div class="card-body p-5">
                     
