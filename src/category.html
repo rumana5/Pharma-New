@@ -57,30 +57,39 @@
          </nav>
          
        </header>
+       
+                   
        <div class="find-box-cat">
-                      
+         
                        
-                         <div class="row height d-flex justify-content-center align-items-center">
-                            <div class="col-sm-3 col-md-2 "></div>
-                             <div class="col-sm-6 col-md-8 ">
-                              <div class="search"> <i class="fa fa-search"></i> <input type="text" class="form-control" placeholder="Medicine Name" id="medicinesearchbyEndUser"> <i class="fa fa-window-close" onclick="App.clearSearch()" style = "display:none;" id="close"></i> <button class="btn btn-primary" onclick="App.searchMedicineByEndUser()">Search</button> </div>
-                             </div>
-                             <div class="col-sm-3 col-md-2 "></div>
-                         </div>
+               <div class="row height d-flex justify-content-center align-items-center">
+               <div class="col-sm-3 col-md-2 "></div>
+               <div class="col-sm-6 col-md-8 ">
+               <div class="search"> <i class="fa fa-search"></i> <input type="text" class="form-control" placeholder="Medicine Name" id="medicinesearchbyEndUser"> <i class="fa fa-window-close" onclick="App.clearSearch()" style = "display:none;" id="close"></i> <button class="btn btn-primary" onclick="App.searchMedicineByEndUser()">Search</button> </div>
+               </div>
+               <div class="col-sm-3 col-md-2 "></div>
+                             
+                </div>
                         
-                    </div>
+         </div>
       
         
           
          <div class="furniture-box">
          <div class="terms-title">
             <div class="container">
-               <div class="row">
+               <div class="row" style="position: relative;">
                   <ol class="breadcrumb">
                      <li><a href="index.html">Home </a></li>
                      <li class="active">Categories</li>
+                   
                   </ol>
-               </div>
+                  <div>
+                     <button class="btn btn-primary vieworder" onclick="App.viewMyOrdersPageEndUSer();">View My Orders</button></div>
+                  </div>
+                  
+                  
+               
             </div>
          </div>
         
@@ -99,7 +108,7 @@
             </div>
             <div class="row">
                <div class="furniture-main">
-                  <button class="btn btn-primary btn-lg" onclick="App.viewMyOrdersPageEndUSer();">View My Orders</button>
+                  
                   <h2 id="nameCategory"></h2>
                   <div class="col-md-3 col-sm-4">
                      <div class="furniture-left">
@@ -165,18 +174,7 @@
                         </div> 
                   
                   </div>
-                  <!-- <div class="loding-box">
-                     <a href="#">
-                        <div class="sk-wave">
-                           <div class="sk-rect sk-rect1"></div>
-                           <div class="sk-rect sk-rect2"></div>
-                           <div class="sk-rect sk-rect3"></div>
-                           <div class="sk-rect sk-rect4"></div>
-                           <div class="sk-rect sk-rect5"></div>
-                        </div>
-                        <span>Loding more awesome products...</span>
-                     </a>
-                  </div> -->
+                 
                </div>
                <script>
                   // Mobile Navigation
@@ -384,11 +382,14 @@
                       <div class="page-preview">
                          <div class="preview">
                             <div class="preview-pic tab-content">
-                               <div class="tab-pane active" id="pic-1"><img src="images/product/2.jpg" alt="#" /></div>
+                               <div class="tab-pane active" id="pic-1"><img src="../images/medicine.jpg" alt="#" /></div>
+                               
                                
                             </div>
+                            
                            
                          </div>
+                       
                       </div>
                    </div>
                   
@@ -399,11 +400,11 @@
               <div class="col-md-8 col-sm-12">
                 <div class="description-box">
                    <div class="dex-a">
-                      <div>
-                         <h3 ><strong id="productName"></strong></h3></br>
+                      <div >
+                         <h3 style="position: relative;"><strong id="productName"></strong></h3></br>
                          <h4 >Manufacturer : <strong  id="manufacturerName"></strong></h3>
-                           <div class="col cartbox">
-                              <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#cart">Cart (<span class="total-count"></span>)</button></div>
+                           <div class="col cartbox" >
+                              <button style="position: absolute; top:10px; right:30px" type="button" class="btn btn-primary vieworder" data-toggle="modal" data-target="#cart">Cart (<span class="total-count"></span>)</button></div>
                         </div>
                      
                       
@@ -425,35 +426,35 @@
                     </div>
                    
                 </div>
-
                 <div class="price-box-right">
-                   <h4>Price</h4>
-                   <h3><div id="displayprice"></div> <span>per item</span></h3>
+                  <h4>Price : <span id="displayprice"> <span>per item</span></span></h4>
                   
-                   <!-- <select class="form-control select2" id="qtyselect">
-                     <option value="" selected disabled hidden>Select Quantity</option>
-                     <option value="1">1</option>
-                     <option value="2">2</option>
-                     <option value="3">3</option>
-                     <option value="4">4</option>
-                     <option value="5">5</option>
-                     
-                  </select> -->
-                  <div class="stock">
-                  <div class="col-md-6" id="addtocart1">
+                 
+                  <!-- <select class="form-control select2" id="qtyselect">
+                    <option value="" selected disabled hidden>Select Quantity</option>
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="5">5</option>
+                    
+                 </select> -->
+                 <div class="row stock">
+                 <div class="col-md-6" id="addtocart1">
 
-                  </div>
-                  <div class="col-md-6" id="buynow">
+                 </div>
+                 <div class="col-md-6" id="buynow">
 
-                  </div>
+                 </div>
 
-                  
+                 
+              </div>
+              <div class="row" >
+                  <!-- <a style="cursor: pointer;" onclick="App.showBuyPage()">Proceed To Buy</a> -->
+                  <h5 id="availstock"> Available Stock:<strong> <span id="displayquantity">50</span>  </strong></h5>
+                 </div>
                </div>
-               <div >
-                   <!-- <a style="cursor: pointer;" onclick="App.showBuyPage()">Proceed To Buy</a> -->
-                   <h5> Available Stock:<strong> <span id="displayquantity">50</span>  </strong></h5>
-                  </div>
-                </div>
+               
                 
              </div>
                
@@ -929,7 +930,10 @@ if ($('#nav-menu-container').length) {
        </div>
          
          <div >          
-             <div class="container">              
+             <div class="container">     
+                <h4 style="margin-top: 30px; text-align: center; font-size: sans-serif;">Logged in as : <span id="endusername"></span> </h4>
+                <h3 style="margin-top: 30px; text-align: center; font-size: sans-serif;">My Order History</h3>
+                           
                  <div class="endusertable col-md-12 col-sm-12">
                    <table class="table table-bordered" width="100%" cellspacing="0" >
                       <tr>
