@@ -538,13 +538,14 @@ completepaymentbyEndUser : async()=>{
       var username=user.name;
 
    
-      // if(role=="1"){
-      //   //End User
-      // }
+      if(role=="1"){
+        //End User
+        window.location.replace('/category.html');
+      }
       // else if(role=="2"){
       //   //C.A
       // }
-      if(approved.localeCompare("false")==0){
+      else if(approved.localeCompare("false")==0){
         alert("Waiting for approval from admin");
         return
       }else if(approved.localeCompare("reject")==0){
