@@ -128,7 +128,8 @@ App = {
          var expdate=med.expdate;
          var category=med.category;
          var price=med.price;
-         var available_Qty=med.quantity;
+         var medicineforenduser=await App.medicine.medicineforendusers(parseInt(i));
+          var available_Qty=medicineforenduser.qty;
         
           //var btn= "<a href='#0' class='cd-add-to-cart js-cd-add-to-cart' data-price='25.99'>Add To Cart</a>  <div class='cd-cart cd-cart--empty js-cd-cart'><a href='#0' class='cd-cart__trigger text-replace'> Cart  <ul class='cd-cart__count'> <li>0</li><li>0</li> </ul> </a><div class='cd-cart__content'> <div class='cd-cart__layout'><header class='cd-cart__header'> <h2>Cart</h2> <span class='cd-cart__undo'>Item removed. <a href='#0'>Undo</a></span>  </header>  <div class='cd-cart__body'> <ul>  </ul>  </div>   <footer class='cd-cart__footer'>  <a href='#0' class='cd-cart__checkout'><em>Checkout - $<span>0</span> <svg class='icon icon--sm' viewBox='0 0 24 24'><g fill='none' stroke='currentColor'><line stroke-width='2' stroke-linecap='round' stroke-linejoin='round' x1='3' y1='12' x2='21' y2='12'/><polyline stroke-width='2' stroke-linecap='round' stroke-linejoin='round' points='15,6 21,12 15,18 '/></g>  </svg>  </em>  </a> </footer>  </div></div>  </div> ";
            //var btn=" <main class='cd-main container margin-top-xxl'><div class='text-component text-center'><p class='flex flex-wrap flex-center flex-gap-xxs'><a href='#0' class='cd-add-to-cart js-cd-add-to-cart' data-price='10'>Add To Cart</a></p></div></main>";
@@ -495,7 +496,7 @@ viewCertificate:async (name)=>{
         console.log(certificateAddress);
       }else if(name.trim().localeCompare("ATPARK 25MG")==0 || name.trim().localeCompare("ATPARK")==0){
         certificateAddress ="0x0AB8F188F7F950e91c6dB8f745B124A15B0B5d5F";
-      }else if(name.trim().localeCompare("Anacin Tabs")==0){
+      }else if(name.trim().localeCompare("Januvia")==0 || name.trim().localeCompare("januvia")==0){
         certificateAddress="0x7A4D996385985A39a245786aB7524C1a9ca0fE98";
       }else{
         certificateAddress="0x2fcd5be391Beb9Ce874b117fD3D50cCBA172C2bB";

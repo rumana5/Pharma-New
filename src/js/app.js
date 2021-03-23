@@ -171,11 +171,12 @@ trackProduct :async (id) => {
       $("[id='nameCategory']").html(clickedCategory);
     
     var options = '';
-    
+    const spinner = document.getElementById("spinner");
     $("#categorypage").show();
     $("#productpage").hide();
     $('#boxscroll').empty();
     $("#displaymedicinesofdistributer").empty();
+    spinner.removeAttribute('hidden');
 
     await App.loadContract1();
     var count=await App.medicine.medicineforendusersCount();
@@ -252,6 +253,7 @@ trackProduct :async (id) => {
       $('#boxscroll').append(options);      
       options = '';   
     }
+    spinner.setAttribute('hidden', '');
 },
   // https://medium.com/metamask/https-medium-com-metamask-breaking-change-injecting-web3-7722797916a8
   loadWeb3: async () => {
@@ -676,7 +678,7 @@ completepaymentbyEndUser : async()=>{
         console.log(certificateAddress);
       }else if(name.trim().localeCompare("ATPARK 25MG")==0 || name.trim().localeCompare("ATPARK")==0){
         certificateAddress ="0x0AB8F188F7F950e91c6dB8f745B124A15B0B5d5F";
-      }else if(name.trim().localeCompare("Anacin Tabs")==0){
+      }else if(name.trim().localeCompare("Januvia")==0 || name.trim().localeCompare("januvia")==0){
         certificateAddress="0x7A4D996385985A39a245786aB7524C1a9ca0fE98";
       }else{
         certificateAddress="0x2fcd5be391Beb9Ce874b117fD3D50cCBA172C2bB";

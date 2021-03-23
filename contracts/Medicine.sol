@@ -7,6 +7,7 @@ contract Medicine {
  uint public orderStatusCount=0;
  uint public orderStatusCountEndUser=0;
  uint public medicineforendusersCount = 0;
+ uint public distributorQuantity = 0;
  address public admin;
   struct Med {
     uint id;    
@@ -124,6 +125,7 @@ contract Medicine {
         orderstatuses[_id]=OrderStatus(_id,_medid,_qty,_manufacturer,_distributer,_status);        
     }
     function buyMedicineByDistributer(uint _id,address _manufact,uint _qty) public  {
+      distributorQuantity=_qty;
       uint _quanity=medicines[_id].quantity-_qty;
       string memory _medname=medicines[_id].medname;
       address _manufaname=medicines[_id].manufaname;
@@ -135,7 +137,7 @@ contract Medicine {
         
       medicines[_id] = Med(_id, _medname,_manufaname,_batchNo,_manufadate,_expdate,_category,_price,_quanity);
 
-      emit updatedMedicine(_id, _medname,msg.sender,_batchNo, _manufadate,_expdate,_category, _quanity);
+      emit updatedMedicine(_id, _medname,msg.sender,_batchNo, _manufadate,_expdate,_category, distributorQuantity);
        uint _newentry=1;
       uint i=1;
       for(i=1;i<=medicineforendusersCount;i++){
