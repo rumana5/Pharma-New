@@ -495,6 +495,8 @@ viewCertificate:async (name)=>{
         certificateAddress ="0x0AB8F188F7F950e91c6dB8f745B124A15B0B5d5F";
       }else if(name.trim().localeCompare("Anacin Tabs")==0){
         certificateAddress="0x7A4D996385985A39a245786aB7524C1a9ca0fE98";
+      }else{
+        certificateAddress="0x2fcd5be391Beb9Ce874b117fD3D50cCBA172C2bB";
       }
 
       //certificateAddress= "0x089f03b202470b872b7e2c84c7a6815033382140";
