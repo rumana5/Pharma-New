@@ -7,9 +7,14 @@
         <meta name="description" content="" />
         <meta name="author" content="" />
         <title>Distributor Dashboard</title>
+        <link rel="stylesheet" href="assets/css/style.css">
         <link href="css/styles.css" rel="stylesheet" />
+        <!--fontawesome css-->
+        <link rel="stylesheet" href="../css/font-awesome.min.css">
+
+        <script>document.getElementsByTagName("html")[0].className += " js";</script>
         <link href="https://cdn.datatables.net/1.10.20/css/dataTables.bootstrap4.min.css" rel="stylesheet" crossorigin="anonymous" />
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/js/all.min.js" crossorigin="anonymous"></script>
+        <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/js/all.min.js" crossorigin="anonymous"></script> -->
     </head>
     <body class="sb-nav-fixed">
         <nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark">
@@ -45,12 +50,14 @@
                         <div class="nav">
                             <div class="sb-sidenav-menu-heading">HOME</div>
                            
-                            <button type="button" class=" btn btn-dark featuredBtn" id= "btn5" onclick="App.displayApprovedManufecturer()">View Medicines</button>
+                            <button type="button" class=" btn btn-dark featuredBtn" id= "btn5" onclick="App.displayMedicine()">View Medicines</button>
+                            <button type="button" class=" btn btn-dark featuredBtn" id= "btn5" onclick="App.displayPurchasedMedicine()">Purchased Medicines</button>
                             
                             <!-- <button type="button" class="btn btn-dark featuredBtn" id= "btn6" onclick="App.displayManufecturertoapprove()">Pending requests</button>
 
                             <button type="button" class=" btn btn-dark featuredBtn" id= "btn7" onclick="App.displayRejectedManufacturer()">Rejected Users</button> -->
-
+                            <button type="button" class=" btn btn-dark featuredBtn" id= "btn6" onclick="App.showOrderManagementPage()">My Orders</button>
+                            <button type="button" class=" btn btn-dark featuredBtn" id= "btn6" onclick="App.showOrdersOfEndUsersbyDistributer()">End User Orders</button>
                             
 
                         </div>
@@ -62,7 +69,7 @@
                 </nav>
             </div>
             <div id="layoutSidenav_content">
-                <main>
+                <main id="distributermainpage">
                     <div class="container-fluid">
                         <h1 class="mt-4">Distributor Dashboard</h1>
 
@@ -92,6 +99,30 @@
                                        
                                     </table>
                                 </div>
+                                <!-- Display Purchased Medicines Page -->
+                                <div id="displaypurcahsedmedicine" style="display: none;">         
+        
+                                    <div class="container">          
+                                        <table class="table table-bordered" width="100%" cellspacing="0">
+                                           
+                                            <tr>
+                                              <th>No</th>
+                                              <th>Medicine Name</th>
+                                              <th>Manufacturer</th>
+                                              <th>Expiry Date</th>
+                                              <th>Category</th>                  
+                                              <th>Price</th>
+                                              <th>Quantity</th>
+                                            </tr>
+                                          
+                                          <tbody id="displayItem">
+                                           
+                                          </tbody>
+                                          
+                                        </table>         
+                                    </div>
+                                </div>
+                                <!--Display Purchased Medicines End-->
                                 </div>
 
                                 <!-- Distributor Buy Medicine  start-->
@@ -181,8 +212,45 @@
       </div>
     </div>
   </div> -->
+
+   <!-- Order Management  start-->
+   <div id="ordermanagement" style="display: none;"> 
+    <div class="container">  
+        <table class="table table-bordered" width="100%" cellspacing="0"> 
+        <tr>
+            <th>ID</th> 
+            <th>Medicine Name</th>                                   
+            <th>Manufacturer</th>
+            <th>Name</th>
+            <th>Quantity</th>
+            <th>Status</th> 
+        </tr>  
+            <tbody id="displayOrders">            
+            </tbody>
+        </table> 
+    </div>                      
+</div>
+
+<!-- Order Management Ends-->
+
+<div id="enduserordermanagement" style="display: none;"> 
+    <div class="container">  
+        <table class="table table-bordered" width="100%" cellspacing="0"> 
+        <tr>
+            <th>ID</th>                                    
+            <th>EndUser</th>
+            <th>Medicine Name</th>
+            <th>Quantity</th>
+            <th>Status</th> 
+        </tr>  
+            <tbody id="displayendUserOrders">            
+            </tbody>
+        </table> 
+    </div>                      
+</div>
+
   <div class="modal fade" id="exampleModalLong" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
-    <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-dialog modal-dialog-centered" role="document">
       <div class="modal-content">
         <div class="modal-header">
           <h5 class="modal-title" id="exampleModalLongTitle">Medicine Tracking Details</h5>
@@ -203,27 +271,142 @@
 
 
                         <div class="modal fade" id="exampleModalLong1" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
-                            <div class="modal-dialog modal-lg" role="document">
-                              <div class="modal-content">
-                                <div class="modal-header">
-                                  <h5 class="modal-title" id="exampleModalLongTitle">Certificate</h5>
-                                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                    <span aria-hidden="true">&times;</span>
-                                  </button>
-                                </div>
-                                <div class="modal-body">
-                                    <div id="main">
-                                    </div>
-                        
-                                  
-                                </div>
-                                
-                            </div>
-                          </div>
+                            <div class="modal-dialog modal-sm" role="document">
+                                <div class="modal-content">
+                                   <div class="modal-header">
+                                      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                         <span aria-hidden="true">&times;</span>
+                                     </button>
+                                   </div>
+                                   <div class="modal-body">
+                       
+                                     <div class="container-fluid">
+                                        <div class="row">
+                                           <!-- <div class="col-sm-2">
+                                              <img id="bannerProp" src="../images/left_banner.png">
+                                           </div> -->
+                                            <div class="col-sm-12">
+                                                <div class="imgL">
+                                                <img class="pull-right" id="logoProp" src="">
                                                 </div>
+                                                <div class="row text-left col-sm-12">
+                                                 <div class="col-sm-12">
+                                                     <p class="header-large">CERTIFICATE</p>
+                                                 </div>
+                       
+                                                 <div class="col-sm-12">
+                                                    <div id="viewCert">
+                                        
+                                                    </div>
+                       
+                                                 </div>
+                                             </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                     
+                                   </div>
+                       
+                                  </div>
+                                  </div>
+                                                </div>
+                        </div>
+                    </div>
                     
                     
                 </main>
+
+                <div id="payemtsuccesspage" style="display: none;">
+                  <!-- payment page begins -->
+                  
+                  <article class="card">
+                    <div class="card-body p-5">
+                    
+                    <ul class="nav bg-light nav-pills rounded nav-fill mb-3" role="tablist">
+                        <li class="nav-item">
+                            <a class="nav-link active" data-toggle="pill" href="#nav-tab-card">
+                            <i class="fa fa-credit-card"></i> Credit Card</a></li>
+                        <li class="nav-item">
+                            <a class="nav-link" data-toggle="pill" href="#nav-tab-paypal">
+                            <i class="fa fa-cc-paypal"></i>  Paypal</a></li>
+                        <li class="nav-item">
+                            <a class="nav-link" data-toggle="pill" href="#nav-tab-bank">
+                            <i class="fa fa-university"></i>  Bank Transfer</a></li>
+                    </ul>
+                    
+                    <div class="tab-content">
+                    <div class="tab-pane fade show active" id="nav-tab-card">
+                        <p class="alert alert-success" id="totalamountforcreditcard">Total Amount </p>
+                        <form role="form">
+                        <div class="form-group">
+                            <label for="username">Full Name (on the card)</label>
+                            <input type="text" class="form-control" name="username" placeholder="Name" required>
+                        </div> <!-- form-group.// -->
+                    
+                        <div class="form-group">
+                            <label for="cardNumber">Card number</label>
+                            <div class="input-group" >
+                                <input type="text" class="form-control" name="cardNumber" placeholder="XXXX XXXX XXXX XXXX"  maxlength="12" onkeypress="return isNumberKey(event);" required>
+                                <div class="input-group-append" >
+                                    <span class="input-group-text text-muted">
+                                        <i class="fa fa-cc-visa"></i>   <i class="fa fa-cc-amex"></i>   
+                                        <i class="fa fa-cc-mastercard"></i> 
+                                    </span>
+                                </div>
+                            </div>
+                        </div> <!-- form-group.// -->
+                    
+                        <div class="row">
+                            <div class="col-sm-8">
+                                <div class="form-group">
+                                    <label><span class="hidden-xs">Expiration</span> </label>
+                                    <div class="input-group">
+                                        <input type="number" class="form-control" placeholder="MM" name="" maxlength="2" min="1" max="12" required>
+                                        <input type="number" class="form-control" placeholder="YYYY" name="" maxlength="4" min="2000" max="2030"required>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-4">
+                                <div class="form-group">
+                                    <label data-toggle="tooltip" title="3 digits code on back side of the card">CVV <i class="fa fa-question-circle"></i></label>
+                                    <input type="password" class="form-control"  maxlength="3" onkeypress="return isNumberKey(event);" required>
+                                </div> <!-- form-group.// -->
+                            </div>
+                        </div> <!-- row.// -->
+                        <button class="subscribe btn btn-primary btn-block" type="button" onclick="App.completepaymentbyDistributer();"> Confirm  </button>
+                        </form>
+                    </div> <!-- tab-pane.// -->
+                    <div class="tab-pane fade" id="nav-tab-paypal">
+                    <p>Paypal is easiest way to pay online</p>
+                    <p>
+                    <button type="button" class="btn btn-primary"> <i class="fa fa-cc-paypal"></i> Log in to Paypal </button>
+                    </p>
+                    <p><strong>Note:</strong> Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+                    tempor incididunt ut labore et dolore magna aliqua. </p>
+                    </div>
+                    <div class="tab-pane fade" id="nav-tab-bank">
+                    <p>Bank accaunt details</p>
+                    <dl class="param">
+                      <dt>BANK: </dt>
+                      <dd> THE WORLD BANK</dd>
+                    </dl>
+                    <dl class="param">
+                      <dt>Accaunt number: </dt>
+                      <dd> 12345678912345</dd>
+                    </dl>
+                    <dl class="param">
+                      <dt>IBAN: </dt>
+                      <dd> 123456789</dd>
+                    </dl>
+                    <p><strong>Note:</strong> Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+                    tempor incididunt ut labore et dolore magna aliqua. </p>
+                    </div> <!-- tab-pane.// -->
+                    </div> <!-- tab-content .// -->
+                    
+                    </div> <!-- card-body.// -->
+                    </article> 
+                  <!-- payment page ends -->
+              </div>
                 <footer class="py-4 bg-light mt-auto">
                     <div class="container-fluid">
                         <div class="d-flex align-items-center justify-content-between small">
@@ -234,6 +417,20 @@
                 </footer>
             </div>
         </div>
+        <script>
+            function isNumberKey(evt)
+			{
+				var charCode = (evt.which) ? evt.which : evt.keyCode;
+				if (charCode != 46 && charCode > 31 
+				&& (charCode < 48 || charCode > 57))
+				return false;
+				return true;
+			}  
+
+            $(function () {
+                    $('[data-toggle="tooltip"]').tooltip()
+                })
+        </script>
         
        
         <script src="../js/jquery-1.12.4.min.js"></script>
@@ -242,8 +439,9 @@
          <script src="../js/truffle-contract.js"></script>
         
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/2.9.1/umd/popper.min.js" integrity="sha512-g2PN+aYR0KupTVwea5Ppqw4bxWLLypWdd+h7E0ydT8zF+/Y2Qpk8Y1SnzVw6ZCVJPrgB/91s3VfhVhP7Y4+ucw==" crossorigin="anonymous"></script>
         <script src="js/Distributor.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js" crossorigin="anonymous"></script>
-        
+        <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js" crossorigin="anonymous"></script> -->
+        <script src="./assets/js/util.js"></script> 
     </body>
 </html>

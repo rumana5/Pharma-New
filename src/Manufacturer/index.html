@@ -13,7 +13,10 @@
     </head>
     <body class="sb-nav-fixed">
         <nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark">
-            <a class="navbar-brand" href="index.html">pharmaCare</a>
+            <a class="navbar-brand" href="index.html">
+                <img src="" alt="pharmaCare">
+
+            </a>
             <button class="btn btn-link btn-sm order-1 order-lg-0" id="sidebarToggle" href="#"><i class="fas fa-bars"></i></button>
             <!-- Navbar Search-->
             <form class="d-none d-md-inline-block form-inline ml-auto mr-0 mr-md-3 my-2 my-md-0">
@@ -50,7 +53,7 @@
               
                             <button type="button" class="btn btn-dark featuredBtn" id= "btn3" onclick="App.displayEditMedicine()">Edit Medicines</button>
                             <button type="button" class="btn btn-dark featuredBtn" id= "btn4" onclick="App.displayDeleteMedicine()">Delete Medicines</button>
-              
+                            <button type="button" class="btn btn-dark featuredBtn" id= "btn5" onclick="App.displayOrderManagementPage()">Order Management</button>
                             
                         </div>
                     </div>
@@ -73,7 +76,7 @@
       
                                         <div class="container">
                                          
-                                          <form onSubmit="App.addMedicine(); return false;">
+                                          <form class="form-group required" onSubmit="App.addMedicine(); return false;">
                                             
                                             <table class="table table-bordered" id="dataTablePending" width="100%" cellspacing="0">
                                                        
@@ -82,50 +85,52 @@
                                                 <td><p id="accountAddress" class="text-center"></p></td>
                                               </tr>
                                               <tr>
-                                                <td>Medicine Name</td>
-                                                <td><input type="text" class="form-control" id="addmedname"></td>
+                                                <td class="control-label">Medicine Name</td>
+                                                <td><input type="text" class="form-control" id="addmedname" required></td>
                                               </tr>
                                               <tr>
-                                                <td>Batch No</td>
-                                                <td><input type="text" class="form-control" id="addbatchno"></td>
+                                                <td class="control-label">Batch No</td>
+                                                <td><input type="text" class="form-control" id="addbatchno" required></td>
                                               </tr>
                                               <tr>
-                                                <td>Date of Manufacture</td>
-                                                <td><input type="date" class="form-control" id="addmanfdate"></td>
+                                                <td class="control-label">Date of Manufacture</td>
+                                                <td><input type="date" class="form-control" id="addmanfdate" required></td>
                                               </tr>
                                               <tr>
-                                                <td>Date of Expiry</td>
-                                                <td><input type="date" class="form-control" id="addexpdate"></td>
+                                                <td class="control-label">Date of Expiry</td>
+                                                <td><input type="date" class="form-control" id="addexpdate" required></td>
                                               </tr>
                                               <tr>
-                                                <td>Category</td>
+                                                <td class="control-label">Category</td>
                                                 <td>
-                                                  <select class="form-control" id="addcategory">
-                                                    <option value="Analgesics" selected>Analgesics</option> 
-                                                    <option value="Antacids">Antacids</option>
-                                                    <option value="Antiarrhythmics">Antiarrhythmics</option>
-                                                    <option value="Antibacterials">Antibacterials</option>
-                                                    <option value="Antibiotics">Antibiotics</option>
-                                                    <option value="Anticonvulsants">Anticonvulsants</option>
-                                                    <option value="Antidepressants">Antidepressants</option>
-                                                    <option value="Antidiarrheals">Antidiarrheals</option>
-                                                    <option value="Antiemetics">Antiemetics</option>
-                                                    <option value="Antifungals">Antifungals</option>
-                                                    <option value="Antihistamines">Antihistamines</option>
-                                                    <option value="Antihypertensives">Antihypertensives</option>
-                                                    <option value="Antineoplastics">Antineoplastics</option>
-                                                    <option value="Antipsychotics">Antipsychotics</option>
+                                                  <select class="form-control" id="addcategory" required>
+                                                    <option value="Antibiotics" selected>Antibiotics</option>
+                                                    <option value="Analgesics" >Analgesics</option> 
+                                                    <option value="Cardiovascular">Cardiovascular</option>
+                                                    <option value="Antidiabetics">Antidiabetics</option>
+                                                   
+                                                    
+                                                   
                                                   </select>
                                                 </td>
                                               </tr>
                                               <tr>
-                                                <td>Price</td>
-                                                <td><input type="number" class="form-control" id="addprice"></td>
+                                                <td class="control-label">Price</td>
+                                                <td><input type="number" class="form-control" id="addprice" required></td>
                                               </tr>
                                               <tr>
-                                                <td>Quantity</td>
-                                                <td><input type="number" class="form-control" id="addquantity"></td>
+                                                <td class="control-label">Quantity</td>
+                                                <td><input type="number" class="form-control" id="addquantity" required></td>
                                               </tr>
+                                              <tr>
+                                                <td class="control-label">Description</td>
+                                                <td><textarea  id="adddescription" cols="30" rows="5" class="form-control" required></textarea></td>
+                                              </tr>
+                                              <tr>
+                                                <td class="control-label">Direction</td>
+                                                <td><textarea  id="adddirection" cols="30" rows="5" class="form-control"required></textarea></td>
+                                              </tr>
+                                              
                                               <tr >
                                                 <td colspan="2" align="center">
                                                 <button class="btn btn-primary">Add Medicine</button>
@@ -162,6 +167,28 @@
                                     </div>
                                     <!--Display Medicines End-->
 
+                                     <!-- Order Management  Page -->
+                                     <div id="ordermanagementpage" style="display: none;">            
+        
+                                        <div class="container">          
+                                            <table class="table table-bordered" id="dataTablePending" width="100%" cellspacing="0">
+                                               
+                                                <tr>
+                                                  <th>ID</th>   
+                                                  <th>Medicine Name</th>                                              
+                                                  <th>Distributer</th>
+                                                  <th>Name</th>
+                                                  <th>Quantity</th>
+                                                  <th>Status</th>                 
+                                                  
+                                                </tr>                                              
+                                              <tbody id="displayOrders">                                               
+                                              </tbody>                                              
+                                            </table>         
+                                        </div>
+                                    </div>
+                                    <!--Order MAnagement Page End-->
+
                                     <!-- EDIT Medicines by manufacurer Page -->
                                     <div id="editmedicine" style="display: none;">            
          
@@ -180,7 +207,7 @@
                                                     </tr>
                                                     <tr>
                                                         <td>Medicine Name</td>
-                                                        <td><input type="text" class="form-control" id="editmedname"></td>
+                                                        <td><input type="text" class="form-control" id="editmedname" disabled></td>
                                                     </tr>
                                                     <tr>
                                                         <td>Batch No</td>
@@ -188,30 +215,22 @@
                                                     </tr>
                                                     <tr>
                                                         <td>Date of Manufacture</td>
-                                                        <td><input type="date" class="form-control" id="editmanfdate"></td>
+                                                        <td><input type="date" class="form-control" id="editmanfdate" disabled></td>
                                                     </tr>
                                                     <tr>
                                                          <td>Date of Expiry</td>
-                                                        <td><input type="date" class="form-control" id="editexpdate"></td>
+                                                        <td><input type="date" class="form-control" id="editexpdate" disabled></td>
                                                     </tr>
                                                     <tr>
                                                         <td>Category</td>
                                                         <td>
-                                                            <select class="form-control" id="editcategory">
+                                                            <select class="form-control" id="editcategory" disabled>
                                                             <option value="Analgesics" selected>Analgesics</option> 
-                                                            <option value="Antacids">Antacids</option>
-                                                            <option value="Antiarrhythmics">Antiarrhythmics</option>
-                                                            <option value="Antibacterials">Antibacterials</option>
+                                                            
                                                             <option value="Antibiotics">Antibiotics</option>
-                                                            <option value="Anticonvulsants">Anticonvulsants</option>
-                                                            <option value="Antidepressants">Antidepressants</option>
-                                                            <option value="Antidiarrheals">Antidiarrheals</option>
-                                                            <option value="Antiemetics">Antiemetics</option>
-                                                            <option value="Antifungals">Antifungals</option>
-                                                            <option value="Antihistamines">Antihistamines</option>
-                                                            <option value="Antihypertensives">Antihypertensives</option>
-                                                            <option value="Antineoplastics">Antineoplastics</option>
-                                                            <option value="Antipsychotics">Antipsychotics</option>
+                                                            
+                                                            <option value="Antineoplastics">Cardiovascular</option>
+                                                            <option value="Antipsychotics">Antidiabetics</option>
                                                             </select>
                                                         </td>
                                                     </tr>
@@ -294,7 +313,7 @@
         <script src="https://cdn.jsdelivr.net/gh/ethereum/web3.js/dist/web3.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
         <script src="../js/truffle-contract.js"></script>
-        <script type="text/javascript" src="js/scripts.js"></script>
+        <script type="text/javascript" src="js/manufacturer.js"></script>
         
     </body>
 </html>

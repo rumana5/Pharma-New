@@ -99,6 +99,8 @@ App = {
         console.log("Before sending to BC userAddress="+userAddress+"userRole="+role+"name="+userFullname);
         await App.medicine.registerRoles(userFullname,userAddress,role,"false", { from: App.account });      
         alert("Registered successfully"); 
+        window.location.replace('./index.html');
+
         await App.render();
    
   }

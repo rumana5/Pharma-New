@@ -38,17 +38,6 @@ App = {
     getMetaskAccountID: function () {
         web3 = new Web3(App.web3Provider);
 
-        // Retrieving accounts
-        // web3.eth.getAccounts(function (err, res) {
-        //     if (err) {
-        //         console.log('Error:', err);
-        //         return;
-        //     }
-        //     App.account = res[0];
-
-        //     console.log('getMetaskID:', App.account);
-        // })
-
         App.account = App.acc[0];
 
     },
@@ -76,7 +65,7 @@ App = {
       var display =$("#display");
       var editpage=$("#editmedicine");
       var deletemedicinepage=$("#deletemedicine");
-     
+      var ordermanagementpage=$("#ordermanagementpage");
   
         var user=await App.medicine.users(App.account);
         console.log(user);
@@ -88,27 +77,24 @@ App = {
 
         $("[id='accountAddress']").html(username +" ("+App.account+")");
         $("[id='username']").html(username);
-        
-  
-        console.log(role);
-  
 
-         if(App.manfdisplay==0){
+        if(App.manfdisplay==0){
           //Display Add Medicine Page
           
           display.hide();
           editpage.hide();
           deletemedicinepage.hide();
           manufacturer.show();
+          ordermanagementpage.hide();
          
         }
         if(App.manfdisplay==1){
-          console.log("enter");
           //Display View Medicine Page
                     
           manufacturer.hide();
           editpage.hide();
           deletemedicinepage.hide();
+          ordermanagementpage.hide();
           display.show();
 
           var displayItem = $('#displayItem');
@@ -142,6 +128,7 @@ App = {
           manufacturer.hide();
           display.hide();
           deletemedicinepage.hide();
+          ordermanagementpage.hide();
           editpage.show();
           
         } 
@@ -149,12 +136,81 @@ App = {
           //Delete Medicine Medicine Page
                   
           manufacturer.hide();
+          ordermanagementpage.hide();
           display.hide();          
           editpage.hide();
           deletemedicinepage.show();
           
         } 
+        if(App.manfdisplay==4){
+          //Show Order Management Page
+                  
+          manufacturer.hide();
+          ordermanagementpage.show();
+          display.hide();          
+          editpage.hide();
+          deletemedicinepage.hide();
+
+          $("#displayOrders").empty();
+      var totalstatuses=await App.medicine.orderStatusCount();       
+      for (var i = 1; i <= totalstatuses; i++) {      
+        var orderstatus=await App.medicine.orderstatuses(i);     
+        var medid=orderstatus[1];
+        var med=await App.medicine.medicines(parseInt(medid));
+        if(med.medname!=''){
+        var qty=orderstatus[2];
+        var manufacturer=orderstatus[3];
+        var distributer=orderstatus[4];
+        var status=orderstatus[5]; 
+        var user=await App.medicine.users(distributer);
+        var username=user.name;
+
+        if(manufacturer.toUpperCase().localeCompare(App.account.toUpperCase())==0){     
+          //found 
+          var str="";
+          if(status=="0"){
+            str = "<tr><td>" + medid +"</td><td>"+med.medname+"</td><td>"+distributer+"</td><td>"+username+"</td><td>"+qty+"</td><tr>"                 
+          }
+          if(status=="1"){
+            //purchased by distributer Need to accept
+            str = "<tr><td>" + medid +"</td><td>"+med.medname+"</td><td>"+distributer+"</td><td>"+username+"</td><td>"+qty+"</td><td><button class='btn btn-info' onclick='App.markSatusAsAccept(`"+i+"`)'>Mark As Accept</button></td><tr>"  
+           
+          }
+          if(status=="2"){
+            //Accepted the order Need to ship
+            str = "<tr><td>" + medid +"</td><td>"+med.medname+"</td><td>"+distributer+"</td><td>"+username+"</td><td>"+qty+"</td><td><button class='btn btn-info' onclick='App.markSatusAsShipped(`"+i+"`)'>Mark As Shipped</button></td><tr>"  
+           
+          }
+          if(status=="3"){
+            //Product Shipped MArk as wating for Deleivery confirmation
+            str = "<tr><td>" + medid+"</td><td>"+med.medname +"</td><td>"+distributer+"</td><td>"+username+"</td><td>"+qty+"</td><td>Waiting Delivery Confirmation</td><tr>"  
+           
+          }
+          if(status=="4"){
+            //Product Shipped MArk as wating for Deleivery confirmation
+            str = "<tr><td>" + medid+"</td><td>"+med.medname +"</td><td>"+distributer+"</td><td>"+username+"</td><td>"+qty+"</td><td>Waiting Delivery Confirmation</td><tr>"  
+           
+          }
+          if(status=="5"){
+            //Product Delivered by the Distributer
+            str = "<tr><td>" + medid +"</td><td>"+med.medname+"</td><td>"+distributer+"</td><td>"+username+"</td><td>"+qty+"</td><td>Product Delivered</td><tr>"  
+           
+          }   
+          $("#displayOrders").append(str);    
+        }   
+        }      
+      }
+        } 
     }, 
+    markSatusAsAccept :async (id)=>{
+      await App.medicine.updateOrderStatus(parseInt(id),"2", { from: App.account });
+      await App.render();
+    },
+    markSatusAsShipped :async (id)=>{
+      await App.medicine.updateOrderStatus(parseInt(id),"3", { from: App.account });
+      await App.render();
+    },
+    
     addMedicine:async ()=>{
       var medname=$("#addmedname").val();
       var manfaddrss=App.account;
@@ -166,7 +222,9 @@ App = {
       var category=$("#addcategory").val();
       var price=parseInt($("#addprice").val());
       var quantity=parseInt($("#addquantity").val());
-      await App.medicine.addMedicine(medname,manfaddrss,batchno,manfdate,expdate,category,price,quantity, { from: App.account });  
+      var adddescription=$("#adddescription").val();
+      var adddirection=$("#adddirection").val();
+      await App.medicine.addMedicine(medname,manfaddrss,batchno,manfdate,expdate,category,price,quantity,adddescription,adddirection, { from: App.account });  
       await App.render();
       $("#addmedname").val('');    
       $("#addbatchno").val('');
@@ -174,6 +232,9 @@ App = {
       $("#addexpdate").val('');
       $("#addcategory").val('');
       $("#addprice").val('');
+      $("#adddescription").val('');
+      $("#adddirection").val('');
+      $("#addquantity").val('');
       alert("Product Added successfully"); 
     },
 
@@ -248,6 +309,7 @@ listenForEvents:async  function() {
       App.manfdisplay=3;
       var medicineSelectDelete=$("#medicineSelectDelete");    
       var count= await App.medicine.medicineCount();
+      medicineSelectDelete.empty();
       for (var i = 1; i <= count; i++) {      
         var medicine=await App.medicine.medicines(i);
         var accountaddrees=medicine[2];
@@ -257,6 +319,56 @@ listenForEvents:async  function() {
           medicineSelectDelete.append(str);       
         }      
       }
+      await App.render();
+    },
+    displayOrderManagementPage:async ()=>{
+      App.manfdisplay=4;     
+      // $("#displayOrders").empty();
+      // var totalstatuses=await App.medicine.orderStatusCount();       
+      // for (var i = 1; i <= totalstatuses; i++) {      
+      //   var orderstatus=await App.medicine.orderstatuses(i);     
+      //   var medid=orderstatus[1];
+      //   var qty=orderstatus[2];
+      //   var manufacturer=orderstatus[3];
+      //   var distributer=orderstatus[4];
+      //   var status=orderstatus[5]; 
+      //   var user=await App.medicine.users(distributer);
+      //   var username=user.name;
+
+      //   if(manufacturer.toUpperCase().localeCompare(App.account.toUpperCase())==0){     
+      //     //found 
+      //     var str="";
+      //     if(status=="0"){
+      //       str = "<tr><td>" + medid +"</td><td>"+distributer+"</td><td>"+username+"</td><td>"+qty+"</td><tr>"                 
+      //     }
+      //     if(status=="1"){
+      //       //purchased by distributer Need to accept
+      //       str = "<tr><td>" + medid +"</td><td>"+distributer+"</td><td>"+username+"</td><td>"+qty+"</td><td><button class='btn btn-info' onclick='App.markSatusAsAccept(`"+i+"`)'>Mark As Accept</button></td><tr>"  
+           
+      //     }
+      //     if(status=="2"){
+      //       //Accepted the order Need to ship
+      //       str = "<tr><td>" + medid +"</td><td>"+distributer+"</td><td>"+username+"</td><td>"+qty+"</td><td><button class='btn btn-info' onclick='App.markSatusAsShipped(`"+i+"`)'>Mark As Shipped</button></td><tr>"  
+           
+      //     }
+      //     if(status=="3"){
+      //       //Product Shipped MArk as wating for Deleivery confirmation
+      //       str = "<tr><td>" + medid +"</td><td>"+distributer+"</td><td>"+username+"</td><td>"+qty+"</td><td>Waiting Delivery Confirmation</td><tr>"  
+           
+      //     }
+      //     if(status=="4"){
+      //       //Product Shipped MArk as wating for Deleivery confirmation
+      //       str = "<tr><td>" + medid +"</td><td>"+distributer+"</td><td>"+username+"</td><td>"+qty+"</td><td>Waiting Delivery Confirmation</td><tr>"  
+           
+      //     }
+      //     if(status=="5"){
+      //       //Product Delivered by the Distributer
+      //       str = "<tr><td>" + medid +"</td><td>"+distributer+"</td><td>"+username+"</td><td>"+qty+"</td><td>Product Delivered</td><tr>"  
+           
+      //     }   
+      //     $("#displayOrders").append(str);       
+      //   }      
+      // }
       await App.render();
     },
     selectedMedicineIDEdit: async ()=>{
