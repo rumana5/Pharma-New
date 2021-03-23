@@ -161,6 +161,9 @@ trackProduct :async (id) => {
 
   loadHome :async () => {
 
+    if (localStorage.getItem("categoryName") === "undefined") {
+      localStorage.setItem("categoryName","All");
+    }
     var clickedCategory = localStorage.getItem("categoryName");
 
     if(clickedCategory!="All")
@@ -499,7 +502,7 @@ completepaymentbyEndUser : async()=>{
                 } 
             }
             window.alert("Completed successfully");
-            //await App.render();
+            await App.render();
 
       // }
       // else{
@@ -589,6 +592,74 @@ completepaymentbyEndUser : async()=>{
       App.setLoading(false)
     },
 
+    viewMyOrdersPageEndUSer :async () =>{
+      //window.alert(App.medicineIdforendUserBuy);
+      $("#enduserorders").empty();
+      var orderStatusCountEndUser=await App.medicine.orderStatusCountEndUser();
+      await App.loadWeb3();
+        await App.loadAccount();
+        await App.loadContract();
+      
+      for(var i=1;i<=orderStatusCountEndUser;i++){
+        var order=await App.medicine.orderstatusesofenderusers(parseInt(i));
+        var enduseraddr=order.enduser;
+        console.log(enduseraddr+"--"+App.account);
+        if(enduseraddr.toUpperCase().localeCompare(App.account.toUpperCase())==0){
+          //order founnd
+          console.log("enter if");
+          var medid=parseInt(order.medid);
+          var medicine=await App.medicine.medicines(medid);
+          var medname=medicine.medname;
+          var distributer=order.distributer;
+          var user=await App.medicine.users(distributer);
+          var username=user.name;
+          var qty=order.qty;
+          var status=order.status;
+          var str="";
+          if(status=="0"){
+             str="<tr><td>"+i+"</td><td>"+medname+"</td><td>"+username+"</td><td>"+qty+"</td></tr>";                
+          }
+          if(status=="1"){
+            //purchased by distributer Need to accept
+             str="<tr><td>"+i+"</td><td>"+medname+"</td><td>"+username+"</td><td>"+qty+"</td><td>Waiting for order Accepted</td></tr>"; 
+           
+          }
+          if(status=="2"){
+            //Accepted the order Need to ship
+            str="<tr><td>"+i+"</td><td>"+medname+"</td><td>"+username+"</td><td>"+qty+"</td><td>Order Accepted.Waiting for Shipping</td></tr>"; 
+           
+          }
+          if(status=="3"){
+            //Product Shipped MArk as wating for Delivery confirmation
+           str="<tr><td>"+i+"</td><td>"+medname+"</td><td>"+username+"</td><td>"+qty+"</td><td>Shipped</td><td><button class='btn btn-info' onclick='App.markSatusAsCompletedEndUser(`"+i+"`)'>Mark as Delivered</button></td></tr>"; 
+           
+          }
+          if(status=="4"){
+            //Product Shipped MArk as wating for Delivery confirmation
+           str="<tr><td>"+i+"</td><td>"+medname+"</td><td>"+username+"</td><td>"+qty+"</td><td>Order Delivered</td></tr>"; 
+           
+          }
+          if(status=="5"){
+            //Product Delivered by the Distributer
+           str="<tr><td>"+i+"</td><td>"+medname+"</td><td>"+username+"</td><td>"+qty+"</td><td>Order Delivered</td></tr>";            
+          }   
+         
+          $("#enduserorders").append(str);
+        }
+      }
+     
+      $("#categorypage").hide();
+      $("#productpage").hide();
+      $("#paymentpage").hide();
+      $("#categorypagetwo").hide();
+      $("#categorytwopagemain").hide();
+      $("#enduserorder").show();
+    },
+
+    markSatusAsCompletedEndUser :async (id)=>{
+      await App.medicine.updateOrderStatusEndUser(parseInt(id),"5",{from:App.account});
+      await App.render();
+    },
     viewCertificate:async (name)=>{
       var certificateAddress='';
       console.log(name);
