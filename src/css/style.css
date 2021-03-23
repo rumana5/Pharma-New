@@ -2406,6 +2406,7 @@ body {
 .terms-title .breadcrumb {
 	background-color: transparent;
 	margin-bottom: 0px;
+	width: 100%;
 }
 
 .terms-title .breadcrumb li a {
@@ -5370,3 +5371,23 @@ h3.h3 {
 	  float:right;
 	 
   } */
+
+  .form-check-label{
+	padding-left: 20px;
+	font-family: 'Raleway', sans-serif;
+}
+
+.vieworder{
+	position: absolute;
+	top:0;
+	right:0;
+	background: #09284B;
+}
+
+.vieworder:hover{
+	background: #007dea;}
+
+#availstock{
+	padding-left: 10px;
+	margin-left:8px;
+}
