@@ -99,6 +99,7 @@
             </div>
             <div class="row">
                <div class="furniture-main">
+                  <button class="btn btn-primary btn-lg" onclick="App.viewMyOrdersPageEndUSer();">View My Orders</button>
                   <h2 id="nameCategory"></h2>
                   <div class="col-md-3 col-sm-4">
                      <div class="furniture-left">
@@ -438,7 +439,7 @@
                      <option value="5">5</option>
                      
                   </select> -->
-                  <div>
+                  <div class="stock">
                   <div class="col-md-6" id="addtocart1">
 
                   </div>
@@ -448,9 +449,10 @@
 
                   
                </div>
+               <div >
                    <!-- <a style="cursor: pointer;" onclick="App.showBuyPage()">Proceed To Buy</a> -->
                    <h5> Available Stock:<strong> <span id="displayquantity">50</span>  </strong></h5>
-                   
+                  </div>
                 </div>
                 
              </div>
@@ -874,6 +876,169 @@ if ($('#nav-menu-container').length) {
             
           
        </div>
+
+       <div id="enduserorder" style="display: none;">           
+         <header id="header">
+            <nav class="navbar navbar-default">
+               <div class="container-fluid">
+    
+                  <a href="index.html" class="navbar-brand">
+                     <img src="images/product/logo.png" alt="pharmaCare" />
+      
+                  </a>
+   
+                  <nav id="nav-menu-container">
+   
+                     
+                     <ul class="nav-menu">
+                             
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="category.html">Categories</a></li>
+                        <li><a href="https://triwotech.de/">About Us</a></li>
+                        <li><a href="index.html">Contact Us</a></li>
+                        <li><a><button class="btn btn-primary" onclick="loginClick()" >Sign in / Sign up</button></a></li>
+                     </ul>
+                     
+                  </nav>
+                  </div>
+            </nav>
+            
+          </header>
+         
+         <div id="sidebar" class="top-nav">
+          <ul id="sidebar-nav" class="sidebar-nav">
+             <!-- <li><a href="#">Help</a></li>
+             <li><a href="#">How it works</a></li>
+             <li><a href="#">Chamb for Business</a></li> -->
+          </ul>
+       </div>
+         
+          <div class="terms-conditions product-page">
+          <div class="terms-title">
+             <div class="container">
+                <div class="row">
+                   <ol class="breadcrumb">
+                      <li><a href="index.html">Home </a></li>
+                      <li><a href="category.html">Categories</a></li>
+                      <!-- <li class="active">Medicines</li> -->
+                      <li class="active">Product Page</li>
+                   </ol>
+                </div>
+             </div>
+          </div>
+       </div>
+         
+         <div >          
+             <div class="container">              
+                 <div class="endusertable col-md-12 col-sm-12">
+                   <table class="table table-bordered" width="100%" cellspacing="0" >
+                      <tr>
+                         <th>ID</th>
+                         <th>Medicine Name</th>
+                         <th>Distributor Name</th>
+                         <th>Qty</th>
+                         <th>Status</th>
+                      </tr>
+                      <tbody id="enduserorders">
+   
+                      </tbody>
+                   </table>              
+                </div> 
+             </div>
+         </div>
+          <footer>
+          <div class="main-footer">
+             <div class="container">
+                <div class="row">                
+                   <div class="footer-link-box clearfix">
+                      <div class="col-md-12 col-sm-12">
+                         <div class="left-f-box">
+                            <div class="col-sm-2">
+                               <h2>Manufacturer</h2>
+                               <ul>
+                                  <li><a href="#">Create account</a></li>
+                                  <li><a href="#">How it works </a></li>
+                                  <li><a href="#">FAQ for Manufacturers</a></li>
+                               </ul>
+                            </div>
+                            <div class="col-sm-2">
+                               <h2>BUY Medicines</h2>
+                               <ul>
+                                  <li><a href="#">Create account</a></li>
+                                  <li><a href="category.html">Categories</a></li>
+                                  <li><a href="#">FAQ for buyers</a></li>
+                               </ul>
+                            </div>
+                            <div class="col-sm-2">
+                               <h2>COMPANY</h2>
+                               <ul>
+                                  <li><a href="#">About pharmaCare</a></li>
+                                  <li><a href="#">Contact us</a></li>
+                                  <li><a href="#">Careers</a></li>
+                                  <li><a href="#">Terms of use</a></li>
+                               </ul>
+                            </div>
+   
+                            <div class="col-sm-2">
+                               <h2>CATEGORIES</h2>
+                               <ul>
+                                  <li><a href="category.html">Analgesics</a></li>
+                                  <li><a href="category.html">Antacids</a></li>
+                                  <li><a href="category.html">Antiarrhythmics</a></li>
+                                  <li><a href="category.html">Antibacterials</a></li>
+                                  <li><a href="category.html">Antibiotics</a></li>
+                                 </ul>
+                            </div>
+   
+                            <div class="col-sm-4">
+                               <h2>DISCLAIMER</h2>
+                               <p id="disclaimer">This website does not belong to a real company. It is a Planspiel Web Engineering project.</p>
+                            </div>
+                         </div>
+                      </div>
+                      
+                   </div>
+                </div>
+             </div>
+          </div>
+          <div class="copyright">
+             <div class="container">
+                <div class="row">
+                   <div class="col-md-8">
+                      <p>
+                         <!-- <img width="90" src="images/logo.png" alt="#" style="margin-top: -5px;" /> -->
+                          All Rights Reserved. pharmaCare © 2020</p>
+                   </div>
+                   <div class="col-md-4">
+                      <ul class="list-inline socials">
+                         <li>
+                            <a href="">
+                            <i class="fa fa-facebook" aria-hidden="true"></i>
+                            </a>
+                         </li>
+                         <li>
+                            <a href="">
+                            <i class="fa fa-twitter" aria-hidden="true"></i>
+                            </a>
+                         </li>
+                         <li>
+                            <a href="">
+                            <i class="fa fa-instagram" aria-hidden="true"></i>
+                            </a>
+                         </li>
+                         <li>
+                            <a href="#">
+                            <i class="fa fa-linkedin" aria-hidden="true"></i>
+                            </a>
+                         </li>
+                      </ul>
+                     
+                   </div>
+                </div>
+             </div>
+          </div>
+       </footer>     
+    </div>
      
       <!--main js--> 
       <script src="js/jquery-1.12.4.min.js"></script> 
