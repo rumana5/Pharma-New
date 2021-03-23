@@ -43,7 +43,7 @@ App = {
     //window.alert(price);
     //window.alert(price);
 
-    $("#displayprice").html(price.toString());
+    $("#displayprice").html("€ "+price.toString());
     $("#displayquantity").html(qty.toString());
     $("#productName").html(med.medname); 
     $("#distributername").html(medicineforenduser.distributer); 
@@ -59,11 +59,13 @@ App = {
     
     $("#buynow").append(btn1);
 
-    var str=`<div class="col-md-4 col-lg-3 viewBtn"><button type="button" class="btn btn-primary btn-block" data-toggle='modal' data-target='#exampleModalLong' onclick="App.trackProduct('`+id+`')">Track Product</button></div>`+" "+`<div class="col-md-4 col-lg-3 viewBtn"><button type="button" class="btn btn-primary btn-block" data-toggle='modal' data-target='#exampleModalLong1' onclick="App.viewCertificate()">View Certificate</button></div>`;
+    var str=`<div class="col-md-4 col-lg-3 viewBtn"><button type="button" class="btn btn-primary btn-block" data-toggle='modal' data-target='#exampleModalLong' onclick="App.trackProduct('`+id+`')">Track Product</button></div>`+" "+`<div class="col-md-4 col-lg-3 viewBtn"><button type="button" class="btn btn-primary btn-block" data-toggle='modal' data-target='#exampleModalLong1' onclick="App.viewCertificate('`+med.medname+`')">View Certificate</button></div>`;
     
     $("#displaytrackbutton").html(str);
     $("#categorypage").hide();
     $("#productpage").show();
+
+    App.showsimilarproducts(id);
   },
 
   showsimilarproducts : async(id) => {
@@ -77,7 +79,7 @@ App = {
 
         if(App.similarArr[i].categoryName==Category){
 
-          var str=`<div class="col-md-4 col-sm-6"><div class="product-grid2"><div class="product-image2"> <a> <img class="pic-1" src="https://res.cloudinary.com/dxfq3iotg/image/upload/v1561643954/img-1.jpg"> <img class="pic-2" src="https://res.cloudinary.com/dxfq3iotg/image/upload/v1561643955/img1.2.jpg"> </a><ul class="social"><li><a href="javascript:void(0)" onclick="App.showProductPage('`+App.similarArr[i].id+`')" data-tip="Quick View"><i class="fa fa-eye"></i></a></li></ul></div><div class="product-content"><h3 class="title"><a>${App.similarArr[i].name}</a></h3> <span class="price">${App.similarArr[i].price}</span></div></div></div>`
+          var str=`<div class="col-md-4 col-sm-6"><div class="product-grid2"><div class="product-image2"> <a> <img class="pic-1" src="https://res.cloudinary.com/dxfq3iotg/image/upload/v1561643954/img-1.jpg"> <img class="pic-2" src="https://res.cloudinary.com/dxfq3iotg/image/upload/v1561643955/img1.2.jpg"> </a><ul class="social"><li><a href="javascript:void(0)" onclick="App.showProductPage('`+App.similarArr[i].id+`')" data-tip="Quick View"><i class="fa fa-eye"></i></a></li></ul></div><div class="product-content"><h3 class="title"><a>${App.similarArr[i].name}</a></h3> <span class="price">${App.similarArr[i].price + " €"}</span></div></div></div>`
           $("#displaymedicines").append(str);
         }
       }
@@ -215,7 +217,7 @@ trackProduct :async (id) => {
           if(category == clickedCategory){
             if(o.status){
               if(Number(price)>=Number(App.minPrice) && Number(price)<=Number(App.maxPrice)){
-                var str=`<div class="col-md-4 col-sm-6"><div class="product-grid2"><div class="product-image2"> <a href=""> <img class="pic-1" src="https://res.cloudinary.com/dxfq3iotg/image/upload/v1561643954/img-1.jpg"> <img class="pic-2" src="https://res.cloudinary.com/dxfq3iotg/image/upload/v1561643955/img1.2.jpg"> </a><ul class="social"><li><a href="javascript:void(0)" onclick="App.showProductPage('`+medicine.medicineid+`','`+i+`')" data-tip="Quick View"><i class="fa fa-eye"></i></a></li></ul></div><div class="product-content"><h3 class="title"><a href="">${medicine.medicinename}</a></h3> <span class="price"></span><span class="price">${price}</span></div></div></div>`
+                var str=`<div class="col-md-4 col-sm-6"><div class="product-grid2"><div class="product-image2"> <a href=""> <img class="pic-1" src="https://res.cloudinary.com/dxfq3iotg/image/upload/v1561643954/img-1.jpg"> <img class="pic-2" src="https://res.cloudinary.com/dxfq3iotg/image/upload/v1561643955/img1.2.jpg"> </a><ul class="social"><li><a href="javascript:void(0)" onclick="App.showProductPage('`+medicine.medicineid+`','`+i+`')" data-tip="Quick View"><i class="fa fa-eye"></i></a></li></ul></div><div class="product-content"><h3 class="title"><a href="">${medicine.medicinename}</a></h3> <span class="price"></span><span class="price">${"€ "+price}</span></div></div></div>`
                 $("#displaymedicinesofdistributer").append(str);
               }
             }
@@ -224,7 +226,7 @@ trackProduct :async (id) => {
           }else if(clickedCategory == "All"){
             if(o.status){
               if(Number(price)>=Number(App.minPrice) && Number(price)<=Number(App.maxPrice)){
-                var str=`<div class="col-md-4 col-sm-6"><div class="product-grid2"><div class="product-image2"> <a href="#"> <img class="pic-1" src="https://res.cloudinary.com/dxfq3iotg/image/upload/v1561643954/img-1.jpg"> <img class="pic-2" src="https://res.cloudinary.com/dxfq3iotg/image/upload/v1561643955/img1.2.jpg"> </a><ul class="social"><li><a href="javascript:void(0)" onclick="App.showProductPage('`+medicine.medicineid+`','`+i+`')" data-tip="Quick View"><i class="fa fa-eye"></i></a></li></ul></div><div class="product-content"><h3 class="title"><a href="">${medicine.medicinename}</a></h3> <span class="price"></span><span class="price">${price}</span></div></div></div>`
+                var str=`<div class="col-md-4 col-sm-6"><div class="product-grid2"><div class="product-image2"> <a href="#"> <img class="pic-1" src="https://res.cloudinary.com/dxfq3iotg/image/upload/v1561643954/img-1.jpg"> <img class="pic-2" src="https://res.cloudinary.com/dxfq3iotg/image/upload/v1561643955/img1.2.jpg"> </a><ul class="social"><li><a href="javascript:void(0)" onclick="App.showProductPage('`+medicine.medicineid+`','`+i+`')" data-tip="Quick View"><i class="fa fa-eye"></i></a></li></ul></div><div class="product-content"><h3 class="title"><a href="">${medicine.medicinename}</a></h3> <span class="price"></span><span class="price">${"€ "+price}</span></div></div></div>`
                 $("#displaymedicinesofdistributer").append(str);
               }
             }
@@ -419,7 +421,10 @@ trackProduct :async (id) => {
 showBuyPage :async () =>{
   //window.alert(App.medicineIdforendUserBuy);
   //console.log("payment");
-  $("#cart").modal('hide');
+  $('.modal').modal('hide');
+  $('body').removeClass('modal-open');
+  $('.modal-backdrop').remove();
+
   var medicine=await App.medicine.medicines(parseInt(App.medicineIdforendUserBuy));
   var medprice=medicine[7];       
   //App.qty=$("#qtyselect").val();
@@ -596,6 +601,8 @@ completepaymentbyEndUser : async()=>{
         certificateAddress ="0x0AB8F188F7F950e91c6dB8f745B124A15B0B5d5F";
       }else if(name.trim().localeCompare("Anacin Tabs")==0){
         certificateAddress="0x7A4D996385985A39a245786aB7524C1a9ca0fE98";
+      }else{
+        certificateAddress="0x2fcd5be391Beb9Ce874b117fD3D50cCBA172C2bB";
       }
 
       //certificateAddress= "0x089f03b202470b872b7e2c84c7a6815033382140";
@@ -643,12 +650,19 @@ completepaymentbyEndUser : async()=>{
 
   showCard:async(elem)=>{
     console.log("clicked");
-  
+    var medicine=await App.medicine.medicineforendusers(parseInt($(elem).data('id')));
+
+    var available_Qty=parseInt(medicine[4]);
+    console.log(available_Qty);
+
+    if(available_Qty!=0){
   var name = $(elem).data('name');
   var price = Number($(elem).data('price'));
   var id = Number($(elem).data('id'));
+
   shoppingCart.addItemToCart(name, price,id, 1);
   displayCart();
+}
   }
 
 }
@@ -748,9 +762,17 @@ var shoppingCart = (function() {
     console.log("item added in to cart");
     for(var item in cart) {
       if(cart[item].name === name) {
-        cart[item].count ++;
-        saveCart();
+        console.log(App.quantity+"--"+cart[item].count);
+        if(cart[item].count<App.quantity){
+          cart[item].count ++;
+          saveCart();
+          return;
+        }else{
+          alert("No more items available");
         return;
+      }
+          
+        
       }
     }
     var item = new Item(name, price, id, count);
