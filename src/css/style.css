@@ -5359,6 +5359,13 @@ h3.h3 {
 	align-self: center;
   }
 
+  .endusertable{
+	margin-top: 20px;
+}
+.stock{
+	margin-bottom: 20px;
+}
+
   /* .cartbox{
 	  float:right;
 	 
