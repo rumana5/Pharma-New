@@ -57,30 +57,39 @@
          </nav>
          
        </header>
+       
+                   
        <div class="find-box-cat">
-                      
+         
                        
-                         <div class="row height d-flex justify-content-center align-items-center">
-                            <div class="col-sm-3 col-md-2 "></div>
-                             <div class="col-sm-6 col-md-8 ">
-                              <div class="search"> <i class="fa fa-search"></i> <input type="text" class="form-control" placeholder="Medicine Name" id="medicinesearchbyEndUser"> <i class="fa fa-window-close" onclick="App.clearSearch()" style = "display:none;" id="close"></i> <button class="btn btn-primary" onclick="App.searchMedicineByEndUser()">Search</button> </div>
-                             </div>
-                             <div class="col-sm-3 col-md-2 "></div>
-                         </div>
+               <div class="row height d-flex justify-content-center align-items-center">
+               <div class="col-sm-3 col-md-2 "></div>
+               <div class="col-sm-6 col-md-8 ">
+               <div class="search"> <i class="fa fa-search"></i> <input type="text" class="form-control" placeholder="Medicine Name" id="medicinesearchbyEndUser"> <i class="fa fa-window-close" onclick="App.clearSearch()" style = "display:none;" id="close"></i> <button class="btn btn-primary" onclick="App.searchMedicineByEndUser()">Search</button> </div>
+               </div>
+               <div class="col-sm-3 col-md-2 "></div>
+                             
+                </div>
                         
-                    </div>
+         </div>
       
         
           
          <div class="furniture-box">
          <div class="terms-title">
             <div class="container">
-               <div class="row">
+               <div class="row" style="position: relative;">
                   <ol class="breadcrumb">
                      <li><a href="index.html">Home </a></li>
                      <li class="active">Categories</li>
+                   
                   </ol>
-               </div>
+                  <div>
+                     <button class="btn btn-primary vieworder" onclick="App.viewMyOrdersPageEndUSer();">View My Orders</button></div>
+                  </div>
+                  
+                  
+               
             </div>
          </div>
         
@@ -99,7 +108,7 @@
             </div>
             <div class="row">
                <div class="furniture-main">
-                  <button class="btn btn-primary btn-lg" onclick="App.viewMyOrdersPageEndUSer();">View My Orders</button>
+                  
                   <h2 id="nameCategory"></h2>
                   <div class="col-md-3 col-sm-4">
                      <div class="furniture-left">
@@ -158,6 +167,7 @@
                                  <!-- <div class="big-box col-md-5"><div class="big-img-box"><img src="images/product/2.jpg" alt="#" /></div><div class="big-dit-b clearfix"><div class="col-md-6"><div class="left-big"><h3>Product Name</h3><p>Description</p><div class="prod-btn"><a href="#"><i class="fa fa-star" aria-hidden="true"></i> Save to wishlist</a></div></div></div<div class="col-md-6"><div class="right-big-b"><div class="tight-btn-b clearfix"><a class="view-btn" href="productpage.html">View</a><a href="#">€320</a></div></div></div></div></div><div class="col-md-1"></div> -->
                                  <!-- Display Each product of Distributer Ends -->  
                         </div>
+                        <div hidden id="spinner"></div>
                                              
                                  </div>
                               </div>
@@ -165,18 +175,7 @@
                         </div> 
                   
                   </div>
-                  <!-- <div class="loding-box">
-                     <a href="#">
-                        <div class="sk-wave">
-                           <div class="sk-rect sk-rect1"></div>
-                           <div class="sk-rect sk-rect2"></div>
-                           <div class="sk-rect sk-rect3"></div>
-                           <div class="sk-rect sk-rect4"></div>
-                           <div class="sk-rect sk-rect5"></div>
-                        </div>
-                        <span>Loding more awesome products...</span>
-                     </a>
-                  </div> -->
+                 
                </div>
                <script>
                   // Mobile Navigation
@@ -378,32 +377,35 @@
           <div class="container">
 
               
-              <div class="col-md-4 col-sm-8">
+              <div class="col-md-4 col-sm-8 tracert">
                 <div class="md-prod-page">
                    <div class="md-prod-page-in">
                       <div class="page-preview">
                          <div class="preview">
                             <div class="preview-pic tab-content">
-                               <div class="tab-pane active" id="pic-1"><img src="images/product/2.jpg" alt="#" /></div>
+                               <div class="tab-pane active" id="pic-1"><img src="../images/medicine.jpg" alt="#" /></div>
+                               
                                
                             </div>
+                            
                            
                          </div>
+                       
                       </div>
                    </div>
                   
                 </div>
-                
+                <div id="displaytrackbutton"></div> 
              </div>
               
               <div class="col-md-8 col-sm-12">
                 <div class="description-box">
                    <div class="dex-a">
-                      <div>
-                         <h3 ><strong id="productName"></strong></h3></br>
+                      <div >
+                         <h3 style="position: relative;"><strong id="productName"></strong></h3></br>
                          <h4 >Manufacturer : <strong  id="manufacturerName"></strong></h3>
-                           <div class="col cartbox">
-                              <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#cart">Cart (<span class="total-count"></span>)</button></div>
+                           <div class="col cartbox" >
+                              <button style="position: absolute; top:10px; right:30px" type="button" class="btn btn-primary vieworder" data-toggle="modal" data-target="#cart"><i class="fa fa-shopping-cart"></i> (<span class="total-count"></span>)</button></div>
                         </div>
                      
                       
@@ -420,40 +422,40 @@
                       </p>
                       <br>
                       
-                      <div id="displaytrackbutton"></div> 
+                     
 
                     </div>
                    
                 </div>
-
                 <div class="price-box-right">
-                   <h4>Price</h4>
-                   <h3><div id="displayprice"></div> <span>per item</span></h3>
+                  <h4>Price : <span id="displayprice"> <span>per item</span></span></h4>
                   
-                   <!-- <select class="form-control select2" id="qtyselect">
-                     <option value="" selected disabled hidden>Select Quantity</option>
-                     <option value="1">1</option>
-                     <option value="2">2</option>
-                     <option value="3">3</option>
-                     <option value="4">4</option>
-                     <option value="5">5</option>
-                     
-                  </select> -->
-                  <div class="stock">
-                  <div class="col-md-6" id="addtocart1">
+                 
+                  <!-- <select class="form-control select2" id="qtyselect">
+                    <option value="" selected disabled hidden>Select Quantity</option>
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="5">5</option>
+                    
+                 </select> -->
+                 <div class="row stock">
+                 <div class="col-md-6" id="addtocart1">
 
-                  </div>
-                  <div class="col-md-6" id="buynow">
+                 </div>
+                 <div class="col-md-6" id="buynow">
 
-                  </div>
+                 </div>
 
-                  
+                 
+              </div>
+              <div class="row" >
+                  <!-- <a style="cursor: pointer;" onclick="App.showBuyPage()">Proceed To Buy</a> -->
+                  <h5 id="availstock"> Available Stock:<strong> <span id="displayquantity">50</span>  </strong></h5>
+                 </div>
                </div>
-               <div >
-                   <!-- <a style="cursor: pointer;" onclick="App.showBuyPage()">Proceed To Buy</a> -->
-                   <h5> Available Stock:<strong> <span id="displayquantity">50</span>  </strong></h5>
-                  </div>
-                </div>
+               
                 
              </div>
                
@@ -929,7 +931,15 @@ if ($('#nav-menu-container').length) {
        </div>
          
          <div >          
-             <div class="container">              
+             <div class="container">  
+                <div style="text-align: left; width: 100%;">
+                  <h4 style="margin-top: 30px; text-align: left; font-size: sans-serif;">Logged in as : <span id="endusername"></span> </h4>
+                </div>   
+                
+                <h3 style="margin-top: 30px; text-align: center; font-size: sans-serif;">My Order History</h3>
+
+                <hr style="height:2px;border-width:0;color:black;background-color:black">
+                           
                  <div class="endusertable col-md-12 col-sm-12">
                    <table class="table table-bordered" width="100%" cellspacing="0" >
                       <tr>
@@ -946,98 +956,100 @@ if ($('#nav-menu-container').length) {
                 </div> 
              </div>
          </div>
-          <footer>
-          <div class="main-footer">
-             <div class="container">
-                <div class="row">                
-                   <div class="footer-link-box clearfix">
-                      <div class="col-md-12 col-sm-12">
-                         <div class="left-f-box">
-                            <div class="col-sm-2">
-                               <h2>Manufacturer</h2>
-                               <ul>
-                                  <li><a href="#">Create account</a></li>
-                                  <li><a href="#">How it works </a></li>
-                                  <li><a href="#">FAQ for Manufacturers</a></li>
-                               </ul>
-                            </div>
-                            <div class="col-sm-2">
-                               <h2>BUY Medicines</h2>
-                               <ul>
-                                  <li><a href="#">Create account</a></li>
-                                  <li><a href="category.html">Categories</a></li>
-                                  <li><a href="#">FAQ for buyers</a></li>
-                               </ul>
-                            </div>
-                            <div class="col-sm-2">
-                               <h2>COMPANY</h2>
-                               <ul>
-                                  <li><a href="#">About pharmaCare</a></li>
-                                  <li><a href="#">Contact us</a></li>
-                                  <li><a href="#">Careers</a></li>
-                                  <li><a href="#">Terms of use</a></li>
-                               </ul>
-                            </div>
-   
-                            <div class="col-sm-2">
-                               <h2>CATEGORIES</h2>
-                               <ul>
-                                  <li><a href="category.html">Analgesics</a></li>
-                                  <li><a href="category.html">Antacids</a></li>
-                                  <li><a href="category.html">Antiarrhythmics</a></li>
-                                  <li><a href="category.html">Antibacterials</a></li>
-                                  <li><a href="category.html">Antibiotics</a></li>
+         <footer>
+            <div class="main-footer">
+               <div class="container">
+                  <div class="row">
+                    
+                     <div class="footer-link-box clearfix">
+                        <div class="col-md-12 col-sm-12">
+                           <div class="left-f-box">
+                              <div class="col-sm-2">
+                                 <h2>Manufacturer</h2>
+                                 <ul>
+                                    <li><a href="#">Create account</a></li>
+                                    <li><a href="#">How it works </a></li>
+                                    <li><a href="#">FAQ for Manufacturers</a></li>
                                  </ul>
-                            </div>
+                              </div>
+                              <div class="col-sm-2">
+                                 <h2>BUY Medicines</h2>
+                                 <ul>
+                                    <li><a href="#">Create account</a></li>
+                                    <li><a href="category.html">Categories</a></li>
+                                    <li><a href="#">FAQ for buyers</a></li>
+                                 </ul>
+                              </div>
+                              <div class="col-sm-2">
+                                 <h2>COMPANY</h2>
+                                 <ul>
+                                    <li><a href="#">About pharmaCare</a></li>
+                                    <li><a href="#">Contact us</a></li>
+                                    <li><a href="#">Careers</a></li>
+                                    <li><a href="#">Terms of use</a></li>
+                                 </ul>
+                              </div>
    
-                            <div class="col-sm-4">
-                               <h2>DISCLAIMER</h2>
-                               <p id="disclaimer">This website does not belong to a real company. It is a Planspiel Web Engineering project.</p>
-                            </div>
-                         </div>
-                      </div>
-                      
-                   </div>
-                </div>
-             </div>
-          </div>
-          <div class="copyright">
-             <div class="container">
-                <div class="row">
-                   <div class="col-md-8">
-                      <p>
-                         <!-- <img width="90" src="images/logo.png" alt="#" style="margin-top: -5px;" /> -->
-                          All Rights Reserved. pharmaCare © 2020</p>
-                   </div>
-                   <div class="col-md-4">
-                      <ul class="list-inline socials">
-                         <li>
-                            <a href="">
-                            <i class="fa fa-facebook" aria-hidden="true"></i>
-                            </a>
-                         </li>
-                         <li>
-                            <a href="">
-                            <i class="fa fa-twitter" aria-hidden="true"></i>
-                            </a>
-                         </li>
-                         <li>
-                            <a href="">
-                            <i class="fa fa-instagram" aria-hidden="true"></i>
-                            </a>
-                         </li>
-                         <li>
-                            <a href="#">
-                            <i class="fa fa-linkedin" aria-hidden="true"></i>
-                            </a>
-                         </li>
-                      </ul>
-                     
-                   </div>
-                </div>
-             </div>
-          </div>
-       </footer>     
+                              <div class="col-sm-2">
+                                 <h2>CATEGORIES</h2>
+                                 <ul>
+                                    <li><a href="category.html">Antibiotics</a></li>
+                                    <li><a href="category.html">Analgesics</a></li>
+                                    <li><a href="category.html">Cardiovascular</a></li>
+                                    <li><a href="category.html">Antidiabetics</a></li>
+                                    
+                                
+                                   </ul>
+                              </div>
+   
+                              <div class="col-sm-4">
+                                 <h2>DISCLAIMER</h2>
+                                 <p id="disclaimer">This website does not belong to a real company. It is a Planspiel Web Engineering project.</p>
+                              </div>
+                           </div>
+                        </div>
+                        
+                     </div>
+                  </div>
+               </div>
+            </div>
+            <div class="copyright">
+               <div class="container">
+                  <div class="row">
+                     <div class="col-md-8">
+                        <p>
+                           <!-- <img width="90" src="images/logo.png" alt="#" style="margin-top: -5px;" /> -->
+                            All Rights Reserved. pharmaCare © 2020</p>
+                     </div>
+                     <div class="col-md-4">
+                        <ul class="list-inline socials">
+                           <li>
+                              <a href="">
+                              <i class="fa fa-facebook" aria-hidden="true"></i>
+                              </a>
+                           </li>
+                           <li>
+                              <a href="">
+                              <i class="fa fa-twitter" aria-hidden="true"></i>
+                              </a>
+                           </li>
+                           <li>
+                              <a href="">
+                              <i class="fa fa-instagram" aria-hidden="true"></i>
+                              </a>
+                           </li>
+                           <li>
+                              <a href="#">
+                              <i class="fa fa-linkedin" aria-hidden="true"></i>
+                              </a>
+                           </li>
+                        </ul>
+                       
+                     </div>
+                  </div>
+               </div>
+            </div>
+         </footer>   
     </div>
      
       <!--main js--> 

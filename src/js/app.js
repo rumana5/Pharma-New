@@ -69,6 +69,7 @@ App = {
   },
 
   showsimilarproducts : async(id) => {
+    if(App.similarArr.length>0){
     var Category = App.similarArr[id].categoryName;
 
     $("#displaymedicines").empty();
@@ -79,11 +80,12 @@ App = {
 
         if(App.similarArr[i].categoryName==Category){
 
-          var str=`<div class="col-md-4 col-sm-6"><div class="product-grid2"><div class="product-image2"> <a> <img class="pic-1" src="https://res.cloudinary.com/dxfq3iotg/image/upload/v1561643954/img-1.jpg"> <img class="pic-2" src="https://res.cloudinary.com/dxfq3iotg/image/upload/v1561643955/img1.2.jpg"> </a><ul class="social"><li><a href="javascript:void(0)" onclick="App.showProductPage('`+App.similarArr[i].id+`')" data-tip="Quick View"><i class="fa fa-eye"></i></a></li></ul></div><div class="product-content"><h3 class="title"><a>${App.similarArr[i].name}</a></h3> <span class="price">${App.similarArr[i].price + " €"}</span></div></div></div>`
+          var str=`<div class="col-md-4 col-sm-6"><div class="product-grid2"><div class="product-image2"> <a> <img class="pic-1" src="../images/medicine.jpg"> </a><ul class="social"><li><a href="javascript:void(0)" onclick="App.showProductPage('`+App.similarArr[i].id+`')" data-tip="Quick View"><i class="fa fa-eye"></i></a></li></ul></div><div class="product-content"><h3 class="title"><a>${App.similarArr[i].name}</a></h3> <span class="price">${App.similarArr[i].price + " €"}</span></div></div></div>`
           $("#displaymedicines").append(str);
         }
       }
     }
+  }
   },
 
   //Listen for events emitted from the contract
@@ -171,14 +173,19 @@ trackProduct :async (id) => {
       $("[id='nameCategory']").html(clickedCategory);
     
     var options = '';
-    
+    const spinner = document.getElementById("spinner");
     $("#categorypage").show();
     $("#productpage").hide();
     $('#boxscroll').empty();
     $("#displaymedicinesofdistributer").empty();
+    spinner.removeAttribute('hidden');
 
-    await App.loadContract1();
+    //await App.loadContract1();
+    await App.loadWeb3()
+    await App.loadAccount()
+    await App.loadContract()
     var count=await App.medicine.medicineforendusersCount();
+    //window.alert("count="+count);
     for(var i=1;i<=count;i++){
       var medicine=await App.medicine.medicineforendusers(i);
       var med=await App.medicine.medicines(parseInt(medicine.medicineid));
@@ -187,6 +194,7 @@ trackProduct :async (id) => {
       var manufactName = med.manufaname;
       var user=await App.medicine.users(manufactName);
       var username=user.name;
+      
       var price=med.price;
       if(App.displayData==0){
 
@@ -220,7 +228,8 @@ trackProduct :async (id) => {
           if(category == clickedCategory){
             if(o.status){
               if(Number(price)>=Number(App.minPrice) && Number(price)<=Number(App.maxPrice)){
-                var str=`<div class="col-md-4 col-sm-6"><div class="product-grid2"><div class="product-image2"> <a href=""> <img class="pic-1" src="https://res.cloudinary.com/dxfq3iotg/image/upload/v1561643954/img-1.jpg"> <img class="pic-2" src="https://res.cloudinary.com/dxfq3iotg/image/upload/v1561643955/img1.2.jpg"> </a><ul class="social"><li><a href="javascript:void(0)" onclick="App.showProductPage('`+medicine.medicineid+`','`+i+`')" data-tip="Quick View"><i class="fa fa-eye"></i></a></li></ul></div><div class="product-content"><h3 class="title"><a href="">${medicine.medicinename}</a></h3> <span class="price"></span><span class="price">${"€ "+price}</span></div></div></div>`
+                var str=`<div class="col-md-4 col-sm-6"><div class="product-grid2"><div class="product-image2"> <a> <img class="pic-1" src="../images/medicine.jpg"> </a><ul class="social"><li><a href="javascript:void(0)" onclick="App.showProductPage('`+medicine.medicineid+`','`+i+`')" data-tip="Quick View"><i class="fa fa-eye"></i></a></li></ul></div><div class="product-content"><h3 class="title"><a>${medicine.medicinename}</a></h3> <span class="price"></span><span class="price">${"€ "+price}</span></div></div></div>`
+               
                 $("#displaymedicinesofdistributer").append(str);
               }
             }
@@ -229,7 +238,8 @@ trackProduct :async (id) => {
           }else if(clickedCategory == "All"){
             if(o.status){
               if(Number(price)>=Number(App.minPrice) && Number(price)<=Number(App.maxPrice)){
-                var str=`<div class="col-md-4 col-sm-6"><div class="product-grid2"><div class="product-image2"> <a href="#"> <img class="pic-1" src="https://res.cloudinary.com/dxfq3iotg/image/upload/v1561643954/img-1.jpg"> <img class="pic-2" src="https://res.cloudinary.com/dxfq3iotg/image/upload/v1561643955/img1.2.jpg"> </a><ul class="social"><li><a href="javascript:void(0)" onclick="App.showProductPage('`+medicine.medicineid+`','`+i+`')" data-tip="Quick View"><i class="fa fa-eye"></i></a></li></ul></div><div class="product-content"><h3 class="title"><a href="">${medicine.medicinename}</a></h3> <span class="price"></span><span class="price">${"€ "+price}</span></div></div></div>`
+                var str=`<div class="col-md-4 col-sm-6"><div class="product-grid2"><div class="product-image2"> <a> <img class="pic-1" src="../images/medicine.jpg"> </a><ul class="social"><li><a href="javascript:void(0)" onclick="App.showProductPage('`+medicine.medicineid+`','`+i+`')" data-tip="Quick View"><i class="fa fa-eye"></i></a></li></ul></div><div class="product-content"><h3 class="title"><a>${medicine.medicinename}</a></h3> <span class="price"></span><span class="price">${"€ "+price}</span></div></div></div>`
+               
                 $("#displaymedicinesofdistributer").append(str);
               }
             }
@@ -251,6 +261,7 @@ trackProduct :async (id) => {
       $('#boxscroll').append(options);      
       options = '';   
     }
+    spinner.setAttribute('hidden', '');
 },
   // https://medium.com/metamask/https-medium-com-metamask-breaking-change-injecting-web3-7722797916a8
   loadWeb3: async () => {
@@ -302,15 +313,17 @@ trackProduct :async (id) => {
 
     // Hydrate the smart contract with values from the blockchain
     App.medicine = await App.contracts.Medicine.deployed()
+    App.listenForEvents();
   },
   loadContract1: async () => {
     // Create a JavaScript version of the smart contract
+   // window.alert("called");
     const Medicine = await $.getJSON('Medicine.json')
     App.contracts.Medicine = TruffleContract(Medicine);
 
     //if hosted in kovan or rinkeby then use  "https://rinkeby.infura.io/v3/..." istead of localhost
-    // web3 = new Web3(new Web3.providers.HttpProvider("https://kovan.infura.io/v3/84f14847ade746d6a1265dcb3c518972"));
-    web3 = new Web3(new Web3.providers.HttpProvider("http://localhost:7545"));
+     web3 = new Web3(new Web3.providers.HttpProvider("https://kovan.infura.io/v3/84f14847ade746d6a1265dcb3c518972"));
+   // web3 = new Web3(new Web3.providers.HttpProvider("http://localhost:7545"));
     App.contracts.Medicine.setProvider(web3.currentProvider)
 
     // Hydrate the smart contract with values from the blockchain
@@ -351,7 +364,10 @@ trackProduct :async (id) => {
     var mednamesearch=$("#medicinesearchbyEndUser").val();    
       // window.alert("Home display");
       $("#displaysearchedmedicine").empty();
-      await App.loadContract1();
+      //await App.loadContract1();
+      await App.loadWeb3()
+      await App.loadAccount()
+      await App.loadContract()
       var count=await App.medicine.medicineforendusersCount();
       for(var i=1;i<=count;i++){
         var medicine=await App.medicine.medicineforendusers(i);
@@ -367,7 +383,7 @@ trackProduct :async (id) => {
 
           console.log("search");
          
-           str=`<div class="col-md-4 col-sm-6 searchimg"><div class="product-grid2"><div class="product-image2"> <a href="#"> <img class="pic-1" id="pic-1" src="https://res.cloudinary.com/dxfq3iotg/image/upload/v1561643954/img-1.jpg"></a><ul class="social"><li><a href="javascript:void(0)" onclick="App.showProduct()" data-tip="Quick View"><i class="fa fa-eye"></i></a></li></ul></div><div class="product-content"><h3 class="title"><a href="">${medicine.medicinename}</a></h3> <span class="price">${price}</span></div></div></div>`
+           str=`<div class="col-md-4 col-sm-6 searchimg"><div class="product-grid2"><div class="product-image2"> <a> <img class="pic-1" id="pic-1" src="../images/medicine.jpg"></a><ul class="social"><li><a href="javascript:void(0)" onclick="App.showProduct()" data-tip="Quick View"><i class="fa fa-eye"></i></a></li></ul></div><div class="product-content"><h3 class="title"><a>${medicine.medicinename}</a></h3> <span class="price">${price}</span></div></div></div>`
           
           }  
           console.log(str);
@@ -385,7 +401,10 @@ trackProduct :async (id) => {
     document.getElementById('medicinesearchbyEndUser').value = '';
     $("#close").hide();
 
-    await App.loadContract1();
+    //await App.loadContract1();
+    await App.loadWeb3()
+    await App.loadAccount()
+    await App.loadContract()
   },
 
   showAllMedicines :async () => {
@@ -394,7 +413,10 @@ trackProduct :async (id) => {
    
 
     $("#showAllMedicines").empty();
-    await App.loadContract1();
+   // await App.loadContract1();
+   await App.loadWeb3()
+   await App.loadAccount()
+   await App.loadContract()
     
     var count=await App.medicine.medicineforendusersCount();
     
@@ -413,7 +435,7 @@ trackProduct :async (id) => {
      
       //var description=med.description
       //var str=`<div class="big-box col-md-5"><div class="big-img-box"><img src="images/product/2.jpg" alt="#" /></div><div class="big-dit-b clearfix"><div class="col-md-6"><div class="left-big"><h3>${medicine.medicinename}</h3><p>${description}</p><div class="prod-btn"><a href="#"><i class="fa fa-star" aria-hidden="true"></i> Save to wishlist</a></div></div></div><div class="col-md-6"><div class="right-big-b"><div class="tight-btn-b clearfix"><button class="btn btn-primary" onclick="App.showProductPage('`+medicine.medicineid+`')">View</button><a href="#">${price}</a></div></div></div></div></div>`
-      var str=`<div class="col-md-4 col-sm-6"><div class="product-grid2"><div class="product-image2"> <a href="#"> <img class="pic-1" src="https://res.cloudinary.com/dxfq3iotg/image/upload/v1561643954/img-1.jpg"> <img class="pic-2" src="https://res.cloudinary.com/dxfq3iotg/image/upload/v1561643955/img1.2.jpg"> </a><ul class="social"><li><a href="javascript:void(0)" onclick="App.showProductPage('`+medicine.medicineid+`')" data-tip="Quick View"><i class="fa fa-eye"></i></a></li><li><a href="#" data-tip="Add to Cart"><i class="fa fa-shopping-cart"></i></a></li></ul></div><div class="product-content"><h3 class="title"><a href="">${medicine.medicinename}</a></h3> <span class="price">${price}</span></div></div></div>`
+      var str=`<div class="col-md-4 col-sm-6"><div class="product-grid2"><div class="product-image2"> <a> <img class="pic-1" src="../images/medicine.jpg">  </a><ul class="social"><li><a href="javascript:void(0)" onclick="App.showProductPage('`+medicine.medicineid+`')" data-tip="Quick View"><i class="fa fa-eye"></i></a></li></ul></div><div class="product-content"><h3 class="title"><a>${medicine.medicinename}</a></h3> <span class="price">${price}</span></div></div></div>`
       $("#showAllMedicines").append(str);
 
       
@@ -491,18 +513,23 @@ completepaymentbyEndUser : async()=>{
                 else{
                   window.alert("Transaction for amount= "+inputqty*price);
                   total_amount+=inputqty*price;
-                  await App.loadWeb3();
-    await App.loadAccount();
-    await App.loadContract();
+                   await App.loadWeb3();
+                  await App.loadAccount();
+                   await App.loadContract();
 
                   console.log(App.account);
-                  await App.medicine.buyMedicineByEndUser(parseInt(medicineId),inputqty, { from: App.account });               
-                  shoppingCart.clearCart();
+                   await App.medicine.buyMedicineByEndUser(parseInt(medicineId),inputqty, { from: App.account })
+                    window.alert("Completed successfully. Thanks for the order");
+                    shoppingCart.clearCart();
+                    await App.render();
+                 
+                            
+                 
+                 
 
                 } 
             }
-            window.alert("Completed successfully");
-            await App.render();
+           
 
       // }
       // else{
@@ -540,9 +567,10 @@ completepaymentbyEndUser : async()=>{
       console.log("role="+role);      
       var username=user.name;
 
-   
+    
       if(role=="1"){
         //End User
+        //window.alert("role="+role)
         window.location.replace('/category.html');
       }
       // else if(role=="2"){
@@ -578,7 +606,7 @@ completepaymentbyEndUser : async()=>{
             //New User
             //New User
 
-
+           
              // home.hide();
               window.location.replace('./Register.html');
 
@@ -599,6 +627,9 @@ completepaymentbyEndUser : async()=>{
       await App.loadWeb3();
         await App.loadAccount();
         await App.loadContract();
+        var user=await App.medicine.users(App.account);
+        var username=user.name;
+        console.log(username);
       
       for(var i=1;i<=orderStatusCountEndUser;i++){
         var order=await App.medicine.orderstatusesofenderusers(parseInt(i));
@@ -654,6 +685,7 @@ completepaymentbyEndUser : async()=>{
       $("#categorypagetwo").hide();
       $("#categorytwopagemain").hide();
       $("#enduserorder").show();
+      $("#endusername").append(username);
     },
 
     markSatusAsCompletedEndUser :async (id)=>{
@@ -664,14 +696,14 @@ completepaymentbyEndUser : async()=>{
       var certificateAddress='';
       console.log(name);
 
-      if(name.trim().localeCompare("Dolonex Disp 20MG Tabs")==0 || name.trim().localeCompare("DISP 20MG TABS")==0){
+      if(name.trim().toLowerCase().localeCompare("dolonex disp 20mg tabs")==0 || name.trim().toLowerCase().localeCompare("disp 20mg tabs")==0){
         certificateAddress="0x089f03b202470b872b7e2c84c7a6815033382140";
-      }else if(name.trim().localeCompare("Aspirin")==0 || name.trim().localeCompare("Aspirin 500 mg Tabs")==0){
+      }else if(name.trim().toLowerCase().localeCompare("aspirin")==0 || name.trim().toLowerCase().localeCompare("aspirin 500 mg tabs")==0){
         certificateAddress="0x4C21bb8b30DBd4aFBC7Ea0e4F52a0aF90c50082C";
         console.log(certificateAddress);
-      }else if(name.trim().localeCompare("ATPARK 25MG")==0 || name.trim().localeCompare("ATPARK")==0){
+      }else if(name.trim().toLowerCase().localeCompare("atpark 25mg")==0 || name.trim().toLowerCase().localeCompare("atpark")==0){
         certificateAddress ="0x0AB8F188F7F950e91c6dB8f745B124A15B0B5d5F";
-      }else if(name.trim().localeCompare("Anacin Tabs")==0){
+      }else if(name.trim().toLowerCase().localeCompare("januvia")==0){
         certificateAddress="0x7A4D996385985A39a245786aB7524C1a9ca0fE98";
       }else{
         certificateAddress="0x2fcd5be391Beb9Ce874b117fD3D50cCBA172C2bB";
@@ -741,13 +773,14 @@ completepaymentbyEndUser : async()=>{
 $(function () {
   $(window).load(function () {
        App.loadHome();
+       //App.load();
   })
 });
 
 $(function () {
-  $(window).load(function () {
-      
+  $(window).load(function () {      
        App.showAllMedicines();
+       //App.load();
   })
 });
 
@@ -1000,5 +1033,3 @@ $('.show-cart').on("change", ".item-count", function(event) {
 });
 
 displayCart();
-
-

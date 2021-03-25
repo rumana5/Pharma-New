@@ -2406,6 +2406,7 @@ body {
 .terms-title .breadcrumb {
 	background-color: transparent;
 	margin-bottom: 0px;
+	width: 100%;
 }
 
 .terms-title .breadcrumb li a {
@@ -2602,6 +2603,7 @@ body {
 	font-weight: 700;
 	text-transform: uppercase;
 	padding-bottom: 25px;
+	font-family:  'Raleway', sans-serif;
 }
 
 .furniture-right {
@@ -2690,6 +2692,7 @@ html .ui-button.ui-state-disabled:active {
 	border: none;
 	overflow: auto;
 	margin-bottom: 20px;
+	font-family: 'Raleway', sans-serif;
 }
 
 [type="checkbox"]:not(:checked),
@@ -3731,11 +3734,12 @@ html .ui-button.ui-state-disabled:active {
 
 
 .dex-a {
-    padding-bottom: 25px;
+    padding-bottom: 5px;
 }
 
-.dex-a .viewBtn{
+.tracert .viewBtn{
     margin-top: 5px;
+	width: 100%;
 }
 
 .dex-a .des{
@@ -3813,7 +3817,10 @@ html .ui-button.ui-state-disabled:active {
 .price-box-right {
 	-webkit-box-shadow: 0 6px 10px -5px rgba(0, 0, 0, 0.1);
 	box-shadow: 0 6px 10px -5px rgba(0, 0, 0, 0.1);
-	padding: 23px;
+	/* padding: 23px; */
+	padding-left: 11px;
+	padding-right: 11px;
+	padding-bottom: 5px;
 	background: #fff;
 }
 
@@ -5370,3 +5377,67 @@ h3.h3 {
 	  float:right;
 	 
   } */
+
+  .form-check-label{
+	padding-left: 20px;
+	font-family: 'Raleway', sans-serif;
+}
+
+.vieworder{
+	position: absolute;
+	top:0;
+	right:0;
+	background: #09284B;
+}
+
+.vieworder:hover{
+	background: #007dea;}
+
+#availstock{
+	padding-left: 10px;
+	margin-left:8px;
+}
+
+#spinner:not([hidden]) {
+	position: fixed;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+  }
+  
+  #spinner::after {
+	content: "";
+	width: 50px;
+	height: 50px;
+	border: 2px solid #f3f3f3;
+	border-top: 3px solid #09284B;
+	border-radius: 100%;
+	will-change: transform;
+	animation: spin 1s infinite linear
+  }
+  
+  @keyframes spin {
+	from {
+	  transform: rotate(0deg);
+	}
+	to {
+	  transform: rotate(360deg);
+	}
+  }
+
+  .by-com h5{
+	font-family:  'Raleway', sans-serif;
+  }
+  .form-check-label{
+	font-size: 11px;
+	color: #333333;
+	font-weight: 700;
+	text-transform: uppercase;
+	padding-bottom: 15px;
+	font-family:  'Raleway', sans-serif;
+  }
+
