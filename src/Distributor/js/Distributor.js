@@ -488,15 +488,14 @@ viewCertificate:async (name)=>{
   var certificateAddress='';
       console.log(name);
 
-      if(name.trim().localeCompare("Dolonex Disp 20MG Tabs")==0 || name.trim().localeCompare("DISP 20MG TABS")==0){
+      if(name.trim().toLowerCase().localeCompare("dolonex disp 20mg tabs")==0 || name.trim().toLowerCase().localeCompare("disp 20mg tabs")==0){
         certificateAddress="0x089f03b202470b872b7e2c84c7a6815033382140";
-        console.log("enter");
-      }else if(name.trim().localeCompare("Aspirin")==0 || name.trim().localeCompare("Aspirin 500 mg Tabs")==0){
+      }else if(name.trim().toLowerCase().localeCompare("aspirin")==0 || name.trim().toLowerCase().localeCompare("aspirin 500 mg tabs")==0){
         certificateAddress="0x4C21bb8b30DBd4aFBC7Ea0e4F52a0aF90c50082C";
         console.log(certificateAddress);
-      }else if(name.trim().localeCompare("ATPARK 25MG")==0 || name.trim().localeCompare("ATPARK")==0){
+      }else if(name.trim().toLowerCase().localeCompare("atpark 25mg")==0 || name.trim().toLowerCase().localeCompare("atpark")==0){
         certificateAddress ="0x0AB8F188F7F950e91c6dB8f745B124A15B0B5d5F";
-      }else if(name.trim().localeCompare("Januvia")==0 || name.trim().localeCompare("januvia")==0){
+      }else if(name.trim().toLowerCase().localeCompare("januvia")==0){
         certificateAddress="0x7A4D996385985A39a245786aB7524C1a9ca0fE98";
       }else{
         certificateAddress="0x2fcd5be391Beb9Ce874b117fD3D50cCBA172C2bB";
