@@ -22,7 +22,8 @@ App = {
     await App.loadContract()
     await App.render()
   },
-
+  
+  //Display Medicine Details on Product Page
   showProductPage :async (id,i) => {
     //window.alert("clicked view page" +id);
     var med=await App.medicine.medicines(parseInt(id));
@@ -68,24 +69,25 @@ App = {
     App.showsimilarproducts(id);
   },
 
+  //Display Similar Medicines on Product Page
   showsimilarproducts : async(id) => {
     if(App.similarArr.length>0){
-    var Category = App.similarArr[id].categoryName;
+      var Category = App.similarArr[id].categoryName;
 
-    $("#displaymedicines").empty();
+      $("#displaymedicines").empty();
 
-    for (var i in App.similarArr) 
-    {
-      if(App.similarArr[i].id != id){
+      for (var i in App.similarArr) 
+      {
+        if(App.similarArr[i].id != id){
 
-        if(App.similarArr[i].categoryName==Category){
+          if(App.similarArr[i].categoryName==Category){
 
-          var str=`<div class="col-md-4 col-sm-6"><div class="product-grid2"><div class="product-image2"> <a> <img class="pic-1" src="../images/medicine.jpg"> </a><ul class="social"><li><a href="javascript:void(0)" onclick="App.showProductPage('`+App.similarArr[i].id+`')" data-tip="Quick View"><i class="fa fa-eye"></i></a></li></ul></div><div class="product-content"><h3 class="title"><a>${App.similarArr[i].name}</a></h3> <span class="price">${App.similarArr[i].price + " €"}</span></div></div></div>`
-          $("#displaymedicines").append(str);
+            var str=`<div class="col-md-4 col-sm-6"><div class="product-grid2"><div class="product-image2"> <a> <img class="pic-1" src="../images/medicine.jpg"> </a><ul class="social"><li><a href="javascript:void(0)" onclick="App.showProductPage('`+App.similarArr[i].id+`')" data-tip="Quick View"><i class="fa fa-eye"></i></a></li></ul></div><div class="product-content"><h3 class="title"><a>${App.similarArr[i].name}</a></h3> <span class="price">${App.similarArr[i].price + " €"}</span></div></div></div>`
+            $("#displaymedicines").append(str);
+          }
         }
       }
     }
-  }
   },
 
   //Listen for events emitted from the contract
@@ -116,22 +118,16 @@ listenForEvents:async  function() {
   .on('error', console.error);
 },
 
+// Track Medicine History
 trackProduct :async (id) => { 
-  //window.alert("Tracking ID"+id); 
-  //console.log("Tracking");
-   // console.log(App.allblocks[0]) ;
-    // trackdisplay=$("#trackdisplay");
     var id=parseInt(id);  
     var medicine=await App.medicine.medicines(id); 
     $("#trackdisplayenduser").empty();
-    // console.log(App.allblocks);
 
     for(var i=0;i<App.allblocks[0].length;i++){
       
       var block= App.allblocks[0][i];
-      console.log(block);
-      //console.log("Tracking");
-      //.log(block.args[0].toNumber());
+      
       if(block.args[0].toNumber()==id)
       {    
         var user=await App.medicine.users(block.args[2].toString());
@@ -157,9 +153,11 @@ trackProduct :async (id) => {
           console.log("Tracking") ;
           $("#trackdisplayenduser").append(str);                                                    
       } 
-   }
+    }
    
   },
+
+  //Display All Medicines based on Categories
 
   loadHome :async () => {
 
@@ -185,7 +183,7 @@ trackProduct :async (id) => {
     await App.loadAccount()
     await App.loadContract()
     var count=await App.medicine.medicineforendusersCount();
-    //window.alert("count="+count);
+   
     for(var i=1;i<=count;i++){
       var medicine=await App.medicine.medicineforendusers(i);
       var med=await App.medicine.medicines(parseInt(medicine.medicineid));
@@ -322,14 +320,16 @@ trackProduct :async (id) => {
     App.contracts.Medicine = TruffleContract(Medicine);
 
     //if hosted in kovan or rinkeby then use  "https://rinkeby.infura.io/v3/..." istead of localhost
-     web3 = new Web3(new Web3.providers.HttpProvider("https://kovan.infura.io/v3/84f14847ade746d6a1265dcb3c518972"));
-   // web3 = new Web3(new Web3.providers.HttpProvider("http://localhost:7545"));
+    //  web3 = new Web3(new Web3.providers.HttpProvider("https://kovan.infura.io/v3/84f14847ade746d6a1265dcb3c518972"));
+     web3 = new Web3(new Web3.providers.HttpProvider("http://localhost:7545"));
     App.contracts.Medicine.setProvider(web3.currentProvider)
 
     // Hydrate the smart contract with values from the blockchain
     App.medicine = await App.contracts.Medicine.deployed()
     App.listenForEvents();
   },
+
+  //Filter Checked Manufacturers 
   myFunction:async(elem)=>{
 
     App.displayData=1;
@@ -338,7 +338,6 @@ trackProduct :async (id) => {
     
     if (elem.checked)
     {
-      console.log("checked");
       for (var i in App.arr) {
         if (App.arr[i].name == manuName) {
           App.arr[i].status = true;
@@ -348,7 +347,6 @@ trackProduct :async (id) => {
     }
     else
     {
-      console.log("unchecked");
       for (var i in App.arr) {
         if (App.arr[i].name == manuName) {
          App.arr[i].status = false;
@@ -359,12 +357,13 @@ trackProduct :async (id) => {
     await App.loadHome();
   },
 
+  // Search Medicies by Name
   searchMedicineByEndUser :async () =>{
     $("#close").show();
     var mednamesearch=$("#medicinesearchbyEndUser").val();    
-      // window.alert("Home display");
+      
       $("#displaysearchedmedicine").empty();
-      //await App.loadContract1();
+      
       await App.loadWeb3()
       await App.loadAccount()
       await App.loadContract()
@@ -380,18 +379,13 @@ trackProduct :async (id) => {
         var str="";
         console.log(medicinename+" "+mednamesearch);
         if(medicinename.toLowerCase().localeCompare(mednamesearch.toLowerCase())==0){
-
-          console.log("search");
-         
            str=`<div class="col-md-4 col-sm-6 searchimg"><div class="product-grid2"><div class="product-image2"> <a> <img class="pic-1" id="pic-1" src="../images/medicine.jpg"></a><ul class="social"><li><a href="javascript:void(0)" onclick="App.showProduct()" data-tip="Quick View"><i class="fa fa-eye"></i></a></li></ul></div><div class="product-content"><h3 class="title"><a>${medicine.medicinename}</a></h3> <span class="price">${price}</span></div></div></div>`
           
-          }  
-          console.log(str);
-
-        //var description=med.description       
+        }  
+                
         $("#displaysearchedmedicine").append(str);
       }
-      // $("#displaycategories").hide();
+      
       $("#displaysearchedmedicine").show();
       //await App.render();
   },
@@ -407,16 +401,14 @@ trackProduct :async (id) => {
     await App.loadContract()
   },
 
+  // Display Trending Medicines on Home Page
   showAllMedicines :async () => {
-    //window.alert("Home display");
     
-   
-
     $("#showAllMedicines").empty();
-   // await App.loadContract1();
-   await App.loadWeb3()
-   await App.loadAccount()
-   await App.loadContract()
+    // await App.loadContract1();
+    await App.loadWeb3()
+    await App.loadAccount()
+    await App.loadContract()
     
     var count=await App.medicine.medicineforendusersCount();
     
@@ -432,17 +424,13 @@ trackProduct :async (id) => {
       var description=descdire.description;
       var direction=descdire.direction;
 
-     
-      //var description=med.description
-      //var str=`<div class="big-box col-md-5"><div class="big-img-box"><img src="images/product/2.jpg" alt="#" /></div><div class="big-dit-b clearfix"><div class="col-md-6"><div class="left-big"><h3>${medicine.medicinename}</h3><p>${description}</p><div class="prod-btn"><a href="#"><i class="fa fa-star" aria-hidden="true"></i> Save to wishlist</a></div></div></div><div class="col-md-6"><div class="right-big-b"><div class="tight-btn-b clearfix"><button class="btn btn-primary" onclick="App.showProductPage('`+medicine.medicineid+`')">View</button><a href="#">${price}</a></div></div></div></div></div>`
-      var str=`<div class="col-md-4 col-sm-6"><div class="product-grid2"><div class="product-image2"> <a> <img class="pic-1" src="../images/medicine.jpg">  </a><ul class="social"><li><a href="javascript:void(0)" onclick="App.showProductPage('`+medicine.medicineid+`')" data-tip="Quick View"><i class="fa fa-eye"></i></a></li></ul></div><div class="product-content"><h3 class="title"><a>${medicine.medicinename}</a></h3> <span class="price">${price}</span></div></div></div>`
+      var str=`<div class="col-lg-2 col-md-2 col-sm-6"><div class="product-grid2"><div class="product-image2"> <a> <img class="pic-1" src="../images/medicine.jpg">  </a><ul class="social"><li><a href="javascript:void(0)" onclick="App.showProductPage('`+medicine.medicineid+`')" data-tip="Quick View"><i class="fa fa-eye"></i></a></li></ul></div><div class="product-content"><h3 class="title"><a>${medicine.medicinename}</a></h3> <span class="price">${price}</span></div></div></div>`
       $("#showAllMedicines").append(str);
-
-      
-    $("#showAllMedicines").show();
     }
-},
+    $("#showAllMedicines").show();
+  },
 
+// Display Payment Page
 showBuyPage :async () =>{
   //window.alert(App.medicineIdforendUserBuy);
   //console.log("payment");
@@ -452,100 +440,55 @@ showBuyPage :async () =>{
 
   var medicine=await App.medicine.medicines(parseInt(App.medicineIdforendUserBuy));
   var medprice=medicine[7];       
-  //App.qty=$("#qtyselect").val();
-  //console.log(medprice+"---"+App.qty);
   var cartArray = shoppingCart.listCart();
   if(cartArray.length==0){
 
     alert("Please first add to cart");
   }else{
-  //window.alert(qty)
-  App.qtyselectedbyenduser=parseInt(App.qty);
-  var totalprice=shoppingCart.totalCart();
-  //console.log(totalprice);
-  //window.alert(totalprice)
-  $("#totalamountforcreditcard").append(totalprice);
-  $("#categorypage").hide();
-  $("#productpage").hide();
-  $("#paymentpage").show();
-  $("#categorypagetwo").hide();
-  $("#categorytwopagemain").hide();
-  $("#enduserorder").hide();
+    App.qtyselectedbyenduser=parseInt(App.qty);
+    var totalprice=shoppingCart.totalCart();
+    $("#totalamountforcreditcard").append(totalprice);
+    $("#categorypage").hide();
+    $("#productpage").hide();
+    $("#paymentpage").show();
+    $("#categorypagetwo").hide();
+    $("#categorytwopagemain").hide();
+    $("#enduserorder").hide();
   }
 },
+
+// Purchase Medicine by End User
 completepaymentbyEndUser : async()=>{
-  //window.alert("buying ny end user");
-      //await App.loadWeb3();
-     // if(parseInt(App.puchasethroughcart)==1){
-        //reached here through add to cart 
-            // var cart = document.getElementsByClassName('js-cd-cart');
-            // if(cart.length > 0) {
-            //   var cartAddBtns = document.getElementsByClassName('js-cd-add-to-cart'),
-            //   cartBody = cart[0].getElementsByClassName('cd-cart__body')[0],
-            //   cartList = cartBody.getElementsByTagName('ul')[0],
-            //   cartListItems = cartList.getElementsByClassName('cd-cart__product'),
-            //   cartTotal = cart[0].getElementsByClassName('cd-cart__checkout')[0].getElementsByTagName('span')[0],
-            //   cartCount = cart[0].getElementsByClassName('cd-cart__count')[0],
-            //   cartCountItems = cartCount.getElementsByTagName('li'),
-            //   cartUndo = cart[0].getElementsByClassName('cd-cart__undo')[0];
-            // }
-            // var products = cartList.getElementsByClassName('cd-cart__body');
-            
-            //console.log(cartListItems);
-            var total_amount=0;
-            var cartArray = shoppingCart.listCart();
-            for(var i = 0; i < cartArray.length; i++) {         
-                var Quantity = cartArray[i].count;
-                console.log("quantiy="+Quantity);            
-               var  price1 =cartArray[i].price;
-               console.log("price="+price1);       
-               var  medicineId =cartArray[i].id;
-               console.log("Medicine Id="+medicineId); 
-                var medicine=await App.medicine.medicineforendusers(parseInt(medicineId)); 
-                var inputqty=parseInt(Quantity)  
-                var price=parseInt(price1) ;
+  var total_amount=0;
+  var cartArray = shoppingCart.listCart();
+
+  for(var i = 0; i < cartArray.length; i++) {         
+    var Quantity = cartArray[i].count;
+    var  price1 =cartArray[i].price;
+    var  medicineId =cartArray[i].id;
+    var medicine=await App.medicine.medicineforendusers(parseInt(medicineId)); 
+    var inputqty=parseInt(Quantity)  
+    var price=parseInt(price1) ;
+    var available_Qty=parseInt(medicine[4]);
                 
-                var available_Qty=parseInt(medicine[4]);
-                console.log(available_Qty);
-                if(inputqty>available_Qty){
-                  window.alert("Quatity Not Avilable To Buy");
-                }
-                else{
-                  window.alert("Transaction for amount= "+inputqty*price);
-                  total_amount+=inputqty*price;
-                   await App.loadWeb3();
-                  await App.loadAccount();
-                   await App.loadContract();
+    if(inputqty>available_Qty){
+      window.alert("Quatity Not Avilable To Buy");
+    }
+    else{
+      
+      window.alert("Transaction for amount= "+inputqty*price);
+      total_amount+=inputqty*price;
+      await App.loadWeb3();
+      await App.loadAccount();
+      await App.loadContract();
 
-                  console.log(App.account);
-                   await App.medicine.buyMedicineByEndUser(parseInt(medicineId),inputqty, { from: App.account })
-                    window.alert("Completed successfully. Thanks for the order");
-                    shoppingCart.clearCart();
-                    await App.render();
+      await App.medicine.buyMedicineByEndUser(parseInt(medicineId),inputqty, { from: App.account })
+      window.alert("Completed successfully. Thanks for the order");
+      shoppingCart.clearCart();
+      await App.render();
                  
-                            
-                 
-                 
-
-                } 
-            }
-           
-
-      // }
-      // else{
-      //   //reached here through quick view and purchase
-      //   var medicine=await App.medicine.medicineforendusers(parseInt(App.medicineforendusersID));       
-      //   var availableqty=medicine[4];
-      //   if(parseInt(App.qtyselectedbyenduser)>parseInt(availableqty)){
-      //     window.alert("Quantiy Not Available")
-      //   }
-      //   else{
-      //     //await App.loadAccount();
-      //     await App.medicine.buyMedicineByEndUser(parseInt(App.medicineforendusersID),parseInt(App.qtyselectedbyenduser),{from:App.account})       
-      //   }
-      // }
-     
- 
+    } 
+  }
 },
   
   render: async () => {
@@ -558,24 +501,18 @@ completepaymentbyEndUser : async()=>{
       App.setLoading(true)      
       var home = $("#home");  
       var register = $("#register");   
-
-
       var user=await App.medicine.users(App.account);
       console.log(user);
       var role=user.role;
       var approved=user.approved;
       console.log("role="+role);      
       var username=user.name;
-
     
       if(role=="1"){
         //End User
-        //window.alert("role="+role)
         window.location.replace('/category.html');
       }
-      // else if(role=="2"){
-      //   //C.A
-      // }
+      
       else if(approved.localeCompare("false")==0){
         alert("Waiting for approval from admin");
         return
@@ -584,60 +521,50 @@ completepaymentbyEndUser : async()=>{
         return
 
       }
-        if(role=="3"){
-          //Distributor
-          window.location.replace('Distributor/index.html');
-          }
+      if(role=="3"){
+        //Distributor
+        window.location.replace('Distributor/index.html');
+      }
         
-        else if(role=="4"){
-          // crudOperation.show();
+      else if(role=="4"){
           //Manufacturer
           window.location.replace('Manufacturer/index.html'); 
-        }
-        else{
+      }
+      else{
 
-         
           admin=await App.medicine.admin();       
           if(admin.toUpperCase().localeCompare(App.account.toUpperCase())==0){
             window.location.replace('Admin/index.html');
-            
           }
           else{
             //New User
-            //New User
-
-           
-             // home.hide();
-              window.location.replace('./Register.html');
-
-              
-              // register.show();
-             
+              window.location.replace('./Register.html');  
           }
           
-        }
+      }
   
       App.setLoading(false)
-    },
+  },
 
+  // Display End User Order History
     viewMyOrdersPageEndUSer :async () =>{
       //window.alert(App.medicineIdforendUserBuy);
       $("#enduserorders").empty();
       var orderStatusCountEndUser=await App.medicine.orderStatusCountEndUser();
       await App.loadWeb3();
-        await App.loadAccount();
-        await App.loadContract();
-        var user=await App.medicine.users(App.account);
-        var username=user.name;
-        console.log(username);
+      await App.loadAccount();
+      await App.loadContract();
+      var user=await App.medicine.users(App.account);
+      var username1=user.name;
+       
+      $("#endusername").append(username1);
       
       for(var i=1;i<=orderStatusCountEndUser;i++){
         var order=await App.medicine.orderstatusesofenderusers(parseInt(i));
         var enduseraddr=order.enduser;
-        console.log(enduseraddr+"--"+App.account);
+        
         if(enduseraddr.toUpperCase().localeCompare(App.account.toUpperCase())==0){
-          //order founnd
-          console.log("enter if");
+          
           var medid=parseInt(order.medid);
           var medicine=await App.medicine.medicines(medid);
           var medname=medicine.medname;
@@ -685,18 +612,19 @@ completepaymentbyEndUser : async()=>{
       $("#categorypagetwo").hide();
       $("#categorytwopagemain").hide();
       $("#enduserorder").show();
-      $("#endusername").append(username);
+      
     },
 
     markSatusAsCompletedEndUser :async (id)=>{
       await App.medicine.updateOrderStatusEndUser(parseInt(id),"5",{from:App.account});
       await App.render();
     },
+
+    // Display Certificate from certificateOk
     viewCertificate:async (name)=>{
       var certificateAddress='';
-      console.log(name);
 
-      if(name.trim().toLowerCase().localeCompare("dolonex disp 20mg tabs")==0 || name.trim().toLowerCase().localeCompare("disp 20mg tabs")==0){
+      if(name.trim().toLowerCase().localeCompare("dolonex disp 20mg tabs")==0 ||name.trim().toLowerCase().localeCompare("dolonex")==0 || name.trim().toLowerCase().localeCompare("disp 20mg tabs")==0){
         certificateAddress="0x089f03b202470b872b7e2c84c7a6815033382140";
       }else if(name.trim().toLowerCase().localeCompare("aspirin")==0 || name.trim().toLowerCase().localeCompare("aspirin 500 mg tabs")==0){
         certificateAddress="0x4C21bb8b30DBd4aFBC7Ea0e4F52a0aF90c50082C";
@@ -709,7 +637,6 @@ completepaymentbyEndUser : async()=>{
         certificateAddress="0x2fcd5be391Beb9Ce874b117fD3D50cCBA172C2bB";
       }
 
-      //certificateAddress= "0x089f03b202470b872b7e2c84c7a6815033382140";
       var baseURL = "https://app.certificateok.de/api/certificate/";
       var certOk = "https://www.certificateok.de/wp-content/uploads/2016/04/certificate_ok_black_Zeichenfläche-1.png";
     
@@ -735,7 +662,7 @@ completepaymentbyEndUser : async()=>{
 
         }).fail(function(err){
           console.log({err});
-    });
+        });
     
     },
 
@@ -752,21 +679,22 @@ completepaymentbyEndUser : async()=>{
     }
   },
 
+  // Cart Functionality for End User
+
   showCard:async(elem)=>{
-    console.log("clicked");
     var medicine=await App.medicine.medicineforendusers(parseInt($(elem).data('id')));
 
     var available_Qty=parseInt(medicine[4]);
     console.log(available_Qty);
 
     if(available_Qty!=0){
-  var name = $(elem).data('name');
-  var price = Number($(elem).data('price'));
-  var id = Number($(elem).data('id'));
+      var name = $(elem).data('name');
+      var price = Number($(elem).data('price'));
+      var id = Number($(elem).data('id'));
 
-  shoppingCart.addItemToCart(name, price,id, 1);
-  displayCart();
-}
+      shoppingCart.addItemToCart(name, price,id, 1);
+      displayCart();
+    }
   }
 
 }
@@ -791,9 +719,7 @@ function clicked(item) {
 
   //window.location.replace('./category.html');
   $("a").prop("href", "./category.html");
-
-
- }
+}
 
 function loginClick(){
   //alert("MetaMask Connection clicked");

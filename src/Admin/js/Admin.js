@@ -8,14 +8,12 @@ App = {
       
       /// Setup access to blockchain
       return await App.initWeb3();
-
-
   },
 
   initWeb3: async function () {
-      /// Find or Inject Web3 Provider
-      /// Modern dapp browsers...
-     //var Web3 = require('web3')  ;  
+    /// Find or Inject Web3 Provider
+    /// Modern dapp browsers...
+    //var Web3 = require('web3')  ;  
     if (typeof web3 !== 'undefined') {
       App.web3Provider = web3.currentProvider
       web3 = new Web3(web3.currentProvider)
@@ -54,19 +52,10 @@ App = {
         return App.loadContract();;
   },
 
+  //Get Metamask Account
   getMetaskAccountID: function () {
       web3 = new Web3(App.web3Provider);
       App.account = App.acc[0];
-
-      // Retrieving accounts
-      // web3.eth.getAccounts(function (err, res) {
-      //     if (err) {
-      //         console.log('Error:', err);
-      //         return;
-      //     }
-      //     App.metamaskAccountID = res[0];
-      //     console.log('getMetaskID:', App.metamaskAccountID);
-      // })
 
   },
 
@@ -84,111 +73,112 @@ App = {
 
   render: async () => {
 
-        // The user is admin 
-        //     finding un approved users
-            usersforapprove=$("#usersforapprove");
-            $("#usersforapprove").empty();
-            if(App.admindisplay == 2){
+        
+    usersforapprove=$("#usersforapprove");
+    $("#usersforapprove").empty();
+    if(App.admindisplay == 2){
            
-              $('#approved').show();
-              $('#pending').hide();
-              $('#rejected').hide();
+      $('#approved').show();
+      $('#pending').hide();
+      $('#rejected').hide();
 
-            } else if(App.admindisplay == 1){
-              $('#pending').show();
-              $('#rejected').hide();
-              $('#approved').hide();
-            }else{
-              $('#rejected').show();
-              $('#approved').hide();
-              $('#pending').hide();
-            }
+    } else if(App.admindisplay == 1){
+      $('#pending').show();
+      $('#rejected').hide();
+      $('#approved').hide();
+
+    }else{
+      $('#rejected').show();
+      $('#approved').hide();
+      $('#pending').hide();
+    }
   
-            var usercount=await App.medicine.usersCount();
+    var usercount=await App.medicine.usersCount();
           
-            for (var i = 0; i < usercount; i++) {
-              var accaddr=await App.medicine.addresses(i);
-              var user=await App.medicine.users(accaddr);
-              //display all users
-              console.log("In admin dashboard="+user);            
-              var username=user.name;
-              var role=user.role;
-              var rolename="";
-              if(role.localeCompare("1")==0){
-                rolename="End User";
-              }
-              if(role.localeCompare("2")==0){
-                rolename="Certification Authorty";
-              }
-              if(role.localeCompare("3")==0){
-                rolename="Distributor";
-              }
-              if(role.localeCompare("4")==0){
-                rolename="Manufacturer";
-              }
-              var approved=user.approved;
-              console.log("role="+role); 
-              console.log("name="+username); 
+    for (var i = 0; i < usercount; i++) {
+      var accaddr=await App.medicine.addresses(i);
+      var user=await App.medicine.users(accaddr);
+                          
+      var username=user.name;
+      var role=user.role;
+      var rolename="";
+      if(role.localeCompare("1")==0){
+        rolename="End User";
+      }
+      if(role.localeCompare("2")==0){
+        rolename="Certification Authorty";
+      }
+      if(role.localeCompare("3")==0){
+        rolename="Distributor";
+      }
+      if(role.localeCompare("4")==0){
+        rolename="Manufacturer";
+      }
+      var approved=user.approved;
               
-              
-              if(App.admindisplay==2){
+      if(App.admindisplay==2){
               
     
-              if(approved.localeCompare("true")==0){
-                //display approved users
+        if(approved.localeCompare("true")==0){
+          //display approved users
                 
-                var str = "<tr><td>" + accaddr +"</td><td>"+username+"</td><td>"+rolename+"</td><td><button class='btn btn-danger' onclick='App.rejectUser(`"+String(accaddr)+"`)'>Reject</button></td></tr>";
-                //alert(accaddr.toString());
-                usersforapprove.append(str);
+          var str = "<tr><td>" + accaddr +"</td><td>"+username+"</td><td>"+rolename+"</td><td><button class='btn btn-danger' onclick='App.rejectUser(`"+String(accaddr)+"`)'>Reject</button></td></tr>";
                 
-              }
-            }else if(App.admindisplay==1){
+          usersforapprove.append(str);
+                
+        }
+      }else if(App.admindisplay==1){
               
-              if(approved.localeCompare("false")==0){
-                //display pending users
-                var str = "<tr><td>" + accaddr +"</td><td>"+username+"</td><td>"+rolename+"</td><td><button class='btn btn-success' onclick='App.approveUser(`"+String(accaddr)+"`)'>Approve</button> &nbsp <button class='btn btn-danger' onclick='App.rejectUser(`"+String(accaddr)+"`)'>Reject</button></td></tr>";
-                //alert(accaddr.toString());
-                usersforapprove.append(str);
-            }
-          }
-          else{
+        if(approved.localeCompare("false")==0){
+          //display pending users
+          var str = "<tr><td>" + accaddr +"</td><td>"+username+"</td><td>"+rolename+"</td><td><button class='btn btn-success' onclick='App.approveUser(`"+String(accaddr)+"`)'>Approve</button> &nbsp <button class='btn btn-danger' onclick='App.rejectUser(`"+String(accaddr)+"`)'>Reject</button></td></tr>";
+                
+          usersforapprove.append(str);
+        }
+      }
+      else{
             
-            if(approved.localeCompare("reject")==0){
-              //display rejected users
-              var str = "<tr><td>" + accaddr +"</td><td>"+username+"</td><td>"+rolename+"</td></tr>";
-              //alert(accaddr.toString());
-              usersforapprove.append(str);
+        if(approved.localeCompare("reject")==0){
+          //display rejected users
+          var str = "<tr><td>" + accaddr +"</td><td>"+username+"</td><td>"+rolename+"</td></tr>";
+              
+          usersforapprove.append(str);
               
 
-            }
-          }
-        } 
+        }
+      }
+    } 
 
   },
+
+  //Display Approved Users
   displayApprovedManufecturer:async ()=>{
     
     App.admindisplay=2;
     await App.render();
   },
 
+  //Display Users to Approve
   displayManufecturertoapprove:async ()=>{
     App.admindisplay=1;  
     await App.render();
   },
 
+  //Display Rejected Users
   displayRejectedManufacturer:async ()=>{
     App.admindisplay=3;  
     await App.render();
   },
+
+  //Approve Users by Admin
   approveUser:async (addr)=>{
-    //alert(addr.toString());
-    console.log("click");
     await App.medicine.approveUser(addr.toString(),"true",{ from: App.account });
     await App.render(); 
     alert("User Approved");
   },
+
+  //Reject Users by Admin 
   rejectUser:async (addr)=>{
-    //alert(addr.toString());
     await App.medicine.approveUser(addr.toString(),"reject",{ from: App.account });
     await App.render(); 
     alert("User Rejected");
@@ -202,16 +192,8 @@ $(function () {
   });
 });
 
-
-
-  
-
-
-
-
-
 // menu hide
-    (function($) {
+(function($) {
     "use strict";
 
     // Add active state to sidbar nav links
