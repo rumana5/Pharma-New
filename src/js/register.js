@@ -8,8 +8,6 @@ App = {
         
         /// Setup access to blockchain
         return await App.initWeb3();
-  
-  
     },
   
     initWeb3: async function () {
@@ -54,19 +52,10 @@ App = {
           return App.loadContract();;
     },
   
+    //Get Metamask Account
     getMetaskAccountID: function () {
         web3 = new Web3(App.web3Provider);
         App.account = App.acc[0];
-  
-        // Retrieving accounts
-        // web3.eth.getAccounts(function (err, res) {
-        //     if (err) {
-        //         console.log('Error:', err);
-        //         return;
-        //     }
-        //     App.metamaskAccountID = res[0];
-        //     console.log('getMetaskID:', App.metamaskAccountID);
-        // })
   
     },
   
@@ -84,19 +73,13 @@ App = {
   
     render: async () => {
   
-      
-      
-              
-  
     },
 
+    //Register Users
     registerRole:async ()=>{
-        console.log("register");
         var userFullname=$("#userFullname").val();
         var userAddress=$("#userAddress").val();
         var role=$("#RoleSelect").val();
-        //console.log("Selected role is=",role);     
-        console.log("Before sending to BC userAddress="+userAddress+"userRole="+role+"name="+userFullname);
         await App.medicine.registerRoles(userFullname,userAddress,role,"false", { from: App.account });      
         alert("Registered successfully"); 
         window.location.replace('./index.html');
