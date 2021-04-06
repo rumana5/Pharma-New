@@ -43,6 +43,7 @@
                 </li>
             </ul>
         </nav>
+        
         <div id="layoutSidenav">
             <div id="layoutSidenav_nav">
                 <nav class="sb-sidenav accordion sb-sidenav-dark" id="sidenavAccordion">
@@ -78,10 +79,10 @@
                                 <div class="table-responsive">
 
                                     <div id="distributorpage">
-                                    <table class="table table-bordered" width="100%" cellspacing="0">
+                                        <table class="table table-bordered" width="100%" cellspacing="0">
                                         
                                         
-                                        <tr>
+                                            <tr>
                                             <th>No</th>
                                             <th>Medicine Name</th>
                                             <th>Manufacturer</th>
@@ -97,13 +98,14 @@
                                            <tbody id="displayMedicine">            
                                            </tbody>
                                        
-                                    </table>
-                                </div>
-                                <!-- Display Purchased Medicines Page -->
-                                <div id="displaypurcahsedmedicine" style="display: none;">         
+                                        </table>
+                                    </div>
+
+                                    <!-- Display Purchased Medicines Page -->
+                                    <div id="displaypurcahsedmedicine" style="display: none;">         
         
-                                    <div class="container">          
-                                        <table class="table table-bordered" width="100%" cellspacing="0">
+                                        <div class="container">          
+                                            <table class="table table-bordered" width="100%" cellspacing="0">
                                            
                                             <tr>
                                               <th>No</th>
@@ -119,198 +121,166 @@
                                            
                                           </tbody>
                                           
-                                        </table>         
+                                            </table>         
+                                        </div>
                                     </div>
-                                </div>
-                                <!--Display Purchased Medicines End-->
+                                    <!--Display Purchased Medicines End-->
                                 </div>
 
                                 <!-- Distributor Buy Medicine  start-->
-<div id="distributorBuypage" style="display: none;">            
+                                <div id="distributorBuypage" style="display: none;">            
     
-    <div class="container">  
+                                    <div class="container">  
              
-        <table class="table table-bordered" width="100%" cellspacing="0">   
+                                        <table class="table table-bordered" width="100%" cellspacing="0">   
  
           
-           <tr>
-             <th>No</th>
-             <th>Medicine Name</th>
-             <th>Manufacturer</th>
-             <th>Expiry Date</th>
-             <th>Category</th>                  
-             <th>Price</th>
-             <th>Available Qty</th>
-             <th>Buying Qty</th>
+                                            <tr>
+                                                <th>No</th>
+                                                <th>Medicine Name</th>
+                                                <th>Manufacturer</th>
+                                                <th>Expiry Date</th>
+                                                <th>Category</th>                  
+                                                <th>Price</th>
+                                                <th>Available Qty</th>
+                                                <th>Buying Qty</th>
              
-           </tr>
+                                            </tr>
                     
-            <tbody id="displayMedicineforBuy">            
-            </tbody>
+                                            <tbody id="displayMedicineforBuy">            
+                                            </tbody>
               
           
-        </table> 
+                                        </table> 
 
         
            
-    </div>
-    <div class="container">  
+                                    </div>
+
+                                    <div class="container">  
              
-        <table class="table table-bordered" width="100%" cellspacing="0">   
+                                        <table class="table table-bordered" width="100%" cellspacing="0">   
  
           
-           <tr>
-             <th>No</th>
-             <th>Medicine Name</th>
-             <th>Manufacturer</th>
-             <th>Expiry Date</th>
-             <th>Category</th>                  
-             <th>Price</th>
-             <th>Available Qty</th>
-             <th>Buying Qty</th>
+                                            <tr>
+                                                <th>No</th>
+                                                <th>Medicine Name</th>
+                                                <th>Manufacturer</th>
+                                                <th>Expiry Date</th>
+                                                <th>Category</th>                  
+                                                <th>Price</th>
+                                                <th>Available Qty</th>
+                                                <th>Buying Qty</th>
              
-           </tr>
+                                            </tr>
                     
-            <tbody id="displayMedicineforBuy">            
-            </tbody>
+                                            <tbody id="displayMedicineforBuy">            
+                                            </tbody>
               
           
-        </table> 
+                                        </table> 
 
         
            
-    </div>
-  <!-- </div>
-  <div id="trackdisplay">
-</div> -->
-
- 
- <!-- Distributor Buy Medicine Page end-->
-                                
-                                
-                            </div>
-                            <!-- Button trigger modal -->
-<!-- <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
-    Launch demo modal
-  </button> -->
+                                    </div>
   
-  <!-- Modal -->
-  <!-- <div class="modal fade " id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLabel">Medicine Tracking Details</h5>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
-        <div class="modal-body">
-            <div id="trackdisplay">
-            </div>
-        </div>
-       
-      </div>
-    </div>
-  </div> -->
+                                </div>
+                            
+  
 
-   <!-- Order Management  start-->
-   <div id="ordermanagement" style="display: none;"> 
-    <div class="container">  
-        <table class="table table-bordered" width="100%" cellspacing="0"> 
-        <tr>
-            <th>ID</th> 
-            <th>Medicine Name</th>                                   
-            <th>Manufacturer</th>
-            <th>Name</th>
-            <th>Quantity</th>
-            <th>Status</th> 
-        </tr>  
-            <tbody id="displayOrders">            
-            </tbody>
-        </table> 
-    </div>                      
-</div>
+                                <!-- Order Management  start-->
+                                <div id="ordermanagement" style="display: none;"> 
+                                    <div class="container">  
+                                        <table class="table table-bordered" width="100%" cellspacing="0"> 
+                                            <tr>
+                                                <th>ID</th> 
+                                                <th>Medicine Name</th>                                   
+                                                <th>Manufacturer</th>
+                                                <th>Name</th>
+                                                <th>Quantity</th>
+                                                <th>Status</th> 
+                                            </tr>  
+                                            <tbody id="displayOrders">            
+                                            </tbody>
+                                        </table> 
+                                    </div>                      
+                                </div>
 
-<!-- Order Management Ends-->
+                                <!-- Order Management Ends-->
 
-<div id="enduserordermanagement" style="display: none;"> 
-    <div class="container">  
-        <table class="table table-bordered" width="100%" cellspacing="0"> 
-        <tr>
-            <th>ID</th>                                    
-            <th>EndUser</th>
-            <th>Medicine Name</th>
-            <th>Quantity</th>
-            <th>Status</th> 
-        </tr>  
-            <tbody id="displayendUserOrders">            
-            </tbody>
-        </table> 
-    </div>                      
-</div>
+                                <div id="enduserordermanagement" style="display: none;"> 
+                                    <div class="container">  
+                                        <table class="table table-bordered" width="100%" cellspacing="0"> 
+                                            <tr>
+                                                <th>ID</th>                                    
+                                                <th>EndUser</th>
+                                                <th>Medicine Name</th>
+                                                <th>Quantity</th>
+                                                <th>Status</th> 
+                                            </tr>  
+                                            <tbody id="displayendUserOrders">            
+                                            </tbody>
+                                        </table> 
+                                    </div>                      
+                                </div>
 
-  <div class="modal fade" id="exampleModalLong" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered" role="document">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLongTitle">Medicine Tracking Details</h5>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
-        <div class="modal-body">
-            <div id="trackdisplay">
-            </div>
-
-          
-        </div>
-        
-    </div>
-  </div>
-                        </div>
-
-
-                        <div class="modal fade" id="exampleModalLong1" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
-                            <div class="modal-dialog modal-sm" role="document">
-                                <div class="modal-content">
-                                   <div class="modal-header">
-                                      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                         <span aria-hidden="true">&times;</span>
-                                     </button>
-                                   </div>
-                                   <div class="modal-body">
-                       
-                                     <div class="container-fluid">
-                                        <div class="row">
-                                           <!-- <div class="col-sm-2">
-                                              <img id="bannerProp" src="../images/left_banner.png">
-                                           </div> -->
-                                            <div class="col-sm-12">
-                                                <div class="imgL">
-                                                <img class="pull-right" id="logoProp" src="">
-                                                </div>
-                                                <div class="row text-left col-sm-12">
-                                                 <div class="col-sm-12">
-                                                     <p class="header-large">CERTIFICATE</p>
-                                                 </div>
-                       
-                                                 <div class="col-sm-12">
-                                                    <div id="viewCert">
-                                        
-                                                    </div>
-                       
-                                                 </div>
-                                             </div>
+                                <div class="modal fade" id="exampleModalLong" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+                                    <div class="modal-dialog modal-dialog-centered" role="document">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" id="exampleModalLongTitle">Medicine Tracking Details</h5>
+                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                    <span aria-hidden="true">&times;</span>
+                                                </button>
                                             </div>
+                                            <div class="modal-body">
+                                                <div id="trackdisplay">
+                                                </div>
+                                            </div>
+        
                                         </div>
                                     </div>
-                                     
-                                   </div>
+                                </div>
+
+
+                                <div class="modal fade" id="exampleModalLong1" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+                                    <div class="modal-dialog modal-sm" role="document">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                    <span aria-hidden="true">&times;</span>
+                                                </button>
+                                            </div>
+                                            <div class="modal-body">
                        
-                                  </div>
-                                  </div>
+                                                <div class="container-fluid">
+                                                    <div class="row">
+                                           
+                                                        <div class="col-sm-12">
+                                                            <div class="imgL">
+                                                                <img class="pull-right" id="logoProp" src="">
+                                                            </div>
+                                                            <div class="row text-left col-sm-12">
+                                                                <div class="col-sm-12">
+                                                                    <p class="header-large">CERTIFICATE</p>
+                                                                </div>
+                       
+                                                                <div class="col-sm-12">
+                                                                    <div id="viewCert">
+                                        
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
                                                 </div>
-                        </div>
+                                     
+                                            </div>
+                       
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                     </div>
                     
                     
